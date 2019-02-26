@@ -1,0 +1,268 @@
+#cloud-config
+# vim: syntax=yaml
+#
+
+# !! Caution !!
+# Comments must not appear inside a element.
+# Please write comments on a dedicated line.
+
+hostname: rdbox
+fqdn: rdbox.lan
+manage_etc_hosts: true
+
+resize_rootfs: true
+growpart:
+    mode: auto
+    devices: ["/"]
+    ignore_growroot_disabled: false
+users:
+  - name: ubuntu
+    gecos: "RDBOX-Administrator"
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    shell: /bin/bash
+    groups: users,docker,video,input
+    lock_passwd: true
+    passwd: $6$C1e2EYhD3bwPlaY$Z/0aQkw566wrfJKiKvb.b7.TVfMCBz5xyJyPLBEOhL1JHVPNxgfAhA8OvD94KGewHbN32J3f5Znbc1yS9MhKO.
+    ssh-authorized-keys:
+      - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAAxxxxxxxxxxxxxxxxxxxxxxxxxxxxx you@laptop
+ssh_pwauth: false
+
+locale: "ja_JP.UTF-8"
+timezone: "Asia/Tokyo"
+
+ntp:
+    pools:
+        - 0.debian.pool.ntp.org
+        - 1.debian.pool.ntp.org
+        - 2.debian.pool.ntp.org
+        - 3.debian.pool.ntp.org
+    servers:
+        - ntp.nict.jp
+        - ntp.nict.jp
+        - ntp.nict.jp
+
+write_files:
+  - content: |
+      SUBSYSTEM=="net", ACTION=="add", DRIVERS=="?*", ATTR{address}=="b8:27:eb:??:??:??", ATTR{dev_id}=="0x0", ATTR{type}=="1", KERNEL=="eth*", NAME="eth0"
+      SUBSYSTEM=="net", ACTION=="add", DRIVERS=="?*", ATTR{address}=="b8:27:eb:??:??:??", ATTR{dev_id}=="0x0", ATTR{type}=="1", KERNEL=="wlan*", NAME="wlan10"
+    path: /etc/udev/rules.d/70-persistent-net.rules
+  ###########################################################################
+  # You must change the Wi-Fi SSID and passphrase.
+  ###########################################################################
+  # Setting for communication between the base station and the base station.
+  #   You need to match the SSID of "wpa_supplicant_be.conf" with the SSID of "hostapd_be.conf".
+  #   You need to match the psk of "wpa_supplicant_be.conf" with the  wpa_passphrase of "hostapd_be.conf".
+  #   It is recommended not to change the setting items other than SSID and passphrase.
+  ###########################################################################
+  # Setting for communication between the base station and the base station.
+  - content: |
+      ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
+      update_config=1
+      country=JP
+      network={
+          ssid="BeQrPhF4dvvNPUfyCM"
+          psk="BgioghkiJ4ggjk"
+          scan_ssid=1
+      #bssid
+      #bssid_blacklist
+      }
+    path: /etc/rdbox/wpa_supplicant_be.conf
+  - content: |
+      ssid=BeQrPhF4dvvNPUfyCM
+      wpa_passphrase=BgioghkiJ4ggjk
+      country_code=JP
+      ieee80211d=1
+      ieee80211h=1
+      interface=wlan1
+      driver=nl80211
+      ctrl_interface=/var/run/hostapd_be
+      ctrl_interface_group=0
+      wpa=2
+      wpa_key_mgmt=WPA-PSK
+      rsn_pairwise=CCMP
+      logger_syslog=1
+      logger_syslog_level=1
+      logger_stdout=-1
+      logger_stdout_level=1
+      hw_mode=a
+      ieee80211n=1
+      require_ht=1
+      channel=36
+      ht_capab=[HT40-][HT40+][SHORT-GI-40][TX-STBC][RX-STBC12][GF]
+      wmm_enabled=1
+      wmm_ac_bk_cwmin=4
+      wmm_ac_bk_cwmax=10
+      wmm_ac_bk_aifs=7
+      wmm_ac_bk_txop_limit=0
+      wmm_ac_bk_acm=0
+      wmm_ac_be_aifs=3
+      wmm_ac_be_cwmin=4
+      wmm_ac_be_cwmax=10
+      wmm_ac_be_txop_limit=0
+      wmm_ac_be_acm=0
+      wmm_ac_vi_aifs=2
+      wmm_ac_vi_cwmin=3
+      wmm_ac_vi_cwmax=4
+      wmm_ac_vi_txop_limit=94
+      wmm_ac_vi_acm=0
+      wmm_ac_vo_aifs=2
+      wmm_ac_vo_cwmin=2
+      wmm_ac_vo_cwmax=3
+      wmm_ac_vo_txop_limit=47
+      wme_enabled=1
+      macaddr_acl=0
+      deny_mac_file=/etc/rdbox/hostapd_be.deny
+    path: /etc/rdbox/hostapd_be.conf
+  ###########################################################################
+  # Settings for access point communication
+  #   You need to match the SSID of "wpa_supplicant_ap_bg.conf" with the SSID of "hostapd_ap_bg.conf" and "hostapd_ap_an.conf".
+  #   You need to match the psk of "wpa_supplicant_ap_bg.conf" with the  wpa_passphrase of "hostapd_ap_bg.conf" and "hostapd_ap_an.conf".
+  #   It is recommended not to change the setting items other than SSID and passphrase.
+  ###########################################################################
+  - content: |
+      ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
+      update_config=1
+      country=JP
+      network={
+          ssid="rdbox-w98765-g"
+          psk="gL7bQKFz"
+          scan_ssid=1
+      \#bssid
+      \#bssid_blacklist
+      }
+    path: /etc/rdbox/wpa_supplicant_ap_bg.conf
+  # Settings for access point communication
+  - content: |
+      ssid=rdbox-w98765-g
+      wpa_passphrase=gL7bQKFz
+      country_code=JP
+      ieee80211d=1
+      ieee80211h=1
+      interface=wlan3
+      driver=nl80211
+      ctrl_interface=/var/run/hostapd_ap_bg
+      ctrl_interface_group=0
+      bridge=br0
+      wpa=2
+      wpa_key_mgmt=WPA-PSK
+      rsn_pairwise=CCMP
+      logger_syslog=1
+      logger_syslog_level=1
+      logger_stdout=-1
+      logger_stdout_level=1
+      hw_mode=g
+      ieee80211n=1
+      require_ht=1
+      channel=1
+      ht_capab=[HT40-][HT40+][SHORT-GI-40][TX-STBC][RX-STBC12][GF]
+      wmm_enabled=1
+      wmm_ac_bk_cwmin=4
+      wmm_ac_bk_cwmax=10
+      wmm_ac_bk_aifs=7
+      wmm_ac_bk_txop_limit=0
+      wmm_ac_bk_acm=0
+      wmm_ac_be_aifs=3
+      wmm_ac_be_cwmin=4
+      wmm_ac_be_cwmax=10
+      wmm_ac_be_txop_limit=0
+      wmm_ac_be_acm=0
+      wmm_ac_vi_aifs=2
+      wmm_ac_vi_cwmin=3
+      wmm_ac_vi_cwmax=4
+      wmm_ac_vi_txop_limit=94
+      wmm_ac_vi_acm=0
+      wmm_ac_vo_aifs=2
+      wmm_ac_vo_cwmin=2
+      wmm_ac_vo_cwmax=3
+      wmm_ac_vo_txop_limit=47
+      wme_enabled=1
+    path: /etc/rdbox/hostapd_ap_bg.conf
+  - content: |
+      ssid=rdbox-w98765-a
+      wpa_passphrase=gL7bQKFz
+      country_code=JP
+      ieee80211d=1
+      ieee80211h=1
+      interface=wlan2
+      driver=nl80211
+      ctrl_interface=/var/run/hostapd_ap_an
+      ctrl_interface_group=0
+      bridge=br0
+      wpa=2
+      wpa_key_mgmt=WPA-PSK
+      rsn_pairwise=CCMP
+      logger_syslog=1
+      logger_syslog_level=1
+      logger_stdout=-1
+      logger_stdout_level=1
+      hw_mode=a
+      ieee80211n=1
+      require_ht=1
+      channel=44
+      ht_capab=[HT40-][HT40+][SHORT-GI-40][TX-STBC][RX-STBC12][GF]
+      wmm_enabled=1
+      wmm_ac_bk_cwmin=4
+      wmm_ac_bk_cwmax=10
+      wmm_ac_bk_aifs=7
+      wmm_ac_bk_txop_limit=0
+      wmm_ac_bk_acm=0
+      wmm_ac_be_aifs=3
+      wmm_ac_be_cwmin=4
+      wmm_ac_be_cwmax=10
+      wmm_ac_be_txop_limit=0
+      wmm_ac_be_acm=0
+      wmm_ac_vi_aifs=2
+      wmm_ac_vi_cwmin=3
+      wmm_ac_vi_cwmax=4
+      wmm_ac_vi_txop_limit=94
+      wmm_ac_vi_acm=0
+      wmm_ac_vo_aifs=2
+      wmm_ac_vo_cwmin=2
+      wmm_ac_vo_cwmax=3
+      wmm_ac_vo_txop_limit=47
+      wme_enabled=1
+    path: /etc/rdbox/hostapd_ap_an.conf
+  # You set up rdbox-vpnbridge, you need to set information about vpnserver.
+  # for more infomation on "our wiki".
+  - content: |
+      BridgeCreate BRIDGE /DEVICE:eth0
+      Hub BRIDGE
+      CascadeCreate cascade_rdbox /SERVER:{VPN_SERVER_ADDRESS}:443 /HUB:{VPN_HUB_NAME} /USERNAME:{VPN_USER_NAME}
+      CascadePasswordSet cascade_rdbox /PASSWORD:{VPN_USER_PASS} /TYPE:standard
+      CascadeOnline cascade_rdbox
+      CascadeList
+    path: /usr/local/etc/vpnbridge.in
+  # Configure the transparent proxy service.
+  # For http_proxy, specify the address of the proxy server of your organization starting with http.
+  # For no_proxy, you need to access directly for internal. Also you can use IP Address, CIDR in no_proxy.
+  # Please do not change if you do not use proxy service.
+  #
+  # Exapmle)
+  # http_proxy=http://user:pass@yourproxyserver.com:8080
+  # no_proxy=192.168.65.1,192.168.0.0/24
+  - content: |
+      http_proxy=
+    path: /etc/transproxy/http_proxy
+  - content: |
+      no_proxy=
+    path: /etc/transproxy/no_proxy
+
+runcmd:
+  - '/bin/bash /opt/rdbox/boot/rdbox-first_session.bash'
+  # You join k8s cluster, you need strings from kubeadmn init.
+  #
+  # [...]
+  # You can now join any number of machines by running the following on each node
+  # as root:
+  #   kubeadm join 192.168.179.2:6443 --token 2tswmw.tf3q52bo2fs1pz24 --discovery-token-ca-cert-hash sha256:78c3ac3a493c0147b28e8b4b478e41f7e6493806099fa74545808384eca78b11
+  #                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ This args is string after "kubeadm join "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  # [...]
+  # 
+  # Exapmle)
+  # '/opt/rdbox/boot/to_run_kubeadm_join_after_communicating_with 192.168.179.2:6443 --token 2tswmw.tf3q52bo2fs1pz24 --discovery-token-ca-cert-hash sha256:78c3ac3a493c0147b28e8b4b478e41f7e6493806099fa74545808384eca78b11'
+  - '/opt/rdbox/boot/to_run_kubeadm_join_after_communicating_with {ARGS}'
+
+
+#----------------------------
+# [EOF] user-data.yml
+#----------------------------

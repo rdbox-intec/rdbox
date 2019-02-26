@@ -1,0 +1,15 @@
+  # Route
+#  RdboxRoute:
+#    Type: 'AWS::EC2::Route'
+#    Properties:
+#      RouteTableId: !Ref RdboxRouteTable
+#      DestinationCidrBlock: 0.0.0.0/0
+#      GatewayId: !Ref RdboxIgw
+  %s:
+    Type: 'AWS::EC2::Route'
+    DeletionPolicy: "Delete"
+    Properties:
+      RouteTableId: !Ref %s
+      DestinationCidrBlock: %s
+      GatewayId: !Ref %s
+# eof

@@ -1,0 +1,13 @@
+---
+- name: VpnServer
+  hosts: VpnServer
+  roles:
+    - role: check_vpn
+    - role: common
+    - role: install_softethervpn
+    - role: setup_net_vpnserver
+    - role: setup_dnsmasq_server
+      when: RDBOX_HQ_BUILD_PF != "vb"
+    - role: setup_vpnserver
+    - role: setup_vpnclient
+    - role: reboot

@@ -1,0 +1,10 @@
+awspec/.bundle
+awspec/.rspec
+awspec/Gemfile*
+awspec/Rakefile
+awspec/spec/spec_helper.rb
+awspec/vendor
+build/vpc.yml
+build/vpnserver.yml
+build/kube_master.yml
+build/kube_node.yml

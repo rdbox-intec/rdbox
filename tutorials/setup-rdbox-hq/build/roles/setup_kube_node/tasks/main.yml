@@ -1,0 +1,53 @@
+- name: make /etc/kubernetes directory
+  become: yes
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: 0750
+  with_items:
+    - "/etc/kubernetes/kubernetes/"
+    - "{{ ansible_user_dir }}/.kube/"
+
+- name: copy config file for kubernetes-node(/etc/kubernetes/admin.conf)
+  become: yes
+  copy:
+    src: "../files/config"
+    dest: "/etc/kubernetes/admin.conf"
+    mode: 0600
+
+- name: make HOME/.kube directory
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: 0750
+  with_items:
+    - "{{ ansible_user_dir }}/.kube/"
+
+- name: copy config file for kubernetes-node(HOME/.kube/config)
+  copy:
+    src: "../files/config"
+    dest: "{{ ansible_user_dir }}/.kube/config"
+    mode: 0600
+
+- name: copy some files for setup kubernetes-node
+  copy:
+    src: "../files/{{ item }}"
+    dest: "{{ ansible_user_dir }}/rdbox/tmp/"
+  with_items:
+    - waiting_vpn_will_be_ready.sh
+    - kube_join.sh
+    - kube_set_node_label.sh
+
+- name: waiting VPN
+  become: yes
+  shell: "bash /home/${SUDO_USER}/rdbox/tmp/waiting_vpn_will_be_ready.sh"
+
+- name: setup Kubernetes node(kube join)
+  become: yes
+  shell: "bash /home/${SUDO_USER}/rdbox/tmp/kube_join.sh"
+
+- name: setup Kubernetes node(set node label)
+  become: yes
+  shell: "bash /home/${SUDO_USER}/rdbox/tmp/kube_set_node_label.sh | tee /home/${SUDO_USER}/rdbox/tmp/kube_set_node_label.log"
+
+#

@@ -1,0 +1,60 @@
+- name: copy some files for setup kubernetes-master
+  copy:
+    src: "../files/{{ item }}"
+    dest: "{{ ansible_user_dir }}/rdbox/tmp/"
+  with_items:
+    - init_kube_proxy_patches.sh
+    - init_kube_flannel_patches.sh
+    - format_kube-proxy-yml.sh
+    - setup_kubeadam_init.sh
+    - clear_kube_proxy.sh
+    - setup_kube_proxy.sh
+    - setup_kube_flannel.sh
+    - kube-proxy-amd64.yml.patch.sh
+    - kube-proxy-arm.yml.patch.sh
+    - flannel-config.yml.patch
+    - kube-flannel-amd64-edge.yml.patch
+    - kube-flannel-amd64-hq.yml.patch
+    - kube-flannel-arm.yml.patch
+    - kube-flannel-arm-master.yml.patch
+    - kube-flannel-rbac.yml.patch
+
+- name: setup Kubernetes master(kubeadm init)
+  become: yes
+  shell: "bash /home/${SUDO_USER}/rdbox/tmp/setup_kubeadam_init.sh | tee /home/${SUDO_USER}/rdbox/tmp/setup_kubeadam_init.log"
+
+- name: waiting kubernetes master(init)
+  become: yes
+  wait_for: host=localhost port=6443 state=started delay=30
+
+- name: create patch files for kube-proxy
+  shell: "bash ${HOME}/rdbox/tmp/init_kube_proxy_patches.sh | tee ${HOME}/rdbox/tmp/init_kube_proxy_patches.log"
+
+- name: create patch files for kube-flannel
+  shell: "bash ${HOME}/rdbox/tmp/init_kube_flannel_patches.sh | tee ${HOME}/rdbox/tmp/init_kube_flannel_patches.log"
+
+- name: setup Kubernetes master(clear kube-proxy)
+  become: yes
+  shell: "bash /home/${SUDO_USER}/rdbox/tmp/clear_kube_proxy.sh"
+  ignore_errors: yes
+
+- name: setup Kubernetes master(kube-proxy)
+  become: yes
+  shell: "bash /home/${SUDO_USER}/rdbox/tmp/setup_kube_proxy.sh | tee /home/${SUDO_USER}/rdbox/tmp/setup_kube_proxy.log"
+
+- name: waiting kubernetes master(kube-proxy)
+  become: yes
+  wait_for: host=localhost port=6443 state=started delay=30
+
+- name: setup Kubernetes master(kube-flannel)
+  become: yes
+  shell: "bash /home/${SUDO_USER}/rdbox/tmp/setup_kube_flannel.sh | tee /home/${SUDO_USER}/rdbox/tmp/setup_kube_flannel.log"
+
+- name: fetch info for kubernetes config
+  fetch:
+    src: ".kube/{{ item }}"
+    dest: "{{ lookup('env', 'HOME') }}/rdbox/fetch/"
+  with_items:
+    - config
+
+#

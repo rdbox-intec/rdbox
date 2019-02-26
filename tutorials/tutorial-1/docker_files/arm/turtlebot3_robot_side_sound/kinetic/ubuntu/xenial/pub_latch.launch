@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+    <arg name="command" /> 
+    <arg name="topic_name" /> 
+    <arg name="topic_type" /> 
+    <arg name="data" /> 
+    <node pkg="rostopic" type="rostopic" name="rostopic" output="screen" args="$(arg command) $(arg topic_name) $(arg topic_type) $(arg data)">
+    </node>
+</launch>

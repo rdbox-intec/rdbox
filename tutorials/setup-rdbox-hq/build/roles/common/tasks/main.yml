@@ -1,0 +1,43 @@
+- name: install package 'aptitude'
+  become: yes
+  # apt update requires this package.
+  apt: pkg=aptitude state=present update_cache=yes
+
+- name: update packages
+  become: yes
+  apt: update_cache=yes upgrade=yes
+
+- name: install packages
+  become: yes
+  apt:
+    name: "{{ packages }}"
+  vars:
+    packages:
+    - dnsutils
+    - traceroute
+
+- name: make directory
+  file:
+    path: "{{ ansible_user_dir }}/{{ item }}"
+    state: directory
+    mode: 0750
+  with_items:
+    - rdbox
+    - rdbox/tmp
+
+- name: copy bashrc.rdbox-hq
+  copy:
+    src: "{{ lookup('env', 'HOME') }}/.bashrc.rdbox-hq"
+    dest: "{{ ansible_user_dir }}/"
+    mode: 0640
+
+- name: copy bashrc.rdbox-hq-aws
+  copy:
+    src: "{{ lookup('env', 'HOME') }}/.bashrc.rdbox-hq-aws"
+    dest: "{{ ansible_user_dir }}/"
+    mode: 0640
+  when: RDBOX_HQ_BUILD_PF == "aws"
+
+- name: exec bashrc.rdbox-hq
+  shell: bash .bashrc.rdbox-hq
+

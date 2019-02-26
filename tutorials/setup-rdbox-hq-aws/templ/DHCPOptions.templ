@@ -1,0 +1,27 @@
+  # DHCPOptions
+#  RdboxDhcp:
+#    Type: 'AWS::EC2::DHCPOptions'
+#    Properties:
+#      DomainName: ap-northeast-1.compute.internal
+#      DomainNameServers:
+#        - AmazonProvidedDNS
+#      Tags:
+#        - Key: Name
+#          Value: RdboxDhcp
+  %s:
+    Type: 'AWS::EC2::DHCPOptions'
+    DeletionPolicy: "Delete"
+    Properties:
+      DomainName: %s
+      DomainNameServers:
+       - %s
+      Tags:
+        - Key: Name
+          Value: %s
+  %sAssociation:
+    Type: 'AWS::EC2::VPCDHCPOptionsAssociation'
+    Properties: 
+      DhcpOptionsId: !Ref %s
+      VpcId: !Ref %s
+
+# eof

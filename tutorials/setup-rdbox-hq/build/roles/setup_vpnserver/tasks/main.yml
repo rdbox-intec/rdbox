@@ -1,0 +1,29 @@
+- name: copy vpnserver*.sh
+  copy:
+    src: "../files/{{item}}"
+    dest: "{{ansible_user_dir}}/rdbox/tmp/"
+  with_items:
+    - vpnserver_clean.sh
+    - vpnserver_init.sh
+    - vpnserver_security.sh
+
+- name: start vpnserver
+  become: yes
+  shell: systemctl start vpnserver.service
+
+- name: set auto start vpnserver
+  become: yes
+  shell: systemctl enable vpnserver.service
+
+- name: clean vpnserver
+  become: yes
+  shell: "bash /home/${SUDO_USER}/rdbox/tmp/vpnserver_clean.sh | tee /home/${SUDO_USER}/rdbox/tmp/vpnserver_clean.log"
+  ignore_errors: yes
+
+- name: init vpnserver
+  become: yes
+  shell: "bash /home/${SUDO_USER}/rdbox/tmp/vpnserver_init.sh | tee /home/${SUDO_USER}/rdbox/tmp/vpnserver_init.log"
+
+- name: security vpnserver
+  become: yes
+  shell: "bash /home/${SUDO_USER}/rdbox/tmp/vpnserver_security.sh | tee /home/${SUDO_USER}/rdbox/tmp/vpnserver_security.log"

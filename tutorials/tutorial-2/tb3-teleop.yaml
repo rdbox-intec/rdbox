@@ -1,0 +1,79 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tb3-teleop
+  labels:
+    app: ros
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ros
+  template:
+    metadata:
+      labels:
+        app: ros
+    spec:
+      imagePullSecrets:
+      - name: regcred
+      containers:
+      - name: roscore
+        image: ros:kinetic-ros-base
+        tty: true
+        args:
+        - roscore
+        env:
+        - name: ROS_HOSTNAME
+          valueFrom:
+            fieldRef:
+              fieldPath: spec.nodeName
+        - name: ROS_MASTER_URI
+          value: "http://$(ROS_HOSTNAME):11311"
+      - name: multimaster-fkie-discovery
+        image: rdbox/amd64.multimaster_fkie:kinetic
+        tty: true
+        args:
+        - roslaunch
+        - --screen
+        - --wait
+        - multimaster_fkie_launch
+        - master_discovery_fkie.launch
+        env:
+        - name: ROS_HOSTNAME
+          valueFrom:
+            fieldRef:
+              fieldPath: spec.nodeName
+        - name: ROS_MASTER_URI
+          value: "http://$(ROS_HOSTNAME):11311"
+      - name: multimaster-fkie-sync
+        image: rdbox/amd64.multimaster_fkie:kinetic
+        tty: true
+        args:
+        - roslaunch
+        - --screen
+        - --wait
+        - multimaster_fkie_launch
+        - master_sync_fkie.launch
+        env:
+        - name: ROS_HOSTNAME
+          valueFrom:
+            fieldRef:
+              fieldPath: spec.nodeName
+        - name: ROS_MASTER_URI
+          value: "http://$(ROS_HOSTNAME):11311"
+      - name: turtlebot3-teleop
+        image: rdbox/amd64.turtlebot3:kinetic_1.0.0
+        tty: true
+        stdin: true
+        args:
+        - /bin/bash
+        env:
+        - name: ROS_HOSTNAME
+          valueFrom:
+            fieldRef:
+              fieldPath: spec.nodeName
+        - name: ROS_MASTER_URI
+          value: "http://$(ROS_HOSTNAME):11311"
+      hostNetwork: true
+      nodeSelector:
+        beta.kubernetes.io/arch: amd64

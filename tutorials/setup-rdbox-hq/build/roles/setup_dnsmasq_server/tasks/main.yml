@@ -1,0 +1,27 @@
+- name: copy some files for setup dnsmasq
+  copy:
+    src: "../files/{{ item }}"
+    dest: "{{ ansible_user_dir }}/rdbox/tmp/"
+  with_items:
+    - presetup_dnsmasq_server.sh
+    - setup_dnsmasq_server.sh
+
+- name: presetup dnsmasq(server)
+  become: yes
+  shell: "bash /home/${SUDO_USER}/rdbox/tmp/presetup_dnsmasq_server.sh | tee /home/${SUDO_USER}/rdbox/tmp/presetup_dnsmasq_server.log"
+
+- name: install packages for 'dnsmasq'
+  become: yes
+  apt:
+    name: "{{ item }}"
+    state: present
+    force: yes
+  with_items:
+    - dnsmasq
+    - ipcalc
+
+- name: setup dnsmasq(server)
+  become: yes
+  shell: "bash /home/${SUDO_USER}/rdbox/tmp/setup_dnsmasq_server.sh {{ PRIVATE_NETWORK_ADDRESS }} | tee /home/${SUDO_USER}/rdbox/tmp/setup_dnsmasq_server.log"
+
+#

@@ -1,0 +1,32 @@
+  # Subnet
+#  RdboxSubnet:
+#    Type: 'AWS::EC2::Subnet'
+#    Properties:
+#      AvailabilityZone: ap-northeast-1c
+#      CidrBlock: 10.1.200.0/24
+#      VpcId: !Ref RdboxVpc
+#      Tags:
+#        - Key: Name
+#          Value: rdbox-subnet
+#  RdboxSubnetRouteTableAssociation:
+#    Type: AWS::EC2::SubnetRouteTableAssociation
+#    Properties: 
+#      RouteTableId: String
+#      SubnetId: String
+  %s:
+    Type: 'AWS::EC2::Subnet'
+    DeletionPolicy: "Delete"
+    Properties:
+      AvailabilityZone:
+        %s
+      CidrBlock: %s
+      VpcId: !Ref %s
+      Tags:
+        - Key: Name
+          Value: %s
+  %sRouteTableAssociation:
+    Type: 'AWS::EC2::SubnetRouteTableAssociation'
+    Properties: 
+      RouteTableId: !Ref %s
+      SubnetId: !Ref %s
+# eof

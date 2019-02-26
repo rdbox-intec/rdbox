@@ -1,0 +1,59 @@
+- name: make directory
+  file:
+    path: "{{ ansible_user_dir }}/{{ item }}"
+    state: directory
+    mode: 0750
+  with_items:
+    - .kube/
+
+- name: copy some files for setup kubernetes-master
+  copy:
+    src: "../files/{{ item }}"
+    dest: "{{ ansible_user_dir }}/rdbox/tmp/"
+  with_items:
+    - setup_kube_noswap.sh
+
+- name: install pgp key for 'Kubernetes'
+  get_url:
+    url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
+    dest: "{{ ansible_user_dir }}/rdbox/tmp/apt-key.gpg"
+
+- name: install pgp key for 'Kubernetes'
+  become: yes
+  shell: "apt-key add /home/${SUDO_USER}/rdbox/tmp/apt-key.gpg"
+
+- name: get "lsb_release -cs"
+  shell: lsb_release -cs
+  register: val_lsb_release_cs
+  changed_when: False
+
+- name: add apt repository for 'Kubernetes'
+  become: yes
+  apt_repository:
+    repo: "deb [arch=amd64] https://packages.cloud.google.com/apt/ kubernetes-{{ val_lsb_release_cs.stdout }} main"
+    state: present
+
+- name: update packages
+  become: yes
+  apt: update_cache=yes
+
+- name: install packages for 'Kubernetes'
+  become: yes
+  apt:
+    name: "{{ item }}"
+    state: present
+    force: yes
+  with_items:
+    - "kubeadm={{ lookup('env', 'KUBEADM_VERSION') }}"
+    - "kubelet={{ lookup('env', 'KUBELET_VERSION') }}"
+    - "kubectl={{ lookup('env', 'KUBECTL_VERSION') }}"
+    - "kubernetes-cni={{ lookup('env', 'KUBECNI_VERSION') }}"
+
+- name: apt-mark hold packages for 'Kubernetes'
+  become: yes
+  shell: apt-mark hold kubeadm kubelet kubectl kubernetes-cni
+
+- name: set swap off
+  become: yes
+  shell: "bash /home/${SUDO_USER}/rdbox/tmp/setup_kube_noswap.sh | tee /home/${SUDO_USER}/rdbox/tmp/setup_kube_noswap.log"
+

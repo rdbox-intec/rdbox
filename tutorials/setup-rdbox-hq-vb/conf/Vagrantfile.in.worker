@@ -1,0 +1,106 @@
+Vagrant.configure(2) do |config|
+	if Vagrant.has_plugin?("vagrant-proxyconf")
+		config.apt_proxy.http = "HTTP_PROXY"
+		config.apt_proxy.https = "HTTPS_PROXY"
+	end
+
+	config.vm.box = "ubuntu/xenial64"
+
+	config.vm.define "WORKER_VMNAME" do |worker|
+		worker.vm.provider "virtualbox" do |vb|
+		vb.customize [
+			"modifyvm", :id,
+			"--cpus", "WORKER_CPU",
+			"--memory", "WORKER_MEM",
+			"--paravirtprovider", "kvm",
+			"--hwvirtex", "on",
+			"--nestedpaging", "on",
+			"--largepages", "on",
+			"--ioapic", "on",
+			"--pae", "on",
+			"--natnet1", "DEFAULT_NETWORK",
+		]
+		end
+		worker.disksize.size = "WORKER_HDDGB"
+		worker.vm.hostname = "WORKER_HOSTNAME"
+		worker.vm.network "private_network", ip: "WORKER_PRIVATE_IP", netmask: "PRIVATE_NETMASK", virtualbox__intnet: "rdbox-hq"
+		worker.vm.provision "shell", run: "always", inline: <<-ALWAYS_SHELL
+			rm -f /etc/apt/apt.conf.d/01proxy
+		ALWAYS_SHELL
+		worker.vm.provision "shell", inline: <<-SHELL
+			if HTTP_ON ; then
+				export http_proxy=HTTP_PROXY
+			fi
+			if HTTPS_ON ; then
+				export https_proxy=HTTPS_PROXY
+			fi
+			echo 'Acquire::ForceIPv4 "true";' > /etc/apt/apt.conf.d/99force-ipv4
+			apt-get update
+			apt-get install -y avahi-daemon
+			apt-get install -y python
+cat <<EOF >> /etc/network/interfaces
+
+auto vpn_rdbox
+iface vpn_rdbox inet dhcp
+EOF
+cat <<EOF > /usr/local/bin/rdbox-network.sh
+echo "nameserver VPN_PRIVATE_IP" > /etc/resolv.conf
+ip route del default
+ip route add default via VPN_PRIVATE_IP
+sed -i -e "s/^127\.0\.1\.1/#127\.0\.1\.1/" /etc/hosts
+EOF
+cat <<EOF > /lib/systemd/system/rdbox-network.service
+[Unit]
+Description=modify current network
+After=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/bin/sh /usr/local/bin/rdbox-network.sh
+RemainAfterExit=yes
+
+[Install]
+WantedBy=network-online.target
+EOF
+			systemctl enable systemd-networkd
+			systemctl enable systemd-networkd-wait-online
+			systemctl enable rdbox-network.service
+			sh /usr/local/bin/rdbox-network.sh
+			if [ ! -f /etc/dhcp/dhclient.conf.orig ] ; then
+				cp -p /etc/dhcp/dhclient.conf /etc/dhcp/dhclient.conf.orig
+			fi
+			sed -i -e "s/domain-name, domain-name-servers, domain-search, host-name,/domain-name, domain-search, host-name,/" /etc/dhcp/dhclient.conf
+			ID_PUB=/vagrant/id_rsa.pub
+			AUTH_KEYS=/home/vagrant/.ssh/authorized_keys
+			if [ -f $ID_PUB ] ; then
+				cat $ID_PUB >> $AUTH_KEYS
+				chown vagrant:vagrant $AUTH_KEYS
+				chmod 0600 $AUTH_KEYS
+			fi
+			ACCOUNT_CHECK=`getent passwd RDBOX_USER_ACCOUNT`
+			if [ -z "$ACCOUNT_CHECK" ]; then
+				echo "RDBOX_USER_ACCOUNT is not exist, so adding the user..."
+				useradd -m -s /bin/bash RDBOX_USER_ACCOUNT
+				echo "done."
+			fi
+			usermod -G sudo RDBOX_USER_ACCOUNT
+			echo "RDBOX_USER_ACCOUNT ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/RDBOX_USER_ACCOUNT
+			chmod 0440 /etc/sudoers.d/RDBOX_USER_ACCOUNT
+			SSH_DIR=/home/RDBOX_USER_ACCOUNT/.ssh
+			ID_KEY=/vagrant/id_rsa
+			if [ ! -e $SSH_DIR ]; then
+				mkdir $SSH_DIR
+			fi
+			chmod 0700 $SSH_DIR
+			cp -p $ID_KEY $SSH_DIR/id_rsa
+			ssh-keygen -yf $SSH_DIR/id_rsa > $SSH_DIR/id_rsa.pub
+			cat $SSH_DIR/id_rsa.pub >> $SSH_DIR/authorized_keys
+			chown -R RDBOX_USER_ACCOUNT:RDBOX_USER_ACCOUNT $SSH_DIR
+			chmod 0600 $SSH_DIR/authorized_keys
+			chmod 0600 $SSH_DIR/id_rsa
+			chmod 0644 $SSH_DIR/id_rsa.pub
+			reboot
+		SHELL
+	end
+
+end

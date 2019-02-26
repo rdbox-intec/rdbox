@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+    <node pkg="master_sync_fkie" type="master_sync" name="master_sync" output="screen">
+    </node>
+</launch>

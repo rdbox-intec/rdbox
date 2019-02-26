@@ -1,0 +1,36 @@
+- name: get pgp key for 'Docker'
+  get_url:
+    url: https://download.docker.com/linux/ubuntu/gpg
+    dest: "{{ ansible_user_dir }}/rdbox/tmp/docker-key.gpg"
+
+- name: install pgp key for 'Docker'
+  become: yes
+  shell: "apt-key add /home/${SUDO_USER}/rdbox/tmp/docker-key.gpg"
+
+- name: get "lsb_release -cs"
+  shell: lsb_release -cs
+  register: val_lsb_release_cs
+  changed_when: False
+
+- name: add apt repository for 'Docker'
+  become: yes
+  apt_repository:
+    repo: "deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ val_lsb_release_cs.stdout }} stable"
+    state: present
+
+- name: update packages
+  become: yes
+  apt: update_cache=yes
+
+- name: install packages for 'Docker'
+  become: yes
+  apt:
+    name: "{{ item }}"
+    state: present
+    force: yes
+  with_items:
+    - "docker-ce={{ lookup('env', 'DOCKER_VERSION') }}"
+
+- name: apt-mark hold packages for 'Docker'
+  become: yes
+  shell: apt-mark hold docker-ce

@@ -1,0 +1,12 @@
+- name: copy some files for setup kubernetes-node
+  copy:
+    src: "../files/{{ item }}"
+    dest: "{{ ansible_user_dir }}/rdbox/tmp/"
+  with_items:
+    - ifconfig_vpn_rdbox_dhcp.sh
+
+- name: setup Kubernetes node(set dhcp)
+  become: yes
+  shell: "bash /home/${SUDO_USER}/rdbox/tmp/ifconfig_vpn_rdbox_dhcp.sh | tee /home/${SUDO_USER}/rdbox/tmp/ifconfig_vpn_rdbox_dhcp.log"
+
+#

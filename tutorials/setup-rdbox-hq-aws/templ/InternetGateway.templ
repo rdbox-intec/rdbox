@@ -1,0 +1,25 @@
+  # InternetGateway
+#  RdboxIgw:
+#    Type: 'AWS::EC2::InternetGateway'
+#    Properties:
+#      Tags:
+#        - Key: Name
+#          Value: RdboxIgw
+#  InternetGatewayAttachment:
+#    Type: 'AWS::EC2::VPCGatewayAttachment'
+#    Properties:
+#      InternetGatewayId: !Ref RdboxIgw
+#      VpcId: !Ref RdboxVpc
+  %s:
+    Type: 'AWS::EC2::InternetGateway'
+    DeletionPolicy: "Delete"
+    Properties:
+      Tags:
+        - Key: Name
+          Value: %s
+  %sAttachment:
+    Type: 'AWS::EC2::VPCGatewayAttachment'
+    Properties:
+      InternetGatewayId: !Ref %s
+      VpcId: !Ref %s
+# eof

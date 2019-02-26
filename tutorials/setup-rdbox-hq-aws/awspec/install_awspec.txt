@@ -1,0 +1,16 @@
+
+
+# install ruby / Bundler
+sudo apt install ruby
+sudo gem install bundler
+
+#
+cd $HOME
+bundle init
+echo 'gem "awspec"' >> $HOME/Gemfile
+echo 'gem "rake"' >> $HOME/Gemfile
+bundle install --path vendor/bundle
+
+#
+cd .../setup-rdbox-hq-aws/awspec
+bundle exec awspec init

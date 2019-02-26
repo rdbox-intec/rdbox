@@ -1,0 +1,19 @@
+- name: unarchive 'softethervpn'
+  become: yes
+  unarchive:
+    src: "{{ lookup('env', 'HOME') }}/git/{{ lookup('env', 'FILE_SOFTETHER_BIN_TAR_GZ') }}"
+    dest: /usr/local/
+    owner: root
+    group: root
+
+- name: copy vpn*.service
+  become: yes
+  copy:
+    src: "../files/{{ item }}"
+    dest: /etc/systemd/system/
+    owner: root
+    group: root
+  with_items:
+    - vpnserver.service
+    - vpnbridge.service
+    - vpnclient.service

@@ -1,0 +1,17 @@
+- name: count vpnserver process
+  shell: "ps -ef | grep -v grep | grep vpnserver | wc -l"
+  register: val_count_vpnserver_running
+
+- name: check vpnserver
+  fail: msg="[WARNING] Already vpnserver is running(N={{val_count_vpnserver_running.stdout}})"
+  when: val_count_vpnserver_running.stdout != "0"
+
+- name: count vpnclient process
+  shell: "ps -ef | grep -v grep | grep vpnclient | wc -l "
+  register: val_count_vpnclient_running
+
+- name: check vpnclient
+  fail: msg="[WARNING] Already vpnclient is running(N={{val_count_vpnclient_running.stdout}})"
+  when: val_count_vpnclient_running.stdout != "0"
+
+#

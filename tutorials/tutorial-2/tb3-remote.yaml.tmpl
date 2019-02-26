@@ -1,0 +1,44 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ROS_MASTERNAME}}-remote
+  labels:
+    app: ros
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ros
+  template:
+    metadata:
+      labels:
+        app: ros
+    spec:
+      imagePullSecrets:
+      - name: regcred
+      containers:
+      - name: turtlebot3-remote
+        image: rdbox/amd64.turtlebot3:kinetic_1.1.0
+        tty: true
+        args:
+        - roslaunch
+        - --screen
+        - --wait
+        - turtlebot3_bringup
+        - turtlebot3_remote.launch
+        - multi_robot_name:={{ROS_MASTERNAME}}
+        env:
+        - name: ROS_HOSTNAME
+          valueFrom:
+            fieldRef:
+              fieldPath: spec.nodeName
+        - name: ROS_MASTER_URI
+          value: "http://{{ROS_MASTERNAME}}:11311"
+        - name: ROS_NAMESPACE
+          value: "{{ROS_MASTERNAME}}"
+        - name: TURTLEBOT3_MODEL
+          value: "{{TB3_MODEL}}"
+      hostNetwork: true
+      nodeSelector:
+        beta.kubernetes.io/arch: amd64

@@ -1,0 +1,135 @@
+#--------------------------------------------------------
+# RDBOX common account information
+#--------------------------------------------------------
+
+# User name commonly used on machines on RDBOX network
+RDBOX_USER_ACCOUNT=ubuntu
+
+# [Confirmation] The file path of the user's ssh private key (PEM format) commonly used by machines
+# on the RDBOX network.
+RDBOX_USER_KEY=${HOME}/.ssh/id_rsa
+
+#--------------------------------------------------------
+# Software information
+#--------------------------------------------------------
+
+# [Confirmation] Version of VirtualBox
+VIRTUALBOX_INSTALL_VERSION=5.2
+
+# [Confirmation] Version of Vagrant
+VAGRANT_INSTALL_VERSION=2.2.0
+
+# Version of transproxy package
+TRANSPROXY_VERSION=0.0.2
+
+#--------------------------------------------------------
+# Network information
+#--------------------------------------------------------
+
+# [Change] HTTP proxy server URL
+# - When not using HTTP proxy server, make it a comment.
+HTTP_PROXY=http://192.168.100.60:3128/
+
+# [Change] HTTPS proxy server URL
+# - When not using HTTPS proxy server, make it a comment.
+HTTPS_PROXY=http://192.168.100.60:3128/
+
+# [Confirmation] Interface name of the public network to be bridged
+# - From the output of "ifconfig -a", if there are multiple interfaces, specify the interface
+#   to which defaultGW is set as the one to be used for the bridge and the DHCP server distributes
+#   the network information. If there is only one interface to use for the bridge, comment out
+#   this parameter.
+#PUBLIC_BRIDGE_NIC=enp0s25
+
+# RDBOX private network
+RDBOX_NETWORK=192.168.179.0/24
+
+# VirtualBox private network
+PRIVATE_NETWORK=172.31.0.0/24
+
+# VirtualBox default network
+DEFAULT_NETWORK=172.31.255.0/24
+
+# RDBOX Master IP address
+EDGE_RDBOX_IP=192.168.179.1
+
+#--------------------------------------------------------
+# Information of VPN server VM
+#--------------------------------------------------------
+
+# Number of CPUs
+VPN_CPU=1
+
+# Memory (MB)
+VPN_MEM=1024
+
+# HDD (GB)
+VPN_HDD=10
+
+# VM name
+VPN_VMNAME=rdbox-vpn
+
+# Host name
+VPN_HOSTNAME=rdbox-k8s-vpn
+
+# MAC address
+#VPN_PUBLIC_MAC=080027678c02
+
+# VirtualBox private IP address
+VPN_PRIVATE_IP=172.31.0.1
+
+# RDBOX private IP address
+VPN_RDBOX_IP=192.168.179.3
+
+#--------------------------------------------------------
+# Information for Kubernetes Master VM
+#--------------------------------------------------------
+
+# Number of CPUs
+MASTER_CPU=2
+
+# Memory (MB)
+MASTER_MEM=4096
+
+# HDD (GB)
+MASTER_HDD=80
+
+# VM name
+MASTER_VMNAME=rdbox-master
+
+# Host name
+MASTER_HOSTNAME=rdbox-k8s-master
+
+# MAC address
+#MASTER_PUBLIC_MAC=080027678c01
+
+# VirtualBox private IP address
+MASTER_PRIVATE_IP=172.31.0.2
+
+# RDBOX private IP address
+MASTER_RDBOX_IP=192.168.179.2
+
+#--------------------------------------------------------
+# Information for Kubernetes Worker VM
+#--------------------------------------------------------
+
+# Number of CPUs
+WORKER_CPU=2
+
+# Memory (MB)
+WORKER_MEM=4096
+
+# HDD (GB)
+WORKER_HDD=80
+
+# Prefix of VM name
+WORKER_VMNAME_PREFIX=rdbox-worker
+
+# Format of VM name
+WORKER_VMNAME=${WORKER_VMNAME_PREFIX}-%02d
+
+# Prefix of host name
+WORKER_HOSTNAME_PREFIX=rdbox-k8s-worker-hq
+
+# Format of host name
+WORKER_HOSTNAME=${WORKER_HOSTNAME_PREFIX}-%02d

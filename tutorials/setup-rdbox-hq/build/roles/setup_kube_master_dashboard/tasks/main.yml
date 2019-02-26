@@ -1,0 +1,49 @@
+- name: make directory
+  file:
+    path: "{{ ansible_user_dir }}/{{ item }}"
+    state: directory
+    mode: 0750
+  with_items:
+    - .kube/
+    - .kube/dashboard/
+    - .kube/dashboard/certs/
+
+- name: copy some files for kubernetes dashboard
+  copy:
+    src: "../files/{{ item }}"
+    dest: "{{ ansible_user_dir }}/rdbox/tmp/"
+  with_items:
+    - service-account.yml
+    - init_kube_dashboard_patches.sh
+    - init_kube_dashboard_certs.sh
+    - setup_kube_dashboard.sh
+    - setup_kube_dashboard_add_user.sh
+    - setup_kube_dashboard_get_userinfo.sh
+
+- name: create patch files for kubernetes dashboard
+  shell: "bash ${HOME}/rdbox/tmp/init_kube_dashboard_patches.sh | tee ${HOME}/rdbox/tmp/init_kube_dashboard_patches.log"
+
+- name: create certs for kubernetes dashboard
+  shell: "bash ${HOME}/rdbox/tmp/init_kube_dashboard_certs.sh | tee ${HOME}/rdbox/tmp/init_kube_dashboard_certs.log"
+
+- name: setup Kubernetes master dashboard (install dashboard)
+  become: yes
+  shell: "bash /home/${SUDO_USER}/rdbox/tmp/setup_kube_dashboard.sh | tee /home/${SUDO_USER}/rdbox/tmp/setup_kube_dashboard.log"
+
+- name: setup Kubernetes master dashboard (add dashboard user)
+  become: yes
+  shell: "bash /home/${SUDO_USER}/rdbox/tmp/setup_kube_dashboard_add_user.sh | tee /home/${SUDO_USER}/rdbox/tmp/setup_kube_dashboard_add_user.log"
+
+- name: setup Kubernetes master dashboard (get dashboard userinfo)
+  become: yes
+  shell: "bash /home/${SUDO_USER}/rdbox/tmp/setup_kube_dashboard_get_userinfo.sh | tee /home/${SUDO_USER}/rdbox/tmp/setup_kube_dashboard_get_userinfo.log"
+
+- name: fetch info for kubernetes dashboard
+  fetch:
+    src: ".kube/dashboard/{{ item }}"
+    dest: "{{ lookup('env', 'HOME') }}/rdbox/fetch/"
+  with_items:
+    - admin.secret
+    - admin.token
+
+#

@@ -1,0 +1,7 @@
+build-initVM/rdbox-hq-vb.params.addon
+build-initVM/Vagrantfile*
+build-initVM/*.log
+build-workerVM/rdbox-hq-vb.params.addon
+build-workerVM/Vagrantfile*
+build-workerVM/*.log
+conf/rdbox-hq-vb.params

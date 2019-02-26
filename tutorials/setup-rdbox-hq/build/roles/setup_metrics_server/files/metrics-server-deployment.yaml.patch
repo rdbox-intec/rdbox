@@ -1,0 +1,28 @@
+--- metrics-server-deployment.yaml.orig	2019-01-24 18:25:46.118381740 +0900
++++ metrics-server-deployment.yaml	2019-01-24 18:27:18.853372060 +0900
+@@ -22,6 +22,11 @@ spec:
+       labels:
+         k8s-app: metrics-server
+     spec:
++      tolerations:
++      - key: node-role.kubernetes.io/master
++        effect: NoSchedule
++      nodeSelector:
++        beta.kubernetes.io/arch: amd64
+       serviceAccountName: metrics-server
+       volumes:
+       # mount in tmp so we can safely use from-scratch images and/or read-only containers
+@@ -29,8 +34,12 @@ spec:
+         emptyDir: {}
+       containers:
+       - name: metrics-server
+-        image: k8s.gcr.io/metrics-server-amd64:v0.3.0
++        image: k8s.gcr.io/metrics-server-amd64:v0.3.1
+         imagePullPolicy: Always
++        command:
++        - /metrics-server
++        - --kubelet-insecure-tls
++        - --kubelet-preferred-address-types=InternalIP
+         volumeMounts:
+         - name: tmp-dir
+           mountPath: /tmp

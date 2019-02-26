@@ -1,0 +1,13 @@
+- name: copy some files for setup dnsmasq
+  copy:
+    src: "../files/{{ item }}"
+    dest: "{{ ansible_user_dir }}/rdbox/tmp/"
+  with_items:
+    - setup_dnsmasq_client.sh
+
+#
+- name: setup dnsmasq(client)
+  become: yes
+  shell: "bash /home/${SUDO_USER}/rdbox/tmp/setup_dnsmasq_client.sh {{ VPN_SERVER_ADDRESS }} | tee /home/${SUDO_USER}/rdbox/tmp/setup_dnsmasq_client.log"
+
+#

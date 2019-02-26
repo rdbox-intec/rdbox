@@ -1,0 +1,12 @@
+[Unit]
+Description=SoftEtherVPN(bridge)
+After=network.target
+
+[Service]
+Type=forking
+ExecStart=/usr/local/vpnbridge/vpnbridge start
+ExecStop=/usr/local/vpnbridge/vpnbridge stop
+
+[Install]
+WantedBy=multi-user.target
+

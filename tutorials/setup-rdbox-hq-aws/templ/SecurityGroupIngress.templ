@@ -1,0 +1,25 @@
+  # SecurityGroupIngress
+#  RdboxSecurityGroupIngressTcp00001:
+#    Type: 'AWS::EC2::SecurityGroupIngress'
+#    Properties:
+#      GroupId: !Ref RdboxSecurityGroup
+#      IpProtocol: tcp
+#      FromPort: 0
+#      ToPort: 65535
+#      CidrIp: 10.0.0.0/8
+#      Tags:
+#        - Key: Name
+#          Value: RdboxSecurityGroupIngressTcp00001
+  %s:
+    Type: 'AWS::EC2::SecurityGroupIngress'
+    DeletionPolicy: "Delete"
+    Properties:
+      GroupId: !Ref %s
+      IpProtocol: %s
+      FromPort: %d
+      ToPort: %d
+      CidrIp: %s
+      Tags:
+        - Key: Name
+          Value: %s
+# eof

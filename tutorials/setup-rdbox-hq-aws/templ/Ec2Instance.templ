@@ -1,0 +1,64 @@
+# EC2::Instance
+#  RdboxhqInstanceVpnserver:
+#    Type: 'AWS::EC2::Instance'
+#    Properties:
+#      ImageId: ami-06c43a7df16e8213c
+#      InstanceType: t2.micro
+#      SubnetId: !ImportValue ExpRdboxhqSubnet
+#      SecurityGroupIds:
+#        - !ImportValue ExpRdboxhqSecurityGroup
+#      KeyName: rdboxuser-key
+#      UserData: !Base64 
+#        'Fn::Join':
+#          - ''
+#          - - |
+#              #!/bin/bash -xe
+#            - |
+#              apt-mark hold grub-pc
+#              apt -y update
+##              apt -y upgrade
+#            - |
+#              apt -y install ansible bridge-utils traceroute dnsutils
+#              apt -y install python-pip
+#              pip install https://s3.amazonaws.com/cloudformation-examples/aws-cfn-bootstrap-latest.tar.gz
+#              chmod +x /usr/local/init/ubuntu/cfn-hup
+#              ln -s /usr/local/init/ubuntu/cfn-hup /etc/init.d/cfn-hup
+#            - |+
+#      Tags:
+#        - Key: Name
+#          Value: RdboxhqInstanceVpnserver
+  %s:
+    Type: 'AWS::EC2::Instance'
+    DeletionPolicy: "Delete"
+    Properties:
+      ImageId: %s
+      InstanceType:
+        %s
+      NetworkInterfaces:
+        - AssociatePublicIpAddress: "true"
+          DeviceIndex: "0"
+          SubnetId: !ImportValue %s
+          GroupSet:
+            - !ImportValue %s
+      KeyName: %s
+      UserData: !Base64 
+        'Fn::Join':
+          - ''
+          - - |
+              #!/bin/bash -xe
+            - |
+              apt-mark hold grub-pc
+              apt -y update
+#              apt -y upgrade
+            - |
+              apt -y install ansible bridge-utils traceroute dnsutils
+              apt -y install python-pip
+              pip install https://s3.amazonaws.com/cloudformation-examples/aws-cfn-bootstrap-latest.tar.gz
+              chmod +x /usr/local/init/ubuntu/cfn-hup
+              ln -s /usr/local/init/ubuntu/cfn-hup /etc/init.d/cfn-hup
+            - |+
+      Tags:
+        - Key: Name
+          Value:
+            %s
+

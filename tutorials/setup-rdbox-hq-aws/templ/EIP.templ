@@ -1,0 +1,11 @@
+  # EIP
+#  RdboxEipVpnServer:
+#    Type: 'AWS::EC2::EIP'
+#    Properties:
+#      Domain: vpc
+  %s:
+    Type: 'AWS::EC2::EIP'
+    DeletionPolicy: "Delete"
+    Properties:
+      Domain: vpc
+# eof

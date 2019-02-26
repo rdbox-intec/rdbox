@@ -1,0 +1,76 @@
+#!/bin/bash
+
+# AWS
+## directories
+DIR_AWS=${HOME}/aws
+mkdir -p "${DIR_AWS}"
+## IAM user : filename
+AWS_KEY_NAME="rdboxuser-key"
+## IAM user : key file path
+AWS_KEY_FILE="${DIR_AWS}/${AWS_KEY_NAME}"
+## IAM user : pem file path
+AWS_PEM_FILE="${DIR_AWS}/${AWS_KEY_NAME}.pem"
+## IAM user : public key file path
+AWS_PUB_FILE="${DIR_AWS}/${AWS_KEY_NAME}.pub"
+## EC2 AMI(Amazon Machine Image)
+## "ami-06c43a7df16e8213c" Ubuntu Server 16.04 LTS (HVM), SSD Volume Type
+AWS_EC2_IMAGE_ID="ami-06c43a7df16e8213c"
+## Instance type
+AWS_EC2_INSTANCE_TYPE_MICRO="t2.micro"
+AWS_EC2_INSTANCE_TYPE_SMALL="t2.small"
+AWS_EC2_INSTANCE_TYPE_MEDIUM="t2.medium"
+AWS_EC2_INSTANCE_TYPE_LARGE="t2.large"
+AWS_EC2_INSTANCE_TYPE_DEFAULT=${AWS_EC2_INSTANCE_TYPE_MICRO}
+
+# VPC
+AWS_VPC_CIDR=172.16.0.0/16
+AWS_VPC_DnsSupport="true"
+AWS_VPC_DnsHostnames="true"
+
+# Subnet
+AWS_AvailabilityZone="ap-northeast-1c"
+
+# DHCPOptions
+AWS_DomainName="ap-northeast-1.compute.internal"
+AWS_DomainNameServers="AmazonProvidedDNS"
+
+# Route
+AWS_DestinationCidrBlock="0.0.0.0/0"
+
+# AWS SecurityGroup [CHANGES REQUIRED]
+AWS_SecurityGroupAllowGlobal="172.16.100.200/32"
+
+## AWS SecurityGroup
+AWS_SecurityGroupAllowPrivate="10.0.0.1/24,192.168.1.1/24"
+RDBOX_NET_CIDR="192.168.179.0/24"
+
+# EC2::Instance(VpnServer)
+AWS_EC2_IMAGE_ID_VpnServer=${AWS_EC2_IMAGE_ID}
+AWS_EC2_INSTANCE_TYPE_VpnServer=${AWS_EC2_INSTANCE_TYPE_MICRO}
+
+# EC2::Instance(KubeMaster)
+AWS_EC2_IMAGE_ID_KubeMaster=${AWS_EC2_IMAGE_ID}
+AWS_EC2_INSTANCE_TYPE_KubeMaster=${AWS_EC2_INSTANCE_TYPE_MEDIUM}
+
+# EC2::Instance(KubeNode)
+AWS_EC2_IMAGE_ID_KubeNode=${AWS_EC2_IMAGE_ID}
+AWS_EC2_INSTANCE_TYPE_KubeNode=${AWS_EC2_INSTANCE_TYPE_MICRO}
+
+# names for CloudFormation
+RDBOX_HQ_PREF_NAME="Rdboxhq"
+## names for VPC
+AWS_NAME_VPC="${RDBOX_HQ_PREF_NAME}VPC"
+AWS_NAME_DHCPOptions="${RDBOX_HQ_PREF_NAME}DHCPOptions"
+AWS_NAME_InternetGateway="${RDBOX_HQ_PREF_NAME}InternetGateway"
+AWS_NAME_Route="${RDBOX_HQ_PREF_NAME}Route"
+AWS_NAME_RouteTable="${RDBOX_HQ_PREF_NAME}RouteTable"
+AWS_NAME_SecurityGroup="${RDBOX_HQ_PREF_NAME}SecurityGroup"
+AWS_NAME_Subnet="${RDBOX_HQ_PREF_NAME}Subnet"
+AWS_NAME_EIP_VpnServer="${RDBOX_HQ_PREF_NAME}EIPVpnServer"
+AWS_NAME_EIP_KubeMaster="${RDBOX_HQ_PREF_NAME}EIPKubeMaster"
+## names for EC2
+AWS_NAME_Ec2InstanceVpnServer="${RDBOX_HQ_PREF_NAME}Ec2InstanceVpnServer"
+AWS_NAME_Ec2InstanceKubeMaster="${RDBOX_HQ_PREF_NAME}Ec2InstanceKubeMaster"
+AWS_NAME_Ec2InstanceKubeNode="${RDBOX_HQ_PREF_NAME}Ec2InstanceKubeNode"
+
+#

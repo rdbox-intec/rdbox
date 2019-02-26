@@ -1,0 +1,10 @@
+
+* install ansible spec
+sudo apt install ruby-dev
+sudo gem install ansible_spec
+
+* setup ansible spec
+cd ...../setup-rdbox-hq/build
+ansiblespec-init
+
+#

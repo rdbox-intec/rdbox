@@ -1,0 +1,20 @@
+  # SecurityGroup
+#  RdboxSecurityGroup:
+#    Type: 'AWS::EC2::SecurityGroup'
+#    Properties:
+#      GroupName: RdboxSecurityGroupName
+#      VpcId: !Ref RdboxVpc
+#      Tags:
+#        - Key: Name
+#          Value: RdboxSecurityGroup
+  %s:
+    Type: 'AWS::EC2::SecurityGroup'
+    DeletionPolicy: "Delete"
+    Properties:
+      GroupName: %s
+      GroupDescription: %s
+      VpcId: !Ref %s
+      Tags:
+        - Key: Name
+          Value: %s
+# eof

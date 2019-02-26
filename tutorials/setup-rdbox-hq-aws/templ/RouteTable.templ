@@ -1,0 +1,17 @@
+  # RouteTable
+#  RdboxRouteTable:
+#    Type: 'AWS::EC2::RouteTable'
+#    Properties:
+#      VpcId: !Ref RdboxVpc
+#      Tags:
+#        - Key: Name
+#          Value: RdboxRouteTable
+  %s:
+    Type: 'AWS::EC2::RouteTable'
+    DeletionPolicy: "Delete"
+    Properties:
+      VpcId: !Ref %s
+      Tags:
+        - Key: Name
+          Value: %s
+# eof

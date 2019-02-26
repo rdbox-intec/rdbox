@@ -1,0 +1,15 @@
+  # EIPAssociation
+#  RdboxEIPAssociationVpnServer:
+#    Type: AWS::EC2::EIPAssociation
+#    Properties:
+#      AllocationId: String
+#      InstanceId: String
+#      NetworkInterfaceId: String
+#      PrivateIpAddress: String
+  %sAssociation:
+    Type: 'AWS::EC2::EIPAssociation'
+    DeletionPolicy: "Delete"
+    Properties:
+      AllocationId: !ImportValue %s
+      InstanceId: !Ref %s
+# eof

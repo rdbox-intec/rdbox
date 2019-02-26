@@ -1,0 +1,117 @@
+
+# BUILD PF(PLATFORM) [CHANGES REQUIRED]
+# Please uncomment a line.
+#RDBOX_HQ_BUILD_PF="vb"   # "virtual-box"
+#RDBOX_HQ_BUILD_PF="aws"
+
+#
+if [ "${RDBOX_HQ_BUILD_PF}" == "vb" ] ; then
+    ANSIBLE_REMOTE_USER=ubuntu
+    FILE_PRIVATE_KEY="${HOME}/.ssh/id_rsa"
+elif [ "${RDBOX_HQ_BUILD_PF}" == "aws" ] ; then
+    if [ -e "${HOME}/.bashrc.rdbox-hq-aws" ] ; then
+        source ${HOME}/.bashrc.rdbox-hq-aws
+    elif [ -e "/home/${SUDO_USER}/.bashrc.rdbox-hq-aws" ] ; then
+        source /home/${SUDO_USER}/.bashrc.rdbox-hq-aws
+    else
+        echo "[ERROR] Can not found .bashrc.rdbox-hq-aws"
+        exit 1
+    fi
+    ANSIBLE_REMOTE_USER=ubuntu
+    FILE_PRIVATE_KEY=${AWS_PEM_FILE}
+else
+    echo "[ERROR]"
+    exit 1
+fi
+SERVER_TYPE_VPNSERVER='VpnServer'
+SERVER_TYPE_KUBEMASTER='KubeMaster'
+SERVER_TYPE_KUBENODE='KubeNode'
+
+# VERSION
+## Docker version
+### sudo apt-cache madison docker-ce
+export DOCKER_VERSION="5:18.09.2~3-0~ubuntu-xenial"
+## Kubernetes version
+export KUBERNETES_VERSION="1.13.3"
+export KUBEADM_VERSION="1.13.3-00"
+export KUBELET_VERSION="1.13.3-00"
+export KUBECTL_VERSION="1.13.3-00"
+export KUBECNI_VERSION="0.6.0-00"
+
+# VPN parameters
+## virtual HUB name
+VPN_HUB_NAME="rdbox"
+## virtual HUB password [CHANGES REQUIRED]
+VPN_HUB_PASS="rdbox_password"
+## virtual HUB user-name
+VPN_USER_NAME="user_rdbox"
+## virtual HUB user-password [CHANGES REQUIRED]
+VPN_USER_PASS="pass_rdbox"
+## virtual HUB user-group
+VPN_USER_GROUP="none"
+## virtual HUB user-real-name
+VPN_USER_REAL="none"
+## virtual HUB user-note
+VPN_USER_NOTE="none"
+## VPN server port
+VPN_SERVER_PORT=443
+## VPN client NIC name
+VPN_CLIENT_NIC_NAME="rdbox"
+## VPN connection name
+VPN_CONNECTION_NAME="con_rdbox"
+## VPN max retry count
+VPN_RETRY_COUNT=999
+## VPN retry interval
+VPN_RETRY_INTERVAL=5
+
+# Kubernetes
+## Kubernetes POD network(CIDR)
+KUBE_POD_NETWORK_CIDR="10.244.0.0/16"
+## Kubernetes Dashboard port
+KUBE_DASHBOARD_PORT=30443
+## Kubernetes Dashboard Certificate : lifetime
+KUBE_DASHBOARD_CERT_DAYS=3650
+## Kubernetes Dashboard Certificate : RSA key size
+KUBE_DASHBOARD_CERT_BITS=2048
+## Kubernetes Dashboard Certificate : Country Name
+KUBE_DASHBOARD_CERT_COUNTRY="JP"
+## Kubernetes Dashboard Certificate : State or Province Name
+KUBE_DASHBOARD_CERT_STATE="Tokyo"
+## Kubernetes Dashboard Certificate : Locality Name
+KUBE_DASHBOARD_CERT_LOCALITY="RDBOX-city"
+## Kubernetes Dashboard Certificate : Organization Name
+KUBE_DASHBOARD_CERT_ORGANIZATION="RDBOX-org"
+## Kubernetes Dashboard Certificate : Organizational Unit Name
+KUBE_DASHBOARD_CERT_ORGANIZATION_UNIT="RDBOX-unit"
+## Kubernetes Dashboard Certificate : Common Name
+KUBE_DASHBOARD_COMMON_NAME="RDBOX-Kubernetes.local"
+## Kubernetes Dashboard Certificate : Email Address
+KUBE_DASHBOARD_CERT_EMAIL=""
+# token TTL [sec]
+KUBE_DASHBOARD_TOKEN_TTL=18000
+
+## VpnServer/Kubernetes master IP address [DO NOT CHANGE]
+RDBOX_NET_ADRS_RDBOX_MASTER="192.168.179.1"
+RDBOX_NET_NAME_RDBOX_MASTER="rdbox-master-00"
+RDBOX_NET_ADRS_KUBE_MASTER="192.168.179.2"
+RDBOX_NET_NAME_KUBE_MASTER="rdbox-k8s-master"
+RDBOX_NET_ADRS_VPNSERVER="192.168.179.3"
+RDBOX_NET_SUBNETMASK="255.255.255.0"
+
+# directories for RDBOX-HQ
+DIR_RDBOX=${HOME}/rdbox
+if [ ! -e "${DIR_RDBOX}" ] ; then
+    mkdir -p  "${DIR_RDBOX}"
+    chmod 750 "${DIR_RDBOX}"
+fi
+if [ ! -e "${DIR_RDBOX}/bin" ] ; then
+    mkdir -p  "${DIR_RDBOX}/bin"
+fi
+if [ ! -e "${DIR_RDBOX}/fetch" ] ; then
+    mkdir -p  "${DIR_RDBOX}/fetch"
+fi
+if [ ! -e "${DIR_RDBOX}/tmp" ] ; then
+    mkdir -p  "${DIR_RDBOX}/tmp"
+fi
+
+#

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+    <arg name="from" />
+    <arg name="to" />
+
+    <node pkg="topic_tools" type="relay" name="relay" output="screen" args="$(arg from) $(arg to)">
+    </node>
+</launch>
