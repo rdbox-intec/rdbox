@@ -8,7 +8,7 @@
 #          Value: RdboxRouteTable
   %s:
     Type: 'AWS::EC2::RouteTable'
-    DeletionPolicy: "Delete"
+    DeletionPolicy: "%s"
     Properties:
       VpcId: !Ref %s
       Tags:

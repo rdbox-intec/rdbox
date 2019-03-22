@@ -9,7 +9,6 @@
     - role: install_kubernetes
     - role: setup_net_kube_master
     - role: setup_dnsmasq_client
-      when: RDBOX_HQ_BUILD_PF != "vb"
     - role: setup_vpnclient
     - role: setup_kube_master
     - role: setup_kube_master_dashboard

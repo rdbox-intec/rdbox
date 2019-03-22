@@ -127,8 +127,8 @@ write_files:
           ssid="rdbox-w98765-g"
           psk="gL7bQKFz"
           scan_ssid=1
-      \#bssid
-      \#bssid_blacklist
+      #bssid
+      #bssid_blacklist
       }
     path: /etc/rdbox/wpa_supplicant_ap_bg.conf
   # Settings for access point communication

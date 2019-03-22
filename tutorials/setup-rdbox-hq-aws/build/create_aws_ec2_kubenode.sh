@@ -1,5 +1,7 @@
 #!/bin/bash
 
+. ${HOME}/.bashrc.rdbox-hq-aws
+
 #
 NODE_NO=$1
 if [ "${NODE_NO}" = "" ] ; then
@@ -23,18 +25,19 @@ FILE_YML=kube_node.yml
 bash ./create_yml_kube_node.sh > ${FILE_YML}
 
 #
-KEY_STACK_NAME=`printf "RdboxKubeNode%02d" ${NODE_NO}`
+KEY_STACK_NAME=`printf "${RDBOX_HQ_PREF_NAME}-KubeNode%02d" ${NODE_NO}`
 
 #
 KEY_PARAM1=ParamInstanceType
-VAL_PARAM1=t2.micro
+#VAL_PARAM1=t2.micro
 #VAL_PARAM1=t2.small
 #VAL_PARAM1=t2.medium
 #VAL_PARAM1=t2.large
+VAL_PARAM1=${AWS_EC2_INSTANCE_TYPE_KubeNode}
 
 #
 KEY_PARAM2=ParamKubeNodeName
-VAL_PARAM2=`printf "RdboxhqEc2InstanceKubeNode%02d" ${NODE_NO}`
+VAL_PARAM2=`printf "${RDBOX_HQ_PREF_NAME}Ec2InstanceKubeNode%02d" ${NODE_NO}`
 
 #
 aws cloudformation create-stack --stack-name ${KEY_STACK_NAME} --template-body file://./${FILE_YML} --parameters ParameterKey=${KEY_PARAM1},ParameterValue=${VAL_PARAM1} ParameterKey=${KEY_PARAM2},ParameterValue=${VAL_PARAM2}

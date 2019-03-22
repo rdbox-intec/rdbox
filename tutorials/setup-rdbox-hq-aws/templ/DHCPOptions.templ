@@ -10,7 +10,7 @@
 #          Value: RdboxDhcp
   %s:
     Type: 'AWS::EC2::DHCPOptions'
-    DeletionPolicy: "Delete"
+    DeletionPolicy: "%s"
     Properties:
       DomainName: %s
       DomainNameServers:

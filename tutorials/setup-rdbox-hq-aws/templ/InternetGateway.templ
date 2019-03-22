@@ -12,7 +12,7 @@
 #      VpcId: !Ref RdboxVpc
   %s:
     Type: 'AWS::EC2::InternetGateway'
-    DeletionPolicy: "Delete"
+    DeletionPolicy: "%s"
     Properties:
       Tags:
         - Key: Name

@@ -29,11 +29,15 @@
 #          Value: RdboxhqInstanceVpnserver
   %s:
     Type: 'AWS::EC2::Instance'
-    DeletionPolicy: "Delete"
+    DeletionPolicy: "%s"
     Properties:
       ImageId: %s
       InstanceType:
         %s
+      BlockDeviceMappings: 
+        - DeviceName: "/dev/sda1"
+          Ebs: 
+            VolumeSize: "%d"
       NetworkInterfaces:
         - AssociatePublicIpAddress: "true"
           DeviceIndex: "0"

@@ -47,6 +47,7 @@ Vagrant.configure(2) do |config|
 			fi
 			echo 'Acquire::ForceIPv4 "true";' > /etc/apt/apt.conf.d/99force-ipv4
 			apt-get update
+			apt-get install -y apt-transport-https
 			apt-get install -y ipcalc
 			apt-get install -y avahi-daemon
 			apt-get install -y python
@@ -61,13 +62,6 @@ Vagrant.configure(2) do |config|
 			PUBLIC_NETMASK=`netstat -nr |grep $NIC2|awk '{if ($2 == "0.0.0.0") {print $3}}'`
 			PUBLIC_NETMASK_LEN=`ipcalc $PUBLIC_ADDRESS/$PUBLIC_NETMASK|awk '{if ($1 == "Netmask:") {print $4}}'`
 			PUBLIC_NETWORK=$PUBLIC_ADDRESS/$PUBLIC_NETMASK_LEN
-cat <<EOF >> /etc/network/interfaces
-
-auto vpn_rdbox
-iface vpn_rdbox inet static
-address VPN_RDBOX_IP
-netmask RDBOX_NETMASK
-EOF
 			apt-get install -y ipset
 cat <<EOF > /usr/local/bin/rdbox-iptables.sh
 iptables -t nat -A POSTROUTING -o $NIC2 -j MASQUERADE
@@ -89,7 +83,10 @@ EOF
 			systemctl enable systemd-networkd-wait-online
 			systemctl enable rdbox-iptables.service
 			systemctl start rdbox-iptables.service
-			dpkg -i /vagrant/transproxy_TRANSPROXY_VERSION_amd64.deb
+			wget -qO - "https://bintray.com/user/downloadSubjectPublicKey?username=rdbox" | sudo apt-key add -
+			echo "deb https://dl.bintray.com/rdbox/deb stretch main" | sudo tee -a /etc/apt/sources.list.d/rdbox.list
+			apt-get update
+			apt-get install -y transproxy
 cat <<EOF > /etc/transproxy/http_proxy
 http_proxy=HTTP_PROXY
 https_proxy=HTTPS_PROXY
@@ -103,52 +100,6 @@ EOF
 				systemctl enable transproxy.service
 				systemctl start transproxy.service
 			fi
-			DEFAULT_NS=`cat /etc/resolv.conf | awk '{if ($1 == "nameserver") {print $1 " " $2}}'`
-			apt-get install -y dnsmasq
-cat <<EOF > /etc/dnsmasq.conf
-#domain-needed
-#bogus-priv
-strict-order
-resolv-file=/etc/resolv.dnsmasq.conf
-server=//EDGE_RDBOX_IP
-server=/rdbox.lan/EDGE_RDBOX_IP
-server=/RDBOX_NETWORK_INV.in-addr.arpa/EDGE_RDBOX_IP
-interface=$NIC1
-interface=$NIC2
-interface=$NIC3
-interface=vpn_rdbox
-no-dhcp-interface=$NIC1
-no-dhcp-interface=$NIC2
-no-dhcp-interface=$NIC3
-no-dhcp-interface=vpn_rdbox
-local=/rdbox.lan/
-domain=rdbox.lan
-expand-hosts
-EOF
-cat <<EOF > /etc/resolv.dnsmasq.conf
-$DEFAULT_NS
-EOF
-			sh /etc/init.d/dnsmasq restart
-cat <<EOF > /usr/local/bin/rdbox-network.sh
-echo "nameserver 127.0.0.1" > /etc/resolv.conf
-EOF
-cat <<EOF > /lib/systemd/system/rdbox-network.service
-[Unit]
-Description=modify current network
-After=network-online.target
-
-[Service]
-Type=oneshot
-ExecStart=/bin/sh /usr/local/bin/rdbox-network.sh
-RemainAfterExit=yes
-
-[Install]
-WantedBy=network-online.target
-EOF
-			systemctl enable systemd-networkd
-			systemctl enable systemd-networkd-wait-online
-			systemctl enable rdbox-network.service
-			sh /usr/local/bin/rdbox-network.sh
 			ID_PUB=/vagrant/id_rsa.pub
 			AUTH_KEYS=/home/vagrant/.ssh/authorized_keys
 			if [ -f $ID_PUB ] ; then
@@ -226,16 +177,8 @@ EOF
 			apt-get install -y avahi-daemon
 			apt-get install -y python
 			sed -i -e "s/127.0.1.1/MASTER_RDBOX_IP/" /etc/hosts
-cat <<EOF >> /etc/network/interfaces
-
-auto vpn_rdbox
-iface vpn_rdbox inet static
-address MASTER_RDBOX_IP
-netmask RDBOX_NETMASK
-EOF
 cat <<EOF > /usr/local/bin/rdbox-network.sh
 sleep 60
-echo "nameserver VPN_PRIVATE_IP" > /etc/resolv.conf
 ip route del default
 ip route del default
 ip route add default via VPN_PRIVATE_IP

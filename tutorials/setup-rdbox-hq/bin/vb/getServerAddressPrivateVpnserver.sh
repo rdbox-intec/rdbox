@@ -1,6 +1,10 @@
 #!/bin/bash
 
 #
-echo "172.31.0.1"
+cd ../../../setup-rdbox-hq-vb
+cd conf
+
+source rdbox-hq-vb.params
+echo ${VPN_PRIVATE_IP}
 
 #

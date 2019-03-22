@@ -32,25 +32,25 @@ printf "${TEMPL_ParameterDescription}\n" "AvailabilityZone"
 printf "${TEMPL_Resources}\n"
 
 # VPC
-printf "${TEMPL_VPC}\n" ${AWS_NAME_VPC} ${AWS_VPC_CIDR} ${AWS_VPC_DnsSupport} ${AWS_VPC_DnsHostnames} ${AWS_NAME_VPC}
+printf "${TEMPL_VPC}\n" ${AWS_NAME_VPC} ${AWS_DeletionPolicy} ${AWS_VPC_CIDR} ${AWS_VPC_DnsSupport} ${AWS_VPC_DnsHostnames} ${AWS_NAME_VPC}
 
 # InternetGateway
-printf "${TEMPL_InternetGateway}\n" ${AWS_NAME_InternetGateway} ${AWS_NAME_InternetGateway} ${AWS_NAME_InternetGateway} ${AWS_NAME_InternetGateway} ${AWS_NAME_VPC}
+printf "${TEMPL_InternetGateway}\n" ${AWS_NAME_InternetGateway} ${AWS_DeletionPolicy} ${AWS_NAME_InternetGateway} ${AWS_NAME_InternetGateway} ${AWS_NAME_InternetGateway} ${AWS_NAME_VPC}
 
 # DHCPOptions
-printf "${TEMPL_DHCPOptions}\n" ${AWS_NAME_DHCPOptions} ${AWS_DomainName} ${AWS_DomainNameServers} ${AWS_NAME_DHCPOptions} ${AWS_NAME_DHCPOptions} ${AWS_NAME_DHCPOptions} ${AWS_NAME_VPC}
+printf "${TEMPL_DHCPOptions}\n" ${AWS_NAME_DHCPOptions} ${AWS_DeletionPolicy} ${AWS_DomainName} ${AWS_DomainNameServers} ${AWS_NAME_DHCPOptions} ${AWS_NAME_DHCPOptions} ${AWS_NAME_DHCPOptions} ${AWS_NAME_VPC}
 
 # RouteTable
-printf "${TEMPL_RouteTable}\n" ${AWS_NAME_RouteTable} ${AWS_NAME_VPC} ${AWS_NAME_RouteTable}
+printf "${TEMPL_RouteTable}\n" ${AWS_NAME_RouteTable} ${AWS_DeletionPolicy} ${AWS_NAME_VPC} ${AWS_NAME_RouteTable}
 
 # Route
-printf "${TEMPL_Route}\n" ${AWS_NAME_Route} ${AWS_NAME_RouteTable} ${AWS_DestinationCidrBlock} ${AWS_NAME_InternetGateway}
+printf "${TEMPL_Route}\n" ${AWS_NAME_Route} ${AWS_DeletionPolicy} ${AWS_NAME_RouteTable} ${AWS_DestinationCidrBlock} ${AWS_NAME_InternetGateway}
 
 # Subnet
-printf "${TEMPL_Subnet}\n" ${AWS_NAME_Subnet} "Ref: ParamAvailabilityZone" ${AWS_VPC_CIDR} ${AWS_NAME_VPC} ${AWS_NAME_Subnet} ${AWS_NAME_Subnet} ${AWS_NAME_RouteTable} ${AWS_NAME_Subnet}
+printf "${TEMPL_Subnet}\n" ${AWS_NAME_Subnet} ${AWS_DeletionPolicy} "Ref: ParamAvailabilityZone" ${AWS_VPC_CIDR} ${AWS_NAME_VPC} ${AWS_NAME_Subnet} ${AWS_NAME_Subnet} ${AWS_NAME_RouteTable} ${AWS_NAME_Subnet}
 
 #
-printf "${TEMPL_SecurityGroup}\n" ${AWS_NAME_SecurityGroup} ${AWS_NAME_SecurityGroup} ${AWS_NAME_SecurityGroup} ${AWS_NAME_VPC} ${AWS_NAME_SecurityGroup}
+printf "${TEMPL_SecurityGroup}\n" ${AWS_NAME_SecurityGroup} ${AWS_DeletionPolicy} ${AWS_NAME_SecurityGroup} ${AWS_NAME_SecurityGroup} ${AWS_NAME_VPC} ${AWS_NAME_SecurityGroup}
 
 # sequence number for SecurityGroupIngress
 SEQ_NO_POOL=(`seq 100`)
@@ -67,7 +67,7 @@ for SG_ALLOW in `echo ${AWS_SecurityGroupAllowPrivate} ${AWS_SecurityGroupAllowG
             AWS_NAME_SecurityGroupIngress=`printf "${FMT_NAME_SecurityGroupIngress}" ${SEQ_NO}`
             AWS_SGI_FromPort=${SG_ALLOW_PORT}
             AWS_SGI_ToPort=${SG_ALLOW_PORT}
-            printf "${TEMPL_SecurityGroupIngress}\n" ${AWS_NAME_SecurityGroupIngress} ${AWS_NAME_SecurityGroup} ${AWS_SGI_IpProtocol} ${AWS_SGI_FromPort} ${AWS_SGI_ToPort} ${AWS_SGI_CidrIp} ${AWS_NAME_SecurityGroupIngress}
+            printf "${TEMPL_SecurityGroupIngress}\n" ${AWS_NAME_SecurityGroupIngress} ${AWS_DeletionPolicy} ${AWS_NAME_SecurityGroup} ${AWS_SGI_IpProtocol} ${AWS_SGI_FromPort} ${AWS_SGI_ToPort} ${AWS_SGI_CidrIp} ${AWS_NAME_SecurityGroupIngress}
         done
     done
 done
@@ -83,7 +83,7 @@ for SG_ALLOW in "10.0.0.0/8" "${RDBOX_NET_CIDR}" "${AWS_VPC_CIDR}" ; do
         AWS_NAME_SecurityGroupIngress=`printf "${FMT_NAME_SecurityGroupIngress}" ${SEQ_NO}`
         AWS_SGI_FromPort=0
         AWS_SGI_ToPort=65535
-        printf "${TEMPL_SecurityGroupIngress}\n" ${AWS_NAME_SecurityGroupIngress} ${AWS_NAME_SecurityGroup} ${AWS_SGI_IpProtocol} ${AWS_SGI_FromPort} ${AWS_SGI_ToPort} ${AWS_SGI_CidrIp} ${AWS_NAME_SecurityGroupIngress}
+        printf "${TEMPL_SecurityGroupIngress}\n" ${AWS_NAME_SecurityGroupIngress} ${AWS_DeletionPolicy} ${AWS_NAME_SecurityGroup} ${AWS_SGI_IpProtocol} ${AWS_SGI_FromPort} ${AWS_SGI_ToPort} ${AWS_SGI_CidrIp} ${AWS_NAME_SecurityGroupIngress}
     done
 done
 
@@ -94,13 +94,13 @@ AWS_SGI_IpProtocol="icmp"
 AWS_SGI_FromPort=-1
 AWS_SGI_ToPort=-1
 AWS_SGI_CidrIp="0.0.0.0/0"
-printf "${TEMPL_SecurityGroupIngress}\n" ${AWS_NAME_SecurityGroupIngress} ${AWS_NAME_SecurityGroup} ${AWS_SGI_IpProtocol} ${AWS_SGI_FromPort} ${AWS_SGI_ToPort} ${AWS_SGI_CidrIp} ${AWS_NAME_SecurityGroupIngress}
+printf "${TEMPL_SecurityGroupIngress}\n" ${AWS_NAME_SecurityGroupIngress} ${AWS_DeletionPolicy} ${AWS_NAME_SecurityGroup} ${AWS_SGI_IpProtocol} ${AWS_SGI_FromPort} ${AWS_SGI_ToPort} ${AWS_SGI_CidrIp} ${AWS_NAME_SecurityGroupIngress}
 
 # EIP(VpnServer)
-printf "${TEMPL_EIP}\n" ${AWS_NAME_EIP_VpnServer}
+printf "${TEMPL_EIP}\n" ${AWS_NAME_EIP_VpnServer} ${AWS_DeletionPolicy}
 
 # EIP(KubeMaster)
-printf "${TEMPL_EIP}\n" ${AWS_NAME_EIP_KubeMaster}
+printf "${TEMPL_EIP}\n" ${AWS_NAME_EIP_KubeMaster} ${AWS_DeletionPolicy}
 
 ##### Export #####
 printf "${TEMPL_Outputs}\n"

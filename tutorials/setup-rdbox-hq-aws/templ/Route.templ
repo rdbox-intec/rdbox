@@ -7,7 +7,7 @@
 #      GatewayId: !Ref RdboxIgw
   %s:
     Type: 'AWS::EC2::Route'
-    DeletionPolicy: "Delete"
+    DeletionPolicy: "%s"
     Properties:
       RouteTableId: !Ref %s
       DestinationCidrBlock: %s

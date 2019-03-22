@@ -35,9 +35,9 @@ printf "${TEMPL_ParameterDescription}\n" "AWS::EC2::Instance"
 printf "${TEMPL_Resources}\n"
 
 # EC2::Instance(VpnServer)
-printf "${TEMPL_Ec2Instance}\n" ${AWS_NAME_Ec2InstanceVpnServer} ${AWS_EC2_IMAGE_ID_VpnServer} "Ref: ParamInstanceType" "Exp${AWS_NAME_Subnet}" "Exp${AWS_NAME_SecurityGroup}" ${AWS_KEY_NAME} ${AWS_NAME_Ec2InstanceVpnServer}
+printf "${TEMPL_Ec2Instance}\n" ${AWS_NAME_Ec2InstanceVpnServer} ${AWS_DeletionPolicy} ${AWS_EC2_IMAGE_ID_VpnServer} "Ref: ParamInstanceType" ${AWS_EC2_ROOT_EBS_SIZE_VpnServer} "Exp${AWS_NAME_Subnet}" "Exp${AWS_NAME_SecurityGroup}" ${AWS_KEY_NAME} ${AWS_NAME_Ec2InstanceVpnServer}
 
 # EIP(VpnServer)
-printf "${TEMPL_EIPAssociation}\n" ${AWS_NAME_EIP_VpnServer} "Exp${AWS_NAME_EIP_VpnServer}AllocationId" ${AWS_NAME_Ec2InstanceVpnServer}
+printf "${TEMPL_EIPAssociation}\n" ${AWS_NAME_EIP_VpnServer} ${AWS_DeletionPolicy} "Exp${AWS_NAME_EIP_VpnServer}AllocationId" ${AWS_NAME_Ec2InstanceVpnServer}
 
 #

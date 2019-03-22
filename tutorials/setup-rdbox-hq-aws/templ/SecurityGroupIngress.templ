@@ -12,7 +12,7 @@
 #          Value: RdboxSecurityGroupIngressTcp00001
   %s:
     Type: 'AWS::EC2::SecurityGroupIngress'
-    DeletionPolicy: "Delete"
+    DeletionPolicy: "%s"
     Properties:
       GroupId: !Ref %s
       IpProtocol: %s

@@ -33,9 +33,9 @@ printf "${TEMPL_ParameterDescription}\n" "AWS::EC2::Instance"
 printf "${TEMPL_Resources}\n"
 
 # EC2::Instance(KubeMaster)
-printf "${TEMPL_Ec2Instance}\n" ${AWS_NAME_Ec2InstanceKubeMaster} ${AWS_EC2_IMAGE_ID_KubeMaster} "Ref: ParamInstanceType" "Exp${AWS_NAME_Subnet}" "Exp${AWS_NAME_SecurityGroup}" ${AWS_KEY_NAME} ${AWS_NAME_Ec2InstanceKubeMaster}
+printf "${TEMPL_Ec2Instance}\n" ${AWS_NAME_Ec2InstanceKubeMaster} ${AWS_DeletionPolicy} ${AWS_EC2_IMAGE_ID_KubeMaster} "Ref: ParamInstanceType" ${AWS_EC2_ROOT_EBS_SIZE_KubeMaster} "Exp${AWS_NAME_Subnet}" "Exp${AWS_NAME_SecurityGroup}" ${AWS_KEY_NAME} ${AWS_NAME_Ec2InstanceKubeMaster}
 
 # EIP(KubeMaster)
-printf "${TEMPL_EIPAssociation}\n" ${AWS_NAME_EIP_KubeMaster} "Exp${AWS_NAME_EIP_KubeMaster}AllocationId" ${AWS_NAME_Ec2InstanceKubeMaster}
+printf "${TEMPL_EIPAssociation}\n" ${AWS_NAME_EIP_KubeMaster} ${AWS_DeletionPolicy} "Exp${AWS_NAME_EIP_KubeMaster}AllocationId" ${AWS_NAME_Ec2InstanceKubeMaster}
 
 #

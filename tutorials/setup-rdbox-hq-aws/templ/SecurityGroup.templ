@@ -9,7 +9,7 @@
 #          Value: RdboxSecurityGroup
   %s:
     Type: 'AWS::EC2::SecurityGroup'
-    DeletionPolicy: "Delete"
+    DeletionPolicy: "%s"
     Properties:
       GroupName: %s
       GroupDescription: %s

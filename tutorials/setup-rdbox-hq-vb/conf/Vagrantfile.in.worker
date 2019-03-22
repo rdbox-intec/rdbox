@@ -38,13 +38,7 @@ Vagrant.configure(2) do |config|
 			apt-get update
 			apt-get install -y avahi-daemon
 			apt-get install -y python
-cat <<EOF >> /etc/network/interfaces
-
-auto vpn_rdbox
-iface vpn_rdbox inet dhcp
-EOF
 cat <<EOF > /usr/local/bin/rdbox-network.sh
-echo "nameserver VPN_PRIVATE_IP" > /etc/resolv.conf
 ip route del default
 ip route add default via VPN_PRIVATE_IP
 sed -i -e "s/^127\.0\.1\.1/#127\.0\.1\.1/" /etc/hosts

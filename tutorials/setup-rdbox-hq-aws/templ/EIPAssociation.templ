@@ -8,7 +8,7 @@
 #      PrivateIpAddress: String
   %sAssociation:
     Type: 'AWS::EC2::EIPAssociation'
-    DeletionPolicy: "Delete"
+    DeletionPolicy: "%s"
     Properties:
       AllocationId: !ImportValue %s
       InstanceId: !Ref %s

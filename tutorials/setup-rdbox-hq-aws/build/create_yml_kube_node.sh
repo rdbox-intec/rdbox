@@ -45,6 +45,6 @@ printf "${TEMPL_ParameterDescription}\n" "Kubernetes node name"
 printf "${TEMPL_Resources}\n"
 
 # EC2::Instance(KubeNode)
-printf "${TEMPL_Ec2Instance}\n" ${AWS_NAME_Ec2InstanceKubeNode} ${AWS_EC2_IMAGE_ID_KubeNode} "Ref: ParamInstanceType" "Exp${AWS_NAME_Subnet}" "Exp${AWS_NAME_SecurityGroup}" ${AWS_KEY_NAME} "Ref: ParamKubeNodeName"
+printf "${TEMPL_Ec2Instance}\n" ${AWS_NAME_Ec2InstanceKubeNode} ${AWS_DeletionPolicy} ${AWS_EC2_IMAGE_ID_KubeNode} "Ref: ParamInstanceType" ${AWS_EC2_ROOT_EBS_SIZE_KubeNode} "Exp${AWS_NAME_Subnet}" "Exp${AWS_NAME_SecurityGroup}" ${AWS_KEY_NAME} "Ref: ParamKubeNodeName"
 
 #
