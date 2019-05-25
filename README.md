@@ -1,5 +1,4 @@
 # RDBOX (A Robotics Developers BOX)
-[![All Releases](https://img.shields.io/github/downloads/rdbox-intec/rdbox/total.svg)](https://github.com/rdbox-intec/rdbox/releases)
 [![Github Release](https://img.shields.io/github/release/rdbox-intec/rdbox.svg)](https://github.com/rdbox-intec/rdbox/releases)
 
 
@@ -20,7 +19,7 @@
 
 ### **Make It yourself!!**
 
-* The RDBOX Edge devices builds with Raspberry Pi 3B.
+* The RDBOX Edge devices builds with Raspberry Pi 3B/3B+.
 * There is no worry that the back port will be installed. (All source code and hardware are disclosed.)
 * Raspberry Pi provides you edge computing and Wi-Fi network and environmental sensors and more.
 * Provide assembly procedure and original SD card image.
@@ -48,6 +47,8 @@ If you just want to try RDBOX out, check out the [Our Wiki page](../../wiki) to 
 ## Components
 
 ### Our Components
+* [flashRDBOX](https://github.com/rdbox-intec/flashRDBOX)
+   - RDBOX command tool to write SD image files to SD card.
 * [go\-transproxy](https://github.com/rdbox-intec/go-transproxy)
    - Transparent proxy servers for HTTP, HTTPS, DNS and TCP.
 * [rdbox\-middleware](https://github.com/rdbox-intec/rdbox-middleware)
