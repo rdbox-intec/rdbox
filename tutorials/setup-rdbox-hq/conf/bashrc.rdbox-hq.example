@@ -8,6 +8,7 @@
 if [ "${RDBOX_HQ_BUILD_PF}" == "vb" ] ; then
     ANSIBLE_REMOTE_USER=ubuntu
     FILE_PRIVATE_KEY="${HOME}/.ssh/id_rsa"
+    FILE_PUBLIC_KEY="${HOME}/.ssh/id_rsa.pub"
 elif [ "${RDBOX_HQ_BUILD_PF}" == "aws" ] ; then
     if [ -e "${HOME}/.bashrc.rdbox-hq-aws" ] ; then
         source ${HOME}/.bashrc.rdbox-hq-aws
@@ -19,6 +20,7 @@ elif [ "${RDBOX_HQ_BUILD_PF}" == "aws" ] ; then
     fi
     ANSIBLE_REMOTE_USER=ubuntu
     FILE_PRIVATE_KEY=${AWS_PEM_FILE}
+    FILE_PUBLIC_KEY=${AWS_PUB_FILE}
 else
     echo "[ERROR]"
     exit 1
