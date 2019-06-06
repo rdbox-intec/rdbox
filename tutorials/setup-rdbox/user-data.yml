@@ -42,6 +42,17 @@ ntp:
         - ntp.nict.jp
 
 write_files:
+  ###########################################################################
+  # This writing item is used to switch between the full function version and
+  # the simplified version. (No quotes for strings are required.)
+  #
+  # detail
+  #    true: Start as a simplified version.
+  #   false: Start as a full function version.
+  ###########################################################################
+  - content: |
+      true
+    path: /var/lib/rdbox/.is_simple
   - content: |
       SUBSYSTEM=="net", ACTION=="add", DRIVERS=="?*", ATTR{address}=="b8:27:eb:??:??:??", ATTR{dev_id}=="0x0", ATTR{type}=="1", KERNEL=="eth*", NAME="eth0"
       SUBSYSTEM=="net", ACTION=="add", DRIVERS=="?*", ATTR{address}=="b8:27:eb:??:??:??", ATTR{dev_id}=="0x0", ATTR{type}=="1", KERNEL=="wlan*", NAME="wlan10"
