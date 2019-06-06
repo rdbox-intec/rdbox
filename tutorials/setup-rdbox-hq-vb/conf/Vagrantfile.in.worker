@@ -81,13 +81,14 @@ EOF
 			echo "RDBOX_USER_ACCOUNT ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/RDBOX_USER_ACCOUNT
 			chmod 0440 /etc/sudoers.d/RDBOX_USER_ACCOUNT
 			SSH_DIR=/home/RDBOX_USER_ACCOUNT/.ssh
-			ID_KEY=/vagrant/id_rsa
+			USER_KEY=/vagrant/id_rsa.common
+			USER_PUBKEY=/vagrant/id_rsa.pub.common
 			if [ ! -e $SSH_DIR ]; then
 				mkdir $SSH_DIR
 			fi
 			chmod 0700 $SSH_DIR
-			cp -p $ID_KEY $SSH_DIR/id_rsa
-			ssh-keygen -yf $SSH_DIR/id_rsa > $SSH_DIR/id_rsa.pub
+			cp -p $USER_KEY $SSH_DIR/id_rsa
+			cp -p $USER_PUBKEY $SSH_DIR/id_rsa.pub
 			cat $SSH_DIR/id_rsa.pub >> $SSH_DIR/authorized_keys
 			chown -R RDBOX_USER_ACCOUNT:RDBOX_USER_ACCOUNT $SSH_DIR
 			chmod 0600 $SSH_DIR/authorized_keys
