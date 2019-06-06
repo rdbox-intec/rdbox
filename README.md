@@ -3,19 +3,22 @@
 
 An open source IoT / Robotics platform that **provides ALL layers (L1 to L7)** of the OSI reference model.
 
-:point_down:"NETWORK and COMPUTER groups" will be built **automatically** and maintained **automatically**.:point_down:
-
+:bullettrain_side:It is **built automatically** and **maintained automatically**.:bullettrain_side:
+  
 <div align="center">
 <img src="./images/you_can_easily_make_by_rdbox.png" title="./images/you_can_easily_make_by_rdbox.png" width=720px></img>
 </div>
 
-
 You can get your only **mesh Wi-Fi network-covered space** and **compute power provided by [Kubernetes computer clusters](https://kubernetes.io/)** optimized for robots and IoT.
+
+The competitor's "robot development platform" does not support management of on-site networks and computers.
 
 These can be easily get with only **about 2 operations** for a virtual machine ([VirtualBox](https://www.virtualbox.org/) or [AWS](https://aws.amazon.com/jp/)) and [Raspberry Pi](https://www.raspberrypi.org/).
 
 ## Getting Started
 <img src="./images/prepare_by_you_of_rdbox.png" title="../images/prepare_by_you_of_rdbox.png" width=580px>
+
+Please also refer to [the latest release notes.](https://github.com/rdbox-intec/rdbox/releases)
 
 If you just want to try RDBOX out, check out the [Our Wiki page](../../wiki) to give it a whirl.
 
