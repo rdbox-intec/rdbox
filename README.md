@@ -3,41 +3,27 @@
 
 An open source IoT / Robotics platform that **provides ALL layers (L1 to L7)** of the OSI reference model.
 
-:point_down: As shown below :point_down:, "NETWORK and COMPUTER groups" will be built **automatically** and maintained **automatically**.
+:point_down:"NETWORK and COMPUTER groups" will be built **automatically** and maintained **automatically**.:point_down:
 
 <div align="center">
-<img src="./images/you_can_easily_make_by_rdbox.png" title="./images/you_can_easily_make_by_rdbox.png">
+<img src="./images/you_can_easily_make_by_rdbox.png" title="./images/you_can_easily_make_by_rdbox.png" width=720px></img>
 </div>
 
 
 You can get your only **mesh Wi-Fi network-covered space** and **compute power provided by [Kubernetes computer clusters](https://kubernetes.io/)** optimized for robots and IoT.
 
-These can be easily get with only **2 operations** for a virtual machine ([Oracle VM VirtualBox](https://www.virtualbox.org/) or [AWS](https://aws.amazon.com/jp/)) and [Raspberry Pi](https://www.raspberrypi.org/).
+These can be easily get with only **about 2 operations** for a virtual machine ([VirtualBox](https://www.virtualbox.org/) or [AWS](https://aws.amazon.com/jp/)) and [Raspberry Pi](https://www.raspberrypi.org/).
 
 ## Getting Started
-It is possible to start with a small investment and to scale up.
-
-![prepare_by_you_of_rdbox.png](./images/prepare_by_you_of_rdbox.png "parts")
+<img src="./images/prepare_by_you_of_rdbox.png" title="../images/prepare_by_you_of_rdbox.png" width=580px>
 
 If you just want to try RDBOX out, check out the [Our Wiki page](../../wiki) to give it a whirl.
+
+It is possible to start with a small investment and to scale up.
+
 * [One of our utilities, flashRDBOX, ](https://github.com/rdbox-intec/flashRDBOX)allows interactive dependency injection (DI) to RaspberryPi. There is no need for difficult operations.
 * If you own [TurtleBot3](http://emanual.robotis.com/docs/en/platform/turtlebot3/overview/), you can also experience the deployment of ROS applications.
 * Otherwise, you can learn the procedure for building development environment with RDBOX.
-
-## Compared with other robotics platforms.
-Advantages compared to competitor's "robot development platform".
-### The RDBOX Provides ALL layers (L1 to L7) of the OSI reference model.
-* Competitor's "robot development platform" does not support it. You may need to pay a great deal of money to a specialist for consultation.
-   - Providing access points via mesh Wi-Fi. The robot just connects to the access point.
-   - It is possible to get security measures such as VPN and firewall andmore..., and convenient functions such as network application. 
-### The RDBOX can be made with general equipment.
-* You can start using it with the "laptop" and "Raspberry Pi3B / 3B +" you may already have.
-   - You can start using it with the "laptop" and "Raspberry Pi3B / 3B +" you may already have.
-### The RDBOX take in the good points of other companies' robot development platforms.
-* It can be used by combining "simulator linkage" and "existing API service" that other companies are good at.
-   - Object Detection API
-   - Reinforcement learning by Gazebo.
-   - and more..
 
 ## Features
 Make your job easy with **3 features**.
@@ -66,8 +52,23 @@ Make your job easy with **3 features**.
 * Many network applications, including NTP, are offered with the product. Automate your network robot management.
 * All you need is a power source. Cover the whole movable range of mobile robots with a Wi-Fi network.
 
-
 ![RDBOX_FETURES.gif](./images/rdbox_fetures.png "fetures")
+
+
+## Compared with other robotics platforms.
+**3 Advantages** compared to competitor's "robot development platform".
+### 1. The RDBOX Provides ALL layers (L1 to L7) of the OSI reference model.
+* Competitor's "robot development platform" does not support it. You may need to pay a great deal of money to a specialist for consultation.
+   - Providing access points via mesh Wi-Fi. The robot just connects to the access point.
+   - It is possible to get security measures such as VPN and firewall andmore..., and convenient functions such as network application. 
+### 2. The RDBOX can be made with general equipment.
+* You can start using it with the "laptop" and "Raspberry Pi3B / 3B +" you may already have.
+   - You can start using it with the "laptop" and "Raspberry Pi3B / 3B +" you may already have.
+### 3. The RDBOX take in the good points of other companies' robot development platforms.
+* It can be used by combining "simulator linkage" and "existing API service" that other companies are good at.
+   - Object Detection API
+   - Reinforcement learning by Gazebo.
+   - and more..
 
 
 ## Components
