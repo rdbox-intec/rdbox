@@ -38,6 +38,8 @@ if [ -z "$VAGRANT_PROXYCONF" ]; then
 fi
 
 ID_PUB=$HOME/.ssh/id_rsa.pub
+RDBOX_USER_KEY_FOR_COPY=id_rsa.common
+RDBOX_USER_PUBKEY_FOR_COPY=id_rsa.pub.common
 
 if [ -f $ID_PUB ]; then
 	cp -pf $ID_PUB .
@@ -57,9 +59,21 @@ if [ -z "$RDBOX_USER_KEY" ] ; then
 fi
 
 if [ -f $RDBOX_USER_KEY ]; then
-	cp -pf $RDBOX_USER_KEY id_rsa
+	cp -pf $RDBOX_USER_KEY $RDBOX_USER_KEY_FOR_COPY
 else
 	echo "$RDBOX_USER_KEY not found and stopped."
+	exit 0
+fi
+
+if [ -z "$RDBOX_USER_PUBKEY" ] ; then
+	echo "public key used for rdbox user is not specified and stopped."
+	exit 0
+fi
+
+if [ -f $RDBOX_USER_PUBKEY ]; then
+	cp -pf $RDBOX_USER_PUBKEY $RDBOX_USER_PUBKEY_FOR_COPY
+else
+	echo "$RDBOX_USER_PUBKEY not found and stopped."
 	exit 0
 fi
 
@@ -69,6 +83,10 @@ if [ -f id_rsa.pub ]; then
 	rm -f id_rsa.pub
 fi
 
-if [ -f id_rsa ]; then
-	rm -f id_rsa
+if [ -f $RDBOX_USER_KEY_FOR_COPY ]; then
+	rm -f $RDBOX_USER_KEY_FOR_COPY
+fi
+
+if [ -f $RDBOX_USER_PUBKEY_FOR_COPY ]; then
+	rm -f $RDBOX_USER_PUBKEY_FOR_COPY
 fi

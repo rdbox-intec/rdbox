@@ -9,6 +9,10 @@ RDBOX_USER_ACCOUNT=ubuntu
 # on the RDBOX network.
 RDBOX_USER_KEY=${HOME}/.ssh/id_rsa
 
+# [Confirmation] The file path of the user's ssh public key commonly used by machines
+# on the RDBOX network.
+RDBOX_USER_PUBKEY=${HOME}/.ssh/id_rsa.pub
+
 #--------------------------------------------------------
 # Software information
 #--------------------------------------------------------
