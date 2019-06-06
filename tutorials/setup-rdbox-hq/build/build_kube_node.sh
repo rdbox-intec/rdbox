@@ -106,8 +106,8 @@ do
     #
     echo "[INFO] ansible_ssh_port=${SERVER_SSH_PORT}"
 #    OPTS_BECOME_PASS="--ask-become-pass"
-    OPTS_EXTRA_VARS="VPN_SERVER_ADDRESS=${VPN_SERVER_ADDRESS} ansible_ssh_port=${SERVER_SSH_PORT} RDBOX_HQ_BUILD_PF=${RDBOX_HQ_BUILD_PF}"
-    ansible-playbook -i inventory.${SERVER_TYPE} ${OPTS_BECOME_PASS} -u "${ANSIBLE_REMOTE_USER}" --private-key=${FILE_PRIVATE_KEY} --extra-vars "${OPTS_EXTRA_VARS}" ${SERVER_TYPE}.yml
+    OPTS_EXTRA_VARS="VPN_SERVER_ADDRESS=${VPN_SERVER_ADDRESS} ansible_ssh_port=${SERVER_SSH_PORT} RDBOX_HQ_BUILD_PF=${RDBOX_HQ_BUILD_PF} FILE_PRIVATE_KEY=${FILE_PRIVATE_KEY} FILE_PUBLIC_KEY=${FILE_PUBLIC_KEY}"
+    ansible-playbook --timeout 120 -i inventory.${SERVER_TYPE} ${OPTS_BECOME_PASS} -u "${ANSIBLE_REMOTE_USER}" --private-key=${FILE_PRIVATE_KEY} --extra-vars "${OPTS_EXTRA_VARS}" ${SERVER_TYPE}.yml
     STA_ANSIBLE=$?
 done
 

@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# My key pair
+MY_PEM_FILE="${HOME}/.ssh/id_rsa"
+MY_PUB_FILE="${HOME}/.ssh/id_rsa.pub"
+
 # AWS
 ## directories
 DIR_AWS=${HOME}/aws

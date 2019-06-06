@@ -16,7 +16,27 @@
     - dnsutils
     - traceroute
 
-- name: make directory
+- name: make directory(0700)
+  file:
+    path: "{{ ansible_user_dir }}/{{ item }}"
+    state: directory
+    mode: 0700
+  with_items:
+    - .ssh
+
+- name: copy key files
+  copy:
+    src: "{{ item }}"
+    dest: "{{ ansible_user_dir }}/.ssh"
+    mode: 0640
+  with_items:
+    - "{{ FILE_PRIVATE_KEY }}"
+    - "{{ FILE_PUBLIC_KEY }}"
+
+- name: authorized_keys
+  shell: cat ".ssh/`basename {{ FILE_PUBLIC_KEY }}`" >> ".ssh/authorized_keys"
+
+- name: make directory(0750)
   file:
     path: "{{ ansible_user_dir }}/{{ item }}"
     state: directory
