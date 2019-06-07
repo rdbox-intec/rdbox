@@ -1,4 +1,6 @@
 # RDBOX (A Robotics Developers BOX)
+[日本語ページはこちら。 / Japanese Page Here.](https://github.com/rdbox-intec/rdbox/blob/master/README_ja.md)
+
 [![Github Release](https://img.shields.io/github/release/rdbox-intec/rdbox.svg)](https://github.com/rdbox-intec/rdbox/releases)
 
 An open source IoT / Robotics platform that **provides ALL layers (L1 to L7)** of the OSI reference model.
@@ -16,11 +18,11 @@ The competitor's "robot development platform" does not support management of on-
 These can be easily get with only **about 2 operations** for a virtual machine ([VirtualBox](https://www.virtualbox.org/) or [AWS](https://aws.amazon.com/jp/)) and [Raspberry Pi](https://www.raspberrypi.org/).
 
 ## Getting Started
-<img src="./images/prepare_by_you_of_rdbox.png" title="../images/prepare_by_you_of_rdbox.png" width=580px>
+<img src="./images/prepare_by_you_of_rdbox.png" title="../images/prepare_by_you_of_rdbox.png" width=600px>
 
 Please also refer to [the latest release notes.](https://github.com/rdbox-intec/rdbox/releases)
 
-If you just want to try RDBOX out, check out the [Our Wiki page](../../wiki) to give it a whirl.
+If you just want to try RDBOX out, check out the [Our Wiki page](../../wiki) to give it a whirl. （英語/日本語の二ヶ国語のマニュアルが用意されています。）
 
 It is possible to start with a small investment and to scale up.
 
@@ -66,7 +68,6 @@ Make your job easy with **3 features**.
    - It is possible to get security measures such as VPN and firewall andmore..., and convenient functions such as network application. 
 ### 2. The RDBOX can be made with general equipment.
 * You can start using it with the "laptop" and "Raspberry Pi3B / 3B +" you may already have.
-   - You can start using it with the "laptop" and "Raspberry Pi3B / 3B +" you may already have.
 ### 3. The RDBOX take in the good points of other companies' robot development platforms.
 * It can be used by combining "simulator linkage" and "existing API service" that other companies are good at.
    - Object Detection API
@@ -89,7 +90,7 @@ Make your job easy with **3 features**.
 ### Third Components
 * [hostapd](https://salsa.debian.org/debian/wpa)
    - hostapd is an IEEE 802.11 AP and IEEE 802.1X/WPA/WPA2/EAP/RADIUS Authenticator.
-   - We are applying and applying [rour patch.](https://github.com/rdbox-intec/softether-patches)
+   - We are applying and applying [our patch.](https://github.com/rdbox-intec/softether-patches)
 * [SoftEtherVPN\_Stable](https://github.com/SoftEtherVPN/SoftEtherVPN_Stable) 
    - Open Cross-platform Multi-protocol VPN Software.
    - We are applying and applying [our patch.](https://github.com/rdbox-intec/wpa-patches)
