@@ -5,11 +5,11 @@
 
 **OSI参照モデルのすべての層（L1からL7）を提供する** 、オープンソースのIoT / Roboticsプラットフォームです。。
 
-:point_down:「ネットワークとコンピュータのグループ」は、自動的に構築され、自動的に維持されます。:point_down:
-
 <div align="center">
 <img src="./images/you_can_easily_make_by_rdbox.png" title="./images/you_can_easily_make_by_rdbox.png" width=720px></img>
 </div>
+
+:point_down:「ネットワークとコンピュータのグループ」は、自動的に構築され、自動的に運用されます。:point_down:
 
 あなた専用の、 **メッシュWi-Fiネットワークで覆われた空間** 及び、 **ロボットとIoT用に最適化された [Kubernetesコンピュータクラスタ](https://kubernetes.io/)** によって提供される計算資源を得ることができます。
 

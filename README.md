@@ -4,12 +4,12 @@
 [![Github Release](https://img.shields.io/github/release/rdbox-intec/rdbox.svg)](https://github.com/rdbox-intec/rdbox/releases)
 
 An open source IoT / Robotics platform that **provides ALL layers (L1 to L7)** of the OSI reference model.
-
-:bullettrain_side:It is **built automatically** and **maintained automatically**.:bullettrain_side:
   
 <div align="center">
 <img src="./images/you_can_easily_make_by_rdbox.png" title="./images/you_can_easily_make_by_rdbox.png" width=720px></img>
 </div>
+
+:bullettrain_side:It is **built automatically** and **maintained automatically**.:bullettrain_side:
 
 You can get your only **mesh Wi-Fi network-covered space** and **compute power provided by [Kubernetes computer clusters](https://kubernetes.io/)** optimized for robots and IoT.
 
