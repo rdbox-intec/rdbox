@@ -3,36 +3,64 @@
 
 [![Github Release](https://img.shields.io/github/release/rdbox-intec/rdbox.svg)](https://github.com/rdbox-intec/rdbox/releases)
 
-**OSI参照モデルのすべての層（L1からL7）を提供する** 、オープンソースのIoT / Roboticsプラットフォームです。。
+RDBOXはROSロボットのためのインフラストラクチャです。 これらはあなたのロボットのようにとてもスマートです。
 
 <div align="center">
 <img src="./images/you_can_easily_make_by_rdbox.png" title="./images/you_can_easily_make_by_rdbox.png" width=720px></img>
 </div>
+<div align="center">
+<img src="./images/L1-L7.png" title="./images/L1-L7.png" width=720px></img>
+</div>
 
-:point_down:「ネットワークとコンピュータのグループ」は、自動的に構築され、自動的に運用されます。:point_down:
+ROS向けのインフラストラクチャは自動的に構築され自動的に維持されます。
+* あなただけのITインフラを手に入れることができます。
+   - OSI参照モデルの **すべての層（L1からL7）** を提供します。
+   - **メッシュWi-Fiネットワークで覆われたスペース** by [Raspberry Pi](https://www.raspberrypi.org/)
+   - **堅牢なセキュリティ**
+   - **計算資源** by [Kubernetes computer clusters](https://kubernetes.io/)
+   - **ROS APPsの展開と更新** by [Kubernetes computer clusters](https://kubernetes.io/)
+* 現場で作業するロボットをサポートします。
+   - 既存のエンタープライズネットワークの一部を分離し、安全・便利に使用することが可能です。
+      - [SoftEtherVPN\_Stable](https://github.com/SoftEtherVPN/SoftEtherVPN_Stable) 
+      - [go\-transproxy](https://github.com/rdbox-intec/go-transproxy)
+   - 他のロボット開発プラットフォームは現場でのサポートが不十分です。
 
-あなた専用の、 **メッシュWi-Fiネットワークで覆われた空間** 及び、 **ロボットとIoT用に最適化された [Kubernetesコンピュータクラスタ](https://kubernetes.io/)** によって提供される計算資源を得ることができます。
+これらは**2つのターゲット**に対する操作だけで簡単に手に入ります。
+* Virtual machine ([VirtualBox](https://www.virtualbox.org/) or [AWS](https://aws.amazon.com/jp/)). 
+   - Run the Script!!
+* [Raspberry Pi](https://www.raspberrypi.org/).
+   - Burn the SDCARD Image!!!
 
-他の「ロボット開発プラットフォーム」は、オンサイトネットワークおよびコンピュータ管理までのタスクはサポートしていません。しかし、本来この部分は非常に難易度が高く、導入・維持に時間を要するものです。
-
-これらは、仮想マシン（[VirtualBox](https://www.virtualbox.org/) or [AWS](https://aws.amazon.com/jp/)）と[Raspberry Pi](https://www.raspberrypi.org/)に対して、 **2通りの操作（Run Script & Burn SDCard）** をするだけで簡単に取得できます。
 
 ## 導入方法
 <img src="./images/prepare_by_you_of_rdbox.png" title="../images/prepare_by_you_of_rdbox.png" width=600px>
 
 まずは、[最新のリリースノート](https://github.com/rdbox-intec/rdbox/releases)も参照してください。
 
-RDBOXを試す場合は、[Wiki](https://github.com/rdbox-intec/rdbox/wiki/Home-ja)をチェックしてください。（日本語、英語の二ヶ国語対応。）
+**RDBOXを試す場合は、[Wiki](https://github.com/rdbox-intec/rdbox/wiki/Home-ja)をチェックしてください。（日本語、英語の二ヶ国語対応。）**
 
-RDBOXは、小さな投資から始めて徐々に規模を拡大することが可能なアーキテクチャです。
+* Example) [Install VirtualBox](https://github.com/rdbox-intec/rdbox/wiki/setup-rdbox-hq-vb-1-install_tools-en)
+   - 続きは [Wiki page](https://github.com/rdbox-intec/rdbox/wiki/setup-rdbox-hq-vb-2-prepare_virtual_machine-en)へ
+
+   ```bash
+   $ mkdir ${HOME}/git
+   $ cd {HOME}/git
+   $ git clone --depth 1 https://github.com/rdbox-intec/rdbox.git
+   $ cd ${HOME}/git/rdbox/tutorials/setup-rdbox-hq-vb/conf
+   $ cp -p rdbox-hq-vb.params.sample rdbox-hq-vb.params
+   $ vi rdbox-hq-vb.params
+   $ cd ${HOME}/git/rdbox/tutorials/setup-rdbox-hq-vb/setup-VirtualBox
+   $ sudo sh setupVirtualBox.sh
+   $ cd ${HOME}/git/rdbox/tutorials/setup-rdbox-hq-vb/setup-vagrant
+   $ sudo sh setupVagrant.sh
+   ```
+
 * 私たちのユーティリティの一つ、[flashRDBOX](https://github.com/rdbox-intec/flashRDBOX)は、RaspberryPiへの対話型依存性注入（DI）を可能にします。 難しい操作は必要ありません。
 * [TurtleBot3](http://emanual.robotis.com/docs/en/platform/turtlebot3/overview/)を所有している場合は、ROSアプリケーションの配置を含めた全てのチュートリアルを体験できます。
 * [TurtleBot3](http://emanual.robotis.com/docs/en/platform/turtlebot3/overview/)を所有していない場合でも、RDBOXで開発環境を構築するための手順を学ぶことができます。
 
 ## RDBOXの特徴
 あなたのプロジェクトの負荷を軽減する、 **3つの特徴**
-
-
 
 ### 1.「ROSロボット」を実行しているすべてのリソースを柔軟にコントロールします。
 * ユーザは、今までの[roslaunch](http://wiki.ros.org/roslaunch)でアプリを展開するよりも簡単で創造的な開発経験を得るでしょう。 roslaunchよりも多くのロボット（群ロボット）を制御することが容易になります。

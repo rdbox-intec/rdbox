@@ -1,30 +1,59 @@
 # RDBOX (A Robotics Developers BOX)
-[日本語ページはこちら。 / Japanese Page Here.](https://github.com/rdbox-intec/rdbox/blob/master/README_ja.md)
+[Japanese Page link](https://github.com/rdbox-intec/rdbox/blob/master/README_ja.md)
 
 [![Github Release](https://img.shields.io/github/release/rdbox-intec/rdbox.svg)](https://github.com/rdbox-intec/rdbox/releases)
 
-An open source IoT / Robotics platform that **provides ALL layers (L1 to L7)** of the OSI reference model.
-  
+RDBOX is a infrastructure for ROS robots. These is very smart like your robot.
+
 <div align="center">
 <img src="./images/you_can_easily_make_by_rdbox.png" title="./images/you_can_easily_make_by_rdbox.png" width=720px></img>
 </div>
+<div align="center">
+<img src="./images/L1-L7.png" title="./images/L1-L7.png" width=720px></img>
+</div>
 
-:bullettrain_side:It is **built automatically** and **maintained automatically**.:bullettrain_side:
+It is **built automatically** and **maintained automatically**.
+* You can get your only IT infrastructure.
+   - **Provides ALL layers (L1 to L7)** of the OSI reference model.
+   - **Mesh Wi-Fi network-covered space** by [Raspberry Pi](https://www.raspberrypi.org/)
+   - **Strict security**
+   - **Compute power provided** by [Kubernetes computer clusters](https://kubernetes.io/)
+   - **Deploy and update ROS APPs** by [Kubernetes computer clusters](https://kubernetes.io/)
+* Full support for your robot working in on-site.
+   - It is easy to separate part of the existing Enterprise network.
+      - [SoftEtherVPN\_Stable](https://github.com/SoftEtherVPN/SoftEtherVPN_Stable) 
+      - [go\-transproxy](https://github.com/rdbox-intec/go-transproxy)
+   - Other Robot Development Platform not enough support on-site.
 
-You can get your only **mesh Wi-Fi network-covered space** and **compute power provided by [Kubernetes computer clusters](https://kubernetes.io/)** optimized for robots and IoT.
+These can be easily get with only **about operations for 2 target.**
+* Virtual machine ([VirtualBox](https://www.virtualbox.org/) or [AWS](https://aws.amazon.com/jp/)). 
+   - Run the Script!!
+* [Raspberry Pi](https://www.raspberrypi.org/).
+   - Burn the SDCARD Image!!!
 
-The competitor's "robot development platform" does not support management of on-site networks and computers.
-
-These can be easily get with only **about 2 operations** for a virtual machine ([VirtualBox](https://www.virtualbox.org/) or [AWS](https://aws.amazon.com/jp/)) and [Raspberry Pi](https://www.raspberrypi.org/).
 
 ## Getting Started
 <img src="./images/prepare_by_you_of_rdbox.png" title="../images/prepare_by_you_of_rdbox.png" width=600px>
 
 Please also refer to [the latest release notes.](https://github.com/rdbox-intec/rdbox/releases)
 
-If you just want to try RDBOX out, check out the [Our Wiki page](../../wiki) to give it a whirl. （英語/日本語の二ヶ国語のマニュアルが用意されています。）
+**If you just want to try RDBOX out, check out the [Our Wiki page](../../wiki) to give it a whirl. （英語/日本語の二ヶ国語のマニュアルが用意されています。）**
 
-It is possible to start with a small investment and to scale up.
+* Example) [Install VirtualBox](https://github.com/rdbox-intec/rdbox/wiki/setup-rdbox-hq-vb-1-install_tools-en)
+   - Continue to [Our Wiki page](https://github.com/rdbox-intec/rdbox/wiki/setup-rdbox-hq-vb-2-prepare_virtual_machine-en)
+
+   ```bash
+   $ mkdir ${HOME}/git
+   $ cd {HOME}/git
+   $ git clone --depth 1 https://github.com/rdbox-intec/rdbox.git
+   $ cd ${HOME}/git/rdbox/tutorials/setup-rdbox-hq-vb/conf
+   $ cp -p rdbox-hq-vb.params.sample rdbox-hq-vb.params
+   $ vi rdbox-hq-vb.params
+   $ cd ${HOME}/git/rdbox/tutorials/setup-rdbox-hq-vb/setup-VirtualBox
+   $ sudo sh setupVirtualBox.sh
+   $ cd ${HOME}/git/rdbox/tutorials/setup-rdbox-hq-vb/setup-vagrant
+   $ sudo sh setupVagrant.sh
+   ```
 
 * [One of our utilities, flashRDBOX, ](https://github.com/rdbox-intec/flashRDBOX)allows interactive dependency injection (DI) to RaspberryPi. There is no need for difficult operations.
 * If you own [TurtleBot3](http://emanual.robotis.com/docs/en/platform/turtlebot3/overview/), you can also experience the deployment of ROS applications.
@@ -109,3 +138,6 @@ Make Robot Engineers' Work a Lot Easier. You can control Network Robot with ease
 
 ## Licence
 Licensed under the [MIT](/LICENSE) license.
+
+## Contacts
+RDBOX Project (info-rdbox@intec.co.jp)
