@@ -25,7 +25,7 @@ It is **built automatically** and **maintained automatically**.
       - [go\-transproxy](https://github.com/rdbox-intec/go-transproxy)
    - Other Robot Development Platform not enough support on-site.
 
-These can be easily get with only **about operations for 2 target.**
+Get with only **about operations for 2 target.**
 * Virtual machine ([VirtualBox](https://www.virtualbox.org/) or [AWS](https://aws.amazon.com/jp/)). 
    - Run the Script!!
 * [Raspberry Pi](https://www.raspberrypi.org/).
