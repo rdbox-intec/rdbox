@@ -180,8 +180,7 @@ EOF
 			sed -i -e "s/127.0.1.1/MASTER_RDBOX_IP/" /etc/hosts
 cat <<EOF > /usr/local/bin/rdbox-network.sh
 sleep 60
-ip route del default
-ip route del default
+ip route flush 0/0
 ip route add default via VPN_PRIVATE_IP
 EOF
 cat <<EOF > /lib/systemd/system/rdbox-network.service
