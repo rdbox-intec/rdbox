@@ -56,7 +56,7 @@ Vagrant.configure(2) do |config|
 			sed -i -e "s/127.0.1.1/VPN_RDBOX_IP/" /etc/hosts
 			echo "MASTER_RDBOX_IP   MASTER_HOSTNAME   MASTER_HOSTNAME" >> /etc/hosts
 			NIC1=`netstat -nr|grep DEFAULT_ADDRESS|awk '{print $8}'`
-			NIC2=`netstat -nr |awk '{if ($1 == "0.0.0.0") {print $8}}'`
+			NIC2=`netstat -nr |awk -v nic1="$NIC1" '{if ($1 == "0.0.0.0" && $8 != nic1) {print $8}}'`
 			NIC3=`netstat -nr|grep PRIVATE_ADDRESS|awk '{print $8}'`
 			PUBLIC_ADDRESS=`netstat -nr |grep $NIC2|awk '{if ($2 == "0.0.0.0") {print $1}}'`
 			PUBLIC_NETMASK=`netstat -nr |grep $NIC2|awk '{if ($2 == "0.0.0.0") {print $3}}'`
