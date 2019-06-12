@@ -79,10 +79,31 @@ RemainAfterExit=yes
 [Install]
 WantedBy=network-online.target
 EOF
+			DEFAULT_GW_IP=`netstat -nr |awk -v nic2="$NIC2" '{if ($1 == "0.0.0.0" && $8 == nic2) {print $2}}'`
+cat <<EOF > /usr/local/bin/rdbox-network.sh
+sleep 60
+ip route flush 0/0
+ip route add default via $DEFAULT_GW_IP
+EOF
+cat <<EOF > /lib/systemd/system/rdbox-network.service
+[Unit]
+Description=modify current network
+After=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/bin/sh /usr/local/bin/rdbox-network.sh
+RemainAfterExit=yes
+
+[Install]
+WantedBy=network-online.target
+EOF
 			systemctl enable systemd-networkd
 			systemctl enable systemd-networkd-wait-online
 			systemctl enable rdbox-iptables.service
 			systemctl start rdbox-iptables.service
+			systemctl enable rdbox-network.service
+			sh /usr/local/bin/rdbox-network.sh
 			wget -qO - "https://bintray.com/user/downloadSubjectPublicKey?username=rdbox" | sudo apt-key add -
 			echo "deb https://dl.bintray.com/rdbox/deb stretch main" | sudo tee -a /etc/apt/sources.list.d/rdbox.list
 			apt-get update
