@@ -20,4 +20,5 @@ wget https://releases.hashicorp.com/vagrant/${VAGRANT_INSTALL_VERSION}/vagrant_$
 dpkg -i vagrant_${VAGRANT_INSTALL_VERSION}_x86_64.deb
 vagrant plugin install vagrant-disksize
 vagrant plugin install vagrant-vbguest
+vagrant plugin install vagrant-proxyconf
 vagrant -v
