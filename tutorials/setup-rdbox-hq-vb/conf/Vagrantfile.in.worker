@@ -4,7 +4,7 @@ Vagrant.configure(2) do |config|
 		config.apt_proxy.https = "HTTPS_PROXY"
 	end
 
-	config.vm.box = "ubuntu/xenial64"
+	config.vm.box = "ubuntu/bionic64"
 
 	config.vm.define "WORKER_VMNAME" do |worker|
 		worker.vm.provider "virtualbox" do |vb|
@@ -38,9 +38,9 @@ Vagrant.configure(2) do |config|
 			apt-get update
 			apt-get install -y avahi-daemon
 			apt-get install -y python
+			NIC1=`netstat -nr|grep DEFAULT_ADDRESS|awk '{print $8}'`
+			NIC3=`netstat -nr|grep PRIVATE_ADDRESS|awk '{print $8}'`
 cat <<EOF > /usr/local/bin/rdbox-network.sh
-ip route del default
-ip route add default via VPN_PRIVATE_IP
 sed -i -e "s/^127\.0\.1\.1/#127\.0\.1\.1/" /etc/hosts
 EOF
 cat <<EOF > /lib/systemd/system/rdbox-network.service
@@ -60,10 +60,6 @@ EOF
 			systemctl enable systemd-networkd-wait-online
 			systemctl enable rdbox-network.service
 			sh /usr/local/bin/rdbox-network.sh
-			if [ ! -f /etc/dhcp/dhclient.conf.orig ] ; then
-				cp -p /etc/dhcp/dhclient.conf /etc/dhcp/dhclient.conf.orig
-			fi
-			sed -i -e "s/domain-name, domain-name-servers, domain-search, host-name,/domain-name, domain-search, host-name,/" /etc/dhcp/dhclient.conf
 			ID_PUB=/vagrant/id_rsa.pub
 			AUTH_KEYS=/home/vagrant/.ssh/authorized_keys
 			if [ -f $ID_PUB ] ; then
@@ -94,6 +90,10 @@ EOF
 			chmod 0600 $SSH_DIR/authorized_keys
 			chmod 0600 $SSH_DIR/id_rsa
 			chmod 0644 $SSH_DIR/id_rsa.pub
+			perl /vagrant/changeNetplanConfig.pl -d $NIC1 < /etc/netplan/50-cloud-init.yaml > /etc/netplan/50-cloud-init.yaml.mod
+			mv /etc/netplan/50-cloud-init.yaml.mod /etc/netplan/50-cloud-init.yaml
+			perl /vagrant/changeNetplanConfig.pl -a $NIC3 -r VPN_PRIVATE_IP < /etc/netplan/50-vagrant.yaml > /etc/netplan/50-vagrant.yaml.mod
+			mv /etc/netplan/50-vagrant.yaml.mod /etc/netplan/50-vagrant.yaml
 			reboot
 		SHELL
 	end
