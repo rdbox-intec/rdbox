@@ -45,6 +45,8 @@ if [ -z "$VAGRANT_PROXYCONF" ]; then
 	echo "done."
 fi
 
+cp -pf ../bin/changeNetplanConfig.sh .
+
 ID_PUB=$HOME/.ssh/id_rsa.pub
 RDBOX_USER_KEY_FOR_COPY=id_rsa.common
 RDBOX_USER_PUBKEY_FOR_COPY=id_rsa.pub.common
