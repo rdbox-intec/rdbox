@@ -29,11 +29,11 @@ VAGRANT_INSTALL_VERSION=2.2.0
 
 # [Change] HTTP proxy server URL
 # - When not using HTTP proxy server, make it a comment.
-HTTP_PROXY=http://192.168.100.60:3128/
+#HTTP_PROXY=http://192.168.100.60:3128/
 
 # [Change] HTTPS proxy server URL
 # - When not using HTTPS proxy server, make it a comment.
-HTTPS_PROXY=http://192.168.100.60:3128/
+#HTTPS_PROXY=http://192.168.100.60:3128/
 
 # [Confirmation] Interface name of the public network to be bridged
 # - From the output of "ifconfig -a", if there are multiple interfaces, specify the interface
