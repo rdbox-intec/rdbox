@@ -27,22 +27,51 @@
   register: val_lsb_release_cs
   changed_when: False
 
-- name: add apt repository for 'Kubernetes'
+#- name: add apt repository for 'Kubernetes(latest)'
+#  become: yes
+#  apt_repository:
+#    repo: "deb [arch=amd64] https://packages.cloud.google.com/apt/ kubernetes-{{ val_lsb_release_cs.stdout }} main"
+#    state: present
+
+- name: add apt repository for 'Kubernetes(xenial)'
   become: yes
   apt_repository:
-    repo: "deb [arch=amd64] https://packages.cloud.google.com/apt/ kubernetes-{{ val_lsb_release_cs.stdout }} main"
+    repo: "deb [arch=amd64] https://packages.cloud.google.com/apt/ kubernetes-xenial main"
     state: present
 
 - name: update packages
   become: yes
   apt: update_cache=yes
 
+- name: uninstall some packages(apt) for 'Kubernetes@ubuntu-18.04 on AWS'
+  become: yes
+  apt:
+    name: "{{ item }}"
+    state: absent
+  with_items:
+    - "cnitool"
+    - "cnitool-plugins"
+  ignore_errors: true
+
+#- name: uninstall some packages(snap) for 'Kubernetes@ubuntu-18.04 on AWS' [require ansible-2.8 or above]
+#  become: yes
+#  snap:
+#    name: "{{ item }}"
+#    state: absent
+#  with_items:
+#    - "kubelet-eks"
+#    - "kubectl-eks"
+#  ignore_errors: true
+
+- name: uninstall some packages(snap) for 'Kubernetes@ubuntu-18.04 on AWS'
+  become: yes
+  shell: snap remove kubelet-eks kubectl-eks
+
 - name: install packages for 'Kubernetes'
   become: yes
   apt:
     name: "{{ item }}"
     state: present
-    force: yes
   with_items:
     - "kubeadm={{ lookup('env', 'KUBEADM_VERSION') }}"
     - "kubelet={{ lookup('env', 'KUBELET_VERSION') }}"

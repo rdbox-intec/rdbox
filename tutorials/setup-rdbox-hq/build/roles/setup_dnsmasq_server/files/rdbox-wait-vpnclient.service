@@ -1,0 +1,14 @@
+[Unit]
+Description = Wait network interface for VPN
+Wants = multi-user.target
+After=network.target
+Before = dnsmasq.service
+
+[Service]
+Type = oneshot
+ExecStart = /usr/local/bin/rdbox-wait-vpnclient.sh
+Restart = no
+
+[Install]
+WantedBy = multi-user.target
+

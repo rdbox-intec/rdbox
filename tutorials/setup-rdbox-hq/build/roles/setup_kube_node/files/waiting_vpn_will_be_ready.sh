@@ -17,7 +17,7 @@ fi
 #
 while :
 do
-    STAT_INTERFACE=`ifconfig "${INTERFACE}" | grep 'inet addr:' | sed -e 's#  *# #g'`
+    STAT_INTERFACE=`ifconfig "${INTERFACE}" | grep 'inet ' | sed -e 's#  *# #g'`
     if [ "${STAT_INTERFACE}" != "" ] ; then
         echo "[INFO] Found IPv4 address(VPN) : ${STAT_INTERFACE}"
         break

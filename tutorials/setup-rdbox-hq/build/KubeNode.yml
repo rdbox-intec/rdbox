@@ -9,7 +9,7 @@
     - role: install_docker
     - role: install_kubernetes
     - role: setup_net_kube_node
-    - role: setup_dnsmasq_client
     - role: setup_vpnclient
+    - role: setup_dnsmasq_client
     - role: setup_kube_node
     - role: reboot

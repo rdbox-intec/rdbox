@@ -6,6 +6,27 @@
     - presetup_dnsmasq_server.sh
     - setup_dnsmasq_server.sh
 
+- name: make /usr/local/bin directory
+  become: yes
+  file:
+    path: "/usr/local/bin"
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+
+- name: copy some files for setup dnsmasq(/usr/local/bin)
+  become: yes
+  copy:
+    src: "../files/{{ item }}"
+    dest: "/usr/local/bin/"
+    owner: root
+    group: root
+    mode: 0755
+  with_items:
+    - rdbox-nameserver.sh
+    - rdbox-wait-vpnclient.sh
+
 - name: presetup dnsmasq(server)
   become: yes
   shell: "bash /home/${SUDO_USER}/rdbox/tmp/presetup_dnsmasq_server.sh | tee /home/${SUDO_USER}/rdbox/tmp/presetup_dnsmasq_server.log"

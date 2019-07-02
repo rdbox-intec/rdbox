@@ -51,6 +51,7 @@
           - - |
               #!/bin/bash -xe
             - |
+              export DEBIAN_FRONTEND=noninteractive
               apt-mark hold grub-pc
               apt -y update
 #              apt -y upgrade

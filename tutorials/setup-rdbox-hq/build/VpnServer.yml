@@ -6,7 +6,7 @@
     - role: common
     - role: install_softethervpn
     - role: setup_net_vpnserver
-    - role: setup_dnsmasq_server
     - role: setup_vpnserver
     - role: setup_vpnclient
+    - role: setup_dnsmasq_server
     - role: reboot
