@@ -12,7 +12,7 @@ if [ -z "$VM_NAME_OPT" ] ; then
 fi
 
 HOST_NIC=`netstat -nr|awk '{ if ($1 == "0.0.0.0") {print $8}}'`
-HOST_NETWORK=`netstat -nr|grep $HOST_NIC|awk '{ if ($2 == "0.0.0.0") {print $1}}'`
+HOST_NETWORK=`netstat -nr|grep $HOST_NIC|awk '{ if ($2 == "0.0.0.0" && $3 != "255.255.255.255") {print $1}}'`
 
 list_vm_name=`VBoxManage list vms | cut -d ' ' -f 1 | sed -e 's/\"//g'`
 
@@ -31,7 +31,7 @@ for vm_name in ${list_vm_name}; do
 	NIC=`echo $NIC | sed -e "s/[\r\n]\+//g"`
 
 	if [ -n "$NIC" ] ; then
-		VM_IP=`ssh -p $VM_PORT -l vagrant localhost "ifconfig $NIC|grep 'inet addr:'|sed -e 's/:/ /g'|awk '{print \\$3}'" 2> /dev/null`
+		VM_IP=`ssh -p $VM_PORT -l vagrant localhost "ifconfig $NIC|egrep -e '^\s+inet\s+'|awk '{print \\$2}'" 2> /dev/null`
 		VM_IP=`echo ${VM_IP}|sed -e "s/[\r\n]\+//g"`
 		echo "$VM_IP"
 		STATUS=1
