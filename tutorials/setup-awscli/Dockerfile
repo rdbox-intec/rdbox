@@ -1,6 +1,6 @@
-FROM ubuntu:16.04
+FROM ubuntu:18.04
 
-MAINTAINER rdbox <446_rdbox@intec.co.jp>
+MAINTAINER rdbox <info-rdbox@intec.co.jp>
 
 ENV LANG C.UTF-8
 

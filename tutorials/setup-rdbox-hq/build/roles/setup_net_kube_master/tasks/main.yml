@@ -4,7 +4,7 @@
     dest: "{{ ansible_user_dir }}/rdbox/tmp/"
   with_items:
     - set_hostname.sh
-    - ifconfig_vpn_rdbox_static.sh
+    - netplan_vpn_rdbox.sh
 
 - name: set hostname
   become: yes
@@ -12,6 +12,6 @@
 
 - name: set IP address(static) for vpn_rdbox
   become: yes
-  shell: "bash /home/${SUDO_USER}/rdbox/tmp/ifconfig_vpn_rdbox_static.sh | tee /home/${SUDO_USER}/rdbox/tmp/ifconfig_vpn_rdbox_static.log"
+  shell: "bash /home/${SUDO_USER}/rdbox/tmp/netplan_vpn_rdbox.sh | tee /home/${SUDO_USER}/rdbox/tmp/netplan_vpn_rdbox.log"
 
 #

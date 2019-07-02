@@ -3,10 +3,10 @@
     src: "../files/{{ item }}"
     dest: "{{ ansible_user_dir }}/rdbox/tmp/"
   with_items:
-    - ifconfig_vpn_rdbox_dhcp.sh
+    - netplan_vpn_rdbox.sh
 
 - name: setup Kubernetes node(set dhcp)
   become: yes
-  shell: "bash /home/${SUDO_USER}/rdbox/tmp/ifconfig_vpn_rdbox_dhcp.sh | tee /home/${SUDO_USER}/rdbox/tmp/ifconfig_vpn_rdbox_dhcp.log"
+  shell: "bash /home/${SUDO_USER}/rdbox/tmp/netplan_vpn_rdbox.sh | tee /home/${SUDO_USER}/rdbox/tmp/netplan_vpn_rdbox.log"
 
 #

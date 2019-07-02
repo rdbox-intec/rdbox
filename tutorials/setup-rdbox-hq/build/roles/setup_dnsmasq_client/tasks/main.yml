@@ -3,10 +3,14 @@
     src: "../files/{{ item }}"
     dest: "{{ ansible_user_dir }}/rdbox/tmp/"
   with_items:
+    - presetup_dnsmasq_client.sh
     - setup_dnsmasq_client.sh
   when: true
 
-#
+- name: presetup dnsmasq(client)
+  become: yes
+  shell: "bash /home/${SUDO_USER}/rdbox/tmp/presetup_dnsmasq_client.sh | tee /home/${SUDO_USER}/rdbox/tmp/presetup_dnsmasq_client.log"
+
 - name: setup dnsmasq(client)
   become: yes
   shell: "bash /home/${SUDO_USER}/rdbox/tmp/setup_dnsmasq_client.sh {{ VPN_SERVER_ADDRESS }} | tee /home/${SUDO_USER}/rdbox/tmp/setup_dnsmasq_client.log"

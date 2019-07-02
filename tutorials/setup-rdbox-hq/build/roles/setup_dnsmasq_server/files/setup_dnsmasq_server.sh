@@ -55,19 +55,15 @@ done
 #
 cat <<EOF > /etc/resolv.dnsmasq.conf
 ${DEFAULT_NameServer}
+nameserver 8.8.8.8
 EOF
 
 #
+systemctl enable dnsmasq.service
 systemctl restart dnsmasq.service
 
 #
-cat <<EOF > /usr/local/bin/rdbox-nameserver.sh
-echo "nameserver 127.0.0.1" > /etc/resolv.conf
-EOF
-chmod +x /usr/local/bin/rdbox-nameserver.sh
-
-#
-cat <<EOF > /lib/systemd/system/rdbox-nameserver.service
+cat <<EOF > /etc/systemd/system/rdbox-nameserver.service
 [Unit]
 Description=modify current network
 After=network-online.target
@@ -82,13 +78,32 @@ WantedBy=network-online.target
 EOF
 
 #
+cat <<EOF > /etc/systemd/system/rdbox-wait-vpnclient.service
+[Unit]
+Description = Wait network interface named 'vpn_rdbox'
+Wants = multi-user.target
+After=network.target
+Before = dnsmasq.service
+
+[Service]
+Type = oneshot
+ExecStart = /usr/local/bin/rdbox-wait-vpnclient.sh
+Restart = no
+
+[Install]
+WantedBy = multi-user.target
+EOF
+
+#
 systemctl enable systemd-networkd
 systemctl enable systemd-networkd-wait-online
 systemctl enable rdbox-nameserver.service
+systemctl enable rdbox-wait-vpnclient.service
 
 #
 systemctl restart systemd-networkd
 systemctl restart systemd-networkd-wait-online
 systemctl restart rdbox-nameserver.service
+systemctl restart rdbox-wait-vpnclient.service
 
 #
