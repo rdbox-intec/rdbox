@@ -132,12 +132,32 @@ Make your job easy with **3 features**.
 - etc.....
 
 
-
-## Vision
-Make Robot Engineers' Work a Lot Easier. You can control Network Robot with ease by our **RDBOX**
-
 ## Licence
 Licensed under the [MIT](/LICENSE) license.
 
-## Contacts
+## Contributing
+The following is a set of guidelines for contributing to RDBOX. 
+
+These are mostly guidelines, not rules. 
+
+Use your best judgment, and feel free to propose changes to this document in a pull request.
+
+* Contributions to our components that make up RDBOX apply similar rules.
+   - [flashRDBOX](https://github.com/rdbox-intec/flashRDBOX)
+   - [go\-transproxy](https://github.com/rdbox-intec/go-transproxy)
+   - [rdbox\-middleware](https://github.com/rdbox-intec/rdbox-middleware)
+   - [image\-builder\-rpi](https://github.com/rdbox-intec/image-builder-rpi)
+
+1. Fork this repository.
+2. Create a branch from `master` branch.
+3. Write code.
+4. Send a PR from the branch.
+
+## Support & Contacts
+For help and feedback, please feel free to contact us.
+
+E-mail consultant is also available.
+
 RDBOX Project (info-rdbox@intec.co.jp)
+
+**If you are favorite to RDBOX, please follow my GitHub account.**
