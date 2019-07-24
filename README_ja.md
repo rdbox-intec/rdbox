@@ -1,7 +1,9 @@
 # RDBOX (A Robotics Developers BOX)
 [English Page Here.](https://github.com/rdbox-intec/rdbox/blob/master/README.md)
 
+[![CircleCI](https://circleci.com/gh/rdbox-intec/image-builder-rpi.svg?style=svg)](https://circleci.com/gh/rdbox-intec/image-builder-rpi)
 [![Github Release](https://img.shields.io/github/release/rdbox-intec/rdbox.svg)](https://github.com/rdbox-intec/rdbox/releases)
+<a href='https://bintray.com/rdbox/deb/rdbox-middleware?source=watch' alt='Get automatic notifications about new "rdbox-middleware" versions'><img src='https://www.bintray.com/docs/images/bintray_badge_color.png' width=25px></a>
 
 RDBOXはROSロボットのためのインフラストラクチャです。 これらはあなたのロボットのようにとてもスマートです。
 

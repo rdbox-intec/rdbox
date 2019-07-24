@@ -1,7 +1,9 @@
 # RDBOX (A Robotics Developers BOX)
 [Japanese Page link](https://github.com/rdbox-intec/rdbox/blob/master/README_ja.md)
 
+[![CircleCI](https://circleci.com/gh/rdbox-intec/image-builder-rpi.svg?style=svg)](https://circleci.com/gh/rdbox-intec/image-builder-rpi)
 [![Github Release](https://img.shields.io/github/release/rdbox-intec/rdbox.svg)](https://github.com/rdbox-intec/rdbox/releases)
+<a href='https://bintray.com/rdbox/deb/rdbox-middleware?source=watch' alt='Get automatic notifications about new "rdbox-middleware" versions'><img src='https://www.bintray.com/docs/images/bintray_badge_color.png' width=25px></a>
 
 RDBOX is a infrastructure for ROS robots. These is very smart like your robot.
 
@@ -156,8 +158,9 @@ Use your best judgment, and feel free to propose changes to this document in a p
 ## Support & Contacts
 For help and feedback, please feel free to contact us.
 
-E-mail consultant is also available.
+ask Stack Overflow questions with [#rdbox](https://stackoverflow.com/questions/tagged/rdbox).
 
+or E-mail consultant is also available.
 RDBOX Project (info-rdbox@intec.co.jp)
 
 **If you are favorite to RDBOX, please follow my GitHub account.**
