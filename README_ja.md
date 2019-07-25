@@ -5,11 +5,14 @@
 [![Github Release](https://img.shields.io/github/release/rdbox-intec/rdbox.svg)](https://github.com/rdbox-intec/rdbox/releases)
 <a href='https://bintray.com/rdbox/deb/rdbox-middleware?source=watch' alt='Get automatic notifications about new "rdbox-middleware" versions'><img src='https://www.bintray.com/docs/images/bintray_badge_color.png' width=25px></a>
 
-RDBOXはROSロボットのためのインフラストラクチャです。 これらはあなたのロボットのようにとてもスマートです。
+RDBOXはROSロボットのためのITインフラストラクチャです。 これらはあなたのロボットのようにとてもスマートに動きます。
 
 <div align="center">
 <img src="./images/you_can_easily_make_by_rdbox.png" title="./images/you_can_easily_make_by_rdbox.png" width=720px></img>
 </div>
+
+OSI参照モデルのすべての層でアプリを保護します。
+
 <div align="center">
 <img src="./images/L1-L7.png" title="./images/L1-L7.png" width=720px></img>
 </div>
@@ -34,7 +37,7 @@ ROS向けのインフラストラクチャは自動的に構築され自動的�
    - Burn the SDCARD Image!!!
 
 
-## 導入方法
+## How to use
 <img src="./images/prepare_by_you_of_rdbox.png" title="../images/prepare_by_you_of_rdbox.png" width=600px>
 
 まずは、[最新のリリースノート](https://github.com/rdbox-intec/rdbox/releases)も参照してください。
@@ -135,4 +138,30 @@ ROS向けのインフラストラクチャは自動的に構築され自動的�
 - など
 
 ## Licence
-Licensed under the [MIT](/LICENSE) license.
+[MIT](/LICENSE).
+
+## Contributing
+以下はRDBOXにコントリビューションするための一連のガイドラインです。
+
+これらは主にガイドラインであり、規則ではありません。
+
+* RDBOXを構成する私たちのコンポーネントへの貢献は、同様の規則を適用します。
+   - [flashRDBOX](https://github.com/rdbox-intec/flashRDBOX)
+   - [go\-transproxy](https://github.com/rdbox-intec/go-transproxy)
+   - [rdbox\-middleware](https://github.com/rdbox-intec/rdbox-middleware)
+   - [image\-builder\-rpi](https://github.com/rdbox-intec/image-builder-rpi)
+
+1. リポジトリをフォークします
+2. `master` ブランチから派生したプルリクエスト用ブランチを作成します。
+3. コードを書きます。
+4. そのブランチからプルリクエストを送信して下さい。
+
+## サポート & 問い合わせ
+気軽にお問い合わせ下さい。
+
+Stack Overflowで[#rdbox](https://stackoverflow.com/questions/tagged/rdbox)タグをつけて質問することもできます。
+
+またはEメールも利用可能です。
+RDBOX Project (info-rdbox@intec.co.jp)
+
+** このプロジェクトが気に入りましたら、是非スターをお願いします。 **

@@ -1,45 +1,31 @@
 # RDBOX (A Robotics Developers BOX)
+
 [Japanese Page link](https://github.com/rdbox-intec/rdbox/blob/master/README_ja.md)
+
+RDBOX is a IT infrastructure for ROS robots. These is very smart like your ROS robot.
 
 [![CircleCI](https://circleci.com/gh/rdbox-intec/image-builder-rpi.svg?style=svg)](https://circleci.com/gh/rdbox-intec/image-builder-rpi)
 [![Github Release](https://img.shields.io/github/release/rdbox-intec/rdbox.svg)](https://github.com/rdbox-intec/rdbox/releases)
 <a href='https://bintray.com/rdbox/deb/rdbox-middleware?source=watch' alt='Get automatic notifications about new "rdbox-middleware" versions'><img src='https://www.bintray.com/docs/images/bintray_badge_color.png' width=25px></a>
 
-RDBOX is a infrastructure for ROS robots. These is very smart like your robot.
+Don’t be surprised, there IT infrastructure is **built automatically** and **maintained automatically**. [(DETAIL: Effect on you)](#Effect-on-you)  
+And that is got Effect with only **about operations for 2 target.** [(DETAIL: What you do)](#What-you-do)
 
-<div align="center">
+
 <img src="./images/you_can_easily_make_by_rdbox.png" title="./images/you_can_easily_make_by_rdbox.png" width=720px></img>
-</div>
-<div align="center">
+
+Of course, protect the app at all layers of the OSI reference model.
+
 <img src="./images/L1-L7.png" title="./images/L1-L7.png" width=720px></img>
-</div>
-
-It is **built automatically** and **maintained automatically**.
-* You can get your only IT infrastructure.
-   - **Provides ALL layers (L1 to L7)** of the OSI reference model.
-   - **Mesh Wi-Fi network-covered space** by [Raspberry Pi](https://www.raspberrypi.org/)
-   - **Strict security**
-   - **Compute power provided** by [Kubernetes computer clusters](https://kubernetes.io/)
-   - **Deploy and update ROS APPs** by [Kubernetes computer clusters](https://kubernetes.io/)
-* Full support for your robot working in on-site.
-   - It is easy to separate part of the existing Enterprise network.
-      - [SoftEtherVPN\_Stable](https://github.com/SoftEtherVPN/SoftEtherVPN_Stable) 
-      - [go\-transproxy](https://github.com/rdbox-intec/go-transproxy)
-   - Other Robot Development Platform not enough support on-site.
-
-Get with only **about operations for 2 target.**
-* Virtual machine ([VirtualBox](https://www.virtualbox.org/) or [AWS](https://aws.amazon.com/jp/)). 
-   - Run the Script!!
-* [Raspberry Pi](https://www.raspberrypi.org/).
-   - Burn the SDCARD Image!!!
 
 
-## Getting Started
+# How to use
 <img src="./images/prepare_by_you_of_rdbox.png" title="../images/prepare_by_you_of_rdbox.png" width=600px>
 
-Please also refer to [the latest release notes.](https://github.com/rdbox-intec/rdbox/releases)
-
-**If you just want to try RDBOX out, check out the [Our Wiki page](../../wiki) to give it a whirl. （英語/日本語の二ヶ国語のマニュアルが用意されています。）**
+1. Prepare RaspberryPi and AWS or PC. (Please see the [wiki](../../wiki) for details.)
+1. Please also refer to [the latest release notes.](https://github.com/rdbox-intec/rdbox/releases)
+1. **[If you just want to try RDBOX out, check out the Our Wiki page to give it a whirl](../../wiki). （英語/日本語の二ヶ国語のマニュアルが用意されています。）**
+1. Add star to this repo if you like it :smiley:. 
 
 * Example) [Install VirtualBox](https://github.com/rdbox-intec/rdbox/wiki/setup-rdbox-hq-vb-1-install_tools-en)
    - Continue to [Our Wiki page](https://github.com/rdbox-intec/rdbox/wiki/setup-rdbox-hq-vb-2-prepare_virtual_machine-en)
@@ -61,10 +47,26 @@ Please also refer to [the latest release notes.](https://github.com/rdbox-intec/
 * If you own [TurtleBot3](http://emanual.robotis.com/docs/en/platform/turtlebot3/overview/), you can also experience the deployment of ROS applications.
 * Otherwise, you can learn the procedure for building development environment with RDBOX.
 
-## Features
+# Effect on you
+* You can get your only IT infrastructure.
+   - **Provides ALL layers (L1 to L7)** of the OSI reference model.
+   - **Mesh Wi-Fi network-covered space** by [Raspberry Pi](https://www.raspberrypi.org/)
+   - **Strict security**
+   - **Compute power provided** by [Kubernetes computer clusters](https://kubernetes.io/)
+   - **Deploy and update ROS APPs** by [Kubernetes computer clusters](https://kubernetes.io/)
+* Full support for your robot working in on-site.
+   - It is easy to separate part of the existing Enterprise network.
+      - [SoftEtherVPN\_Stable](https://github.com/SoftEtherVPN/SoftEtherVPN_Stable) 
+      - [go\-transproxy](https://github.com/rdbox-intec/go-transproxy)
+   - Other Robot Development Platform not enough support on-site.
+# What you do
+* Run the Script on your Virtual machine ([VirtualBox](https://www.virtualbox.org/) or [AWS](https://aws.amazon.com/jp/)).
+* Burn the SDCARD Image for your [Raspberry Pi](https://www.raspberrypi.org/).
+
+# Features
 Make your job easy with **3 features**.
 
-### **1. Orchestrate all resources** running "ROS robots".
+## **1. Orchestrate all resources** running "ROS robots".
 * You will get a simpler and creative development experience than [deploying with traditional roslaunch](http://wiki.ros.org/roslaunch). Furthermore, it becomes easy to control a lot of groups of robots. 
 * Orchestrate ROS nodes on robots and conputer resources by [Kubernetes](https://kubernetes.io/).
     - **Allow mixing of x86 and ARM architecture CPU.**
@@ -74,7 +76,7 @@ Make your job easy with **3 features**.
 
 ![RDBOX_SHOW.gif](./images/RDBOX_SHOW.gif "show")
 
-### **2. Make It yourself!!**
+## **2. Make It yourself!!**
 * The RDBOX Edge devices builds with Raspberry Pi 3B/3B+.
 * There is no worry that the back port will be installed. (All source code and hardware are disclosed.)
 * Raspberry Pi provides you edge computing and Wi-Fi network and environmental sensors and more.
@@ -82,7 +84,7 @@ Make your job easy with **3 features**.
 
 ![parts_of_edge.jpeg](./images/parts_of_edge.jpeg "parts")
 
-### **3. NETWORK CONNECT**
+## **3. NETWORK CONNECT**
 * Easily set up a dedicated local area network for robots.
     - Simply connect RDBOX in between the internet and your service robot. In one simple step, you can build a local area network and development environment. No knowledge of internet or networking is necessary.
 * Many network applications, including NTP, are offered with the product. Automate your network robot management.
@@ -91,24 +93,24 @@ Make your job easy with **3 features**.
 ![RDBOX_FETURES.gif](./images/rdbox_fetures.png "fetures")
 
 
-## Compared with other robotics platforms.
+# Compared with other robotics platforms.
 **3 Advantages** compared to competitor's "robot development platform".
-### 1. The RDBOX Provides ALL layers (L1 to L7) of the OSI reference model.
+## 1. The RDBOX Provides ALL layers (L1 to L7) of the OSI reference model.
 * Competitor's "robot development platform" does not support it. You may need to pay a great deal of money to a specialist for consultation.
    - Providing access points via mesh Wi-Fi. The robot just connects to the access point.
    - It is possible to get security measures such as VPN and firewall andmore..., and convenient functions such as network application. 
-### 2. The RDBOX can be made with general equipment.
+## 2. The RDBOX can be made with general equipment.
 * You can start using it with the "laptop" and "Raspberry Pi3B / 3B +" you may already have.
-### 3. The RDBOX take in the good points of other companies' robot development platforms.
+## 3. The RDBOX take in the good points of other companies' robot development platforms.
 * It can be used by combining "simulator linkage" and "existing API service" that other companies are good at.
    - Object Detection API
    - Reinforcement learning by Gazebo.
    - and more..
 
 
-## Components
+# Components
 
-### Our Components
+## Our Components
 * [flashRDBOX](https://github.com/rdbox-intec/flashRDBOX)
    - RDBOX command tool to write SD image files to SD card.
 * [go\-transproxy](https://github.com/rdbox-intec/go-transproxy)
@@ -118,7 +120,7 @@ Make your job easy with **3 features**.
 * [image\-builder\-rpi](https://github.com/rdbox-intec/image-builder-rpi)
    - SD card image for Raspberry Pi with Docker: HypriotOS
 
-### Third Components
+## Third Components
 * [hostapd](https://salsa.debian.org/debian/wpa)
    - hostapd is an IEEE 802.11 AP and IEEE 802.1X/WPA/WPA2/EAP/RADIUS Authenticator.
    - We are applying and applying [our patch.](https://github.com/rdbox-intec/softether-patches)
@@ -134,10 +136,10 @@ Make your job easy with **3 features**.
 - etc.....
 
 
-## Licence
+# Licence
 Licensed under the [MIT](/LICENSE) license.
 
-## Contributing
+# Contributing
 The following is a set of guidelines for contributing to RDBOX. 
 
 These are mostly guidelines, not rules. 
@@ -155,7 +157,7 @@ Use your best judgment, and feel free to propose changes to this document in a p
 3. Write code.
 4. Send a PR from the branch.
 
-## Support & Contacts
+# Support & Contacts
 For help and feedback, please feel free to contact us.
 
 ask Stack Overflow questions with [#rdbox](https://stackoverflow.com/questions/tagged/rdbox).
