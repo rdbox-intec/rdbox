@@ -139,8 +139,7 @@ Make your job easy with **3 features**.
 
 
 # Our Mission
-<img src="./images/rdbox_logo_containers.png" width=180px>
-<img src="./images/rdbox_logo_tools.png" width=180px>
+<img src="./images/rdbox_logo_containers.png" width=180px></img><img src="./images/rdbox_logo_tools.png" width=180px></img>
 
 ## Solve: Short of talented engineers (48,000 people in Japan in 2020)
    - Robotics is a complex technology.
