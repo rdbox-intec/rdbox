@@ -1,11 +1,13 @@
-# RDBOX (A Robotics Developers BOX)
+<img src="./images/logo-untr.png" align="right" width=140px>
 
+# RDBOX (A Robotics Developers BOX)
 RDBOX is a IT infrastructure for ROS robots. These is very smart like your ROS robot.  
 [Japanese Page link](https://github.com/rdbox-intec/rdbox/blob/master/README_ja.md)
 
+
 [![CircleCI](https://circleci.com/gh/rdbox-intec/image-builder-rpi.svg?style=svg)](https://circleci.com/gh/rdbox-intec/image-builder-rpi)
 [![Github Release](https://img.shields.io/github/release/rdbox-intec/rdbox.svg)](https://github.com/rdbox-intec/rdbox/releases)
-<a href='https://bintray.com/rdbox/deb/rdbox-middleware?source=watch' alt='Get automatic notifications about new "rdbox-middleware" versions'><img src='https://www.bintray.com/docs/images/bintray_badge_color.png' width=25px></a>
+![Bintray](https://img.shields.io/bintray/v/rdbox/deb/rdbox-middleware)
 
 
 Don’t be surprised, there IT infrastructure is **built automatically** and **maintained automatically**. [(DETAIL: Effect on you)](#Effect-on-you)  
@@ -17,13 +19,15 @@ Of course, protect the app at all layers of the OSI reference model.
 
 
 # How to use
+Auto-build Kubernetes cluster(Use Docker as a containerd.) & Secure-Scalable Physical-network optimized for ROS robots.
+
 <img src="./images/prepare_by_you_of_rdbox.png" title="../images/prepare_by_you_of_rdbox.png" width=600px>
 
 1. Prepare RaspberryPi and AWS or PC. (Please see the [wiki](../../wiki) for details.)
 1. Please also refer to [the latest release notes.](https://github.com/rdbox-intec/rdbox/releases)
 1. **[If you just want to try RDBOX out, check out the Our Wiki page to give it a whirl](../../wiki). （英語/日本語の二ヶ国語のマニュアルが用意されています。）**
-1. Add star to this repo if you like it :smiley:. 
 
+## Supplementary information
 * Example) [Install VirtualBox](https://github.com/rdbox-intec/rdbox/wiki/setup-rdbox-hq-vb-1-install_tools-en)
    - Continue to [Our Wiki page](https://github.com/rdbox-intec/rdbox/wiki/setup-rdbox-hq-vb-2-prepare_virtual_machine-en)
 
@@ -56,6 +60,7 @@ Of course, protect the app at all layers of the OSI reference model.
       - [SoftEtherVPN\_Stable](https://github.com/SoftEtherVPN/SoftEtherVPN_Stable) 
       - [go\-transproxy](https://github.com/rdbox-intec/go-transproxy)
    - Other Robot Development Platform not enough support on-site.
+
 # What you do
 * Run the Script on your Virtual machine ([VirtualBox](https://www.virtualbox.org/) or [AWS](https://aws.amazon.com/jp/)).
 * Burn the SDCARD Image for your [Raspberry Pi](https://www.raspberrypi.org/).
@@ -132,6 +137,33 @@ Make your job easy with **3 features**.
    - support for NFS kernel server.
 - etc.....
 
+
+# Our Mission
+<img src="./images/rdbox_logo_containers.png" width=180px>
+<img src="./images/rdbox_logo_tools.png" width=180px>
+
+## Solve: Short of talented engineers (48,000 people in Japan in 2020)
+   - Robotics is a complex technology.
+   - Therefore, the backbone of the engineer is different. Naturally, IT skills of each engineer are not constant.
+   - The use of IT technology is essential to build a robot system that links various types of service robots and IoT devices.
+## RDBOX (a IT infrastructure for ROS robots.) Boosts the productivity of engineers with various backbones.
+   - for Engineer with various backbones.
+      - Create opportunities to experience "Advanced IT technologies".
+   - for Advanced IT Engineer
+      - Provides easy customization and high affinity to existing modules. (like a ToolBOX)
+   - for Robotics beginners
+      - Master the standard development process.(high productivity.)
+
+## Roadmap
+- [ ] Portable version
+- [ ] Multipoint connection
+- [ ] App Market
+- [ ] Multi-OS GUI SDWriter
+- [ ] aws and nvidia, cooperation
+- [ ] Create dedicated H/W
+- [ ] Docker File Generator
+- [ ] k8s. yaml file Generator
+- [ ] elastic plug-in
 
 # Licence
 Licensed under the [MIT](/LICENSE) license.
