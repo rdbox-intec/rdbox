@@ -10,15 +10,15 @@ RDBOX is a IT infrastructure for ROS robots. These is very smart like your ROS r
 ![Bintray](https://img.shields.io/bintray/v/rdbox/deb/rdbox-middleware)
 
 
-:simple_smile: Don’t be surprised, there IT infrastructure is **built automatically** and **maintained automatically**. [(DETAIL: Effect on you)](#Effect-on-you)  
-:simple_smile: And that is got Effect with only **about operations for 2 target.** [(DETAIL: What you do)](#What-you-do)
+:smiley: Don’t be surprised, there IT infrastructure is **built automatically** and **maintained automatically**. [(DETAIL: Effect on you)](#Effect-on-you)  
+:smiley: And that is got Effect with only **about operations for 2 target.** [(DETAIL: What you do)](#What-you-do)
 <img src="./images/you_can_easily_make_by_rdbox.png" title="./images/you_can_easily_make_by_rdbox.png" width=720px></img>
 
 Of course, protect the app at all layers of the OSI reference model.
 <img src="./images/L1-L7.png" title="./images/L1-L7.png" width=720px></img>
 
 Please do not worry. You can create an SD card easily by interactive command operation.
-<img src="./images/flashRDBOX-hight.gif" width=640px></img>
+<img src="./images/flashRDBOX-hight.gif" width=540px></img>
 
 
 # How to use
