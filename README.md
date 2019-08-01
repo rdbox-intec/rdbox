@@ -1,4 +1,4 @@
-<img src="./images/logo-untr.png" align="right" width=140px>
+<img src="./images/logo-untr.png" align="right" width=125px>
 
 # RDBOX (A Robotics Developers BOX)
 RDBOX is a IT infrastructure for ROS robots. These is very smart like your ROS robot.  
@@ -10,12 +10,15 @@ RDBOX is a IT infrastructure for ROS robots. These is very smart like your ROS r
 ![Bintray](https://img.shields.io/bintray/v/rdbox/deb/rdbox-middleware)
 
 
-Don’t be surprised, there IT infrastructure is **built automatically** and **maintained automatically**. [(DETAIL: Effect on you)](#Effect-on-you)  
-And that is got Effect with only **about operations for 2 target.** [(DETAIL: What you do)](#What-you-do)
+:simple_smile: Don’t be surprised, there IT infrastructure is **built automatically** and **maintained automatically**. [(DETAIL: Effect on you)](#Effect-on-you)  
+:simple_smile: And that is got Effect with only **about operations for 2 target.** [(DETAIL: What you do)](#What-you-do)
 <img src="./images/you_can_easily_make_by_rdbox.png" title="./images/you_can_easily_make_by_rdbox.png" width=720px></img>
 
 Of course, protect the app at all layers of the OSI reference model.
 <img src="./images/L1-L7.png" title="./images/L1-L7.png" width=720px></img>
+
+Please do not worry. You can create an SD card easily by interactive command operation.
+<img src="./images/flashRDBOX-hight.gif" width=640px></img>
 
 
 # How to use
@@ -164,9 +167,6 @@ Make your job easy with **3 features**.
 - [ ] k8s. yaml file Generator
 - [ ] elastic plug-in
 
-# Licence
-Licensed under the [MIT](/LICENSE) license.
-
 # Contributing
 The following is a set of guidelines for contributing to RDBOX. 
 
@@ -194,3 +194,6 @@ or E-mail consultant is also available.
 RDBOX Project (info-rdbox@intec.co.jp)
 
 **If you are favorite to RDBOX, please follow my GitHub account.**
+
+# Licence
+Licensed under the [MIT](/LICENSE) license.
