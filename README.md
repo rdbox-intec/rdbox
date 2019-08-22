@@ -21,7 +21,8 @@ Of course, protect the app at all layers of the OSI reference model.
 Please do not worry. You can create an SD card easily by interactive command operation.
 <img src="./images/flashRDBOX-hight.gif" width=540px></img>
 
-This is just an example of RDBOX functionality. You can easily control robots at multiple locations. Many other functions are available.
+This is just an example of RDBOX functionality. You can easily control robots at multiple locations.  
+Many other functions are available in RDBOX.  
 <img src="./images/rdbox-multi-sites.png" width=600px></img>
 
 ---
