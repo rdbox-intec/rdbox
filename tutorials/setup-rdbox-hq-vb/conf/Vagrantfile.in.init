@@ -82,7 +82,7 @@ EOF
 			systemctl enable rdbox-iptables.service
 			systemctl start rdbox-iptables.service
 			wget -qO - "https://bintray.com/user/downloadSubjectPublicKey?username=rdbox" | sudo apt-key add -
-			echo "deb https://dl.bintray.com/rdbox/deb stretch main" | sudo tee -a /etc/apt/sources.list.d/rdbox.list
+			echo "deb https://dl.bintray.com/rdbox/deb buster main" | sudo tee -a /etc/apt/sources.list.d/rdbox.list
 			apt-get update
 			apt-get install -y transproxy
 cat <<EOF > /etc/transproxy/http_proxy
