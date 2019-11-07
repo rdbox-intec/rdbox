@@ -3,6 +3,7 @@
 # Please uncomment a line.
 #RDBOX_HQ_BUILD_PF="vb"   # "virtual-box"
 #RDBOX_HQ_BUILD_PF="aws"
+#RDBOX_HQ_BUILD_PF="example" # "example"
 
 #
 if [ "${RDBOX_HQ_BUILD_PF}" == "vb" ] ; then
