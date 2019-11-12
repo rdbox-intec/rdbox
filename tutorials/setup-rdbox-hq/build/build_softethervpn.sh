@@ -23,6 +23,7 @@ curl -L --output ${FILE_SOFTETHER_SRC_TAR_GZ} ${URL_SOFTETHER_RELEASE}
 tar xvfz ${FILE_SOFTETHER_SRC_TAR_GZ}
 
 #
+umask 022
 cd ${SOFTETHER_VERSION}
 ./configure
 make
