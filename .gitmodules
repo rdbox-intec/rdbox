@@ -13,3 +13,6 @@
 [submodule "go-transproxy"]
 	path = go-transproxy
 	url = git@github.com:rdbox-intec/go-transproxy.git
+[submodule "rdboxGARIBAN"]
+	path = rdboxGARIBAN
+	url = git@github.com:rdbox-intec/rdboxGARIBAN.git

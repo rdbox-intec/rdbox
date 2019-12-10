@@ -18,8 +18,10 @@ And that is got Effect with only **Run the scripts** and **Burn the SDCARD.**
 Of course, protect the app at all layers of the OSI reference model.
 <img src="./images/L1-L7.png" title="./images/L1-L7.png" width=720px></img>
 
-Please do not worry. You can create an SD card easily by interactive command operation.
-<img src="./images/flashRDBOX-hight.gif" width=540px></img>
+Please do not worry. You can create an SD card easily by app. (Now offering Windows10 version. Mac and Linux versions will be released soon.)  
+:arrow_down: [Download Windows10](https://github.com/rdbox-intec/rdboxGARIBAN/releases/download/v0.1.0/rdboxGARIBAN-Setup-0.1.0.exe) | :arrow_down: Download MacOS | :arrow_down: Download Linux
+<img src="./images/GARIBAN_PV_Short.gif" width=540px></img>
+
 
 This is just an example of RDBOX functionality. You can easily control robots at multiple locations.  
 Many other functions are available in RDBOX.  
@@ -131,10 +133,10 @@ Make your job easy with **3 features**.
 
 -   Competitor's "robot development platform" does not support it. You may need to pay a great deal of money to a specialist for consultation.
     -   Providing access points via mesh Wi-Fi. The robot just connects to the access point.
-    -   It is possible to get security measures such as VPN and firewall andmore..., and convenient functions such as network application. 
-        ## 2. The RDBOX can be made with general equipment.
+    -   It is possible to get security measures such as VPN and firewall andmore..., and convenient functions such as network application.
+## 2. The RDBOX can be made with general equipment.
 -   You can start using it with the "laptop" and "Raspberry Pi3B / 3B +" you may already have.
-    ## 3. The RDBOX take in the good points of other companies' robot development platforms.
+## 3. The RDBOX take in the good points of other companies' robot development platforms.
 -   It can be used by combining "simulator linkage" and "existing API service" that other companies are good at.
     -   Object Detection API
     -   Reinforcement learning by Gazebo.
@@ -180,7 +182,7 @@ Make your job easy with **3 features**.
 -   Robotics is a complex technology.
 -   Therefore, the backbone of the engineer is different. Naturally, IT skills of each engineer are not constant.
 -   The use of IT technology is essential to build a robot system that links various types of service robots and IoT devices.
-    ## RDBOX (a IT infrastructure for ROS robots.) Boosts the productivity of engineers with various backbones.
+## RDBOX (a IT infrastructure for ROS robots.) Boosts the productivity of engineers with various backbones.
 -   for Engineer with various backbones.
     -   Create opportunities to experience "Advanced IT technologies".
 -   for Advanced IT Engineer
@@ -194,7 +196,7 @@ Make your job easy with **3 features**.
 -   [x] Multipoint connection
 -   [ ] Improved fault tolerance (multiple sites version)
 -   [ ] App Market
--   [ ] Multi-OS GUI SDWriter
+-   [x] Multi-OS GUI SDWriter
 -   [ ] aws and nvidia, cooperation
 -   [ ] Create dedicated H/W
 -   [ ] Docker File Generator
@@ -203,9 +205,9 @@ Make your job easy with **3 features**.
 
 # Contributing
 
-The following is a set of guidelines for contributing to RDBOX. 
+The following is a set of guidelines for contributing to RDBOX.  
 
-These are mostly guidelines, not rules. 
+These are mostly guidelines, not rules.  
 
 Use your best judgment, and feel free to propose changes to this document in a pull request.
 
