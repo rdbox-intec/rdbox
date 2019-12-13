@@ -132,6 +132,9 @@ EOF
 			mv /etc/netplan/50-cloud-init.yaml.mod /etc/netplan/50-cloud-init.yaml
 			reboot
 		SHELL
+		vpn.vm.provision :serverspec do |spec|
+			spec.pattern = "spec/rdbox-vpn/*_spec.rb"
+		end
 	end
 
 	config.vm.define "MASTER_VMNAME" do |master|
@@ -216,6 +219,9 @@ EOF
 			mv /etc/netplan/50-vagrant.yaml.mod /etc/netplan/50-vagrant.yaml
 			reboot
 		SHELL
+		master.vm.provision :serverspec do |spec|
+			spec.pattern = "spec/rdbox-master/*_spec.rb"
+		end
 	end
 
 end
