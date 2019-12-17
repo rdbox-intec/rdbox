@@ -19,7 +19,7 @@ Of course, protect the app at all layers of the OSI reference model.
 <img src="./images/L1-L7.png" title="./images/L1-L7.png" width=720px></img>
 
 Please do not worry. You can create an SD card easily by app. (Now offering Windows10 version. Mac and Linux versions will be released soon.)  
-:arrow_down: [Download Windows10](https://github.com/rdbox-intec/rdboxGARIBAN/releases/download/v0.1.0/rdboxGARIBAN-Setup-0.1.0.exe) | :arrow_down: Download MacOS | :arrow_down: Download Linux
+:arrow_down: [Download Windows10](https://github.com/rdbox-intec/rdboxGARIBAN/releases/download/v0.1.0/rdboxGARIBAN-Setup-0.1.0.exe) | :arrow_down: [Download MacOS](https://github.com/rdbox-intec/rdboxGARIBAN/releases/download/v0.1.0/rdboxGARIBAN-0.1.0.dmg) | :arrow_down: Download Linux
 <img src="./images/GARIBAN_PV_Short.gif" width=540px></img>
 
 
