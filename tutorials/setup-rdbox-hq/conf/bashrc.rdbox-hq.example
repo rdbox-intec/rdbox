@@ -35,11 +35,11 @@ SERVER_TYPE_KUBENODE='KubeNode'
 ### sudo apt-cache madison docker-ce
 export DOCKER_VERSION="5:18.09.2~3-0~ubuntu-bionic"
 ## Kubernetes version
-export KUBERNETES_VERSION="1.13.3"
-export KUBEADM_VERSION="1.13.3-00"
-export KUBELET_VERSION="1.13.3-00"
-export KUBECTL_VERSION="1.13.3-00"
-export KUBECNI_VERSION="0.6.0-00"
+export KUBERNETES_VERSION="1.13.12"
+export KUBEADM_VERSION="1.13.12-00"
+export KUBELET_VERSION="1.13.12-00"
+export KUBECTL_VERSION="1.13.12-00"
+export KUBECNI_VERSION="0.7.5-00"
 
 # VPN parameters
 ## virtual HUB name

@@ -21,6 +21,7 @@ Of course, protect the app at all layers of the OSI reference model.
 Please do not worry. You can create an SD card easily by app. (Now offering Windows10 version. Mac and Linux versions will be released soon.)  
 :arrow_down: [Download Windows10](https://github.com/rdbox-intec/rdboxGARIBAN/releases/download/v0.1.0/rdboxGARIBAN-Setup-0.1.0.exe) | :arrow_down: [Download MacOS](https://github.com/rdbox-intec/rdboxGARIBAN/releases/download/v0.1.0/rdboxGARIBAN-0.1.0.dmg) | :arrow_down: Download Linux
 <img src="./images/GARIBAN_PV_Short.gif" width=540px></img>
+[Click here for details.](https://github.com/rdbox-intec/rdboxGARIBAN)
 
 
 This is just an example of RDBOX functionality. You can easily control robots at multiple locations.  
@@ -109,7 +110,7 @@ Make your job easy with **3 features**.
 
 ## **2. Make It yourself!!**
 
--   The RDBOX Edge devices builds with Raspberry Pi 3B/3B+.
+-   The RDBOX Edge devices builds with Raspberry Pi 3B/3B+/4B.
 -   There is no worry that the back port will be installed. (All source code and hardware are disclosed.)
 -   Raspberry Pi provides you edge computing and Wi-Fi network and environmental sensors and more.
 -   Provide assembly procedure and original SD card image.
@@ -135,7 +136,7 @@ Make your job easy with **3 features**.
     -   Providing access points via mesh Wi-Fi. The robot just connects to the access point.
     -   It is possible to get security measures such as VPN and firewall andmore..., and convenient functions such as network application.
 ## 2. The RDBOX can be made with general equipment.
--   You can start using it with the "laptop" and "Raspberry Pi3B / 3B +" you may already have.
+-   You can start using it with the "laptop" and "Raspberry Pi3B / 3B + / 4B" you may already have.
 ## 3. The RDBOX take in the good points of other companies' robot development platforms.
 -   It can be used by combining "simulator linkage" and "existing API service" that other companies are good at.
     -   Object Detection API

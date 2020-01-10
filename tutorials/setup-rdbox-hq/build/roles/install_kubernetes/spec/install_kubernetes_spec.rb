@@ -2,22 +2,22 @@ require 'spec_helper'
 
 #
 describe package("kubeadm") do
-  it { should be_installed.with_version("1.13.2-00") }
+  it { should be_installed.with_version("1.13.12-00") }
 end      
 
 #
 describe package("kubelet") do
-  it { should be_installed.with_version("1.13.2-00") }
+  it { should be_installed.with_version("1.13.12-00") }
 end      
 
 #
 describe package("kubectl") do
-  it { should be_installed.with_version("1.13.2-00") }
+  it { should be_installed.with_version("1.13.12-00") }
 end      
 
 #
 describe package("kubernetes-cni") do
-  it { should be_installed.with_version("0.6.0-00") }
+  it { should be_installed.with_version("0.7.5-00") }
 end      
 
 #
