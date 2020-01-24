@@ -15,6 +15,7 @@
     packages:
     - dnsutils
     - traceroute
+    - iputils-ping
     - ipcalc
     - vim
 
