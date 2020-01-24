@@ -76,6 +76,9 @@ Vagrant.configure(2) do |config|
 			mv /etc/netplan/50-vagrant.yaml.mod /etc/netplan/50-vagrant.yaml
 			reboot
 		SHELL
+		worker.vm.provision :serverspec do |spec|
+			spec.pattern = "spec/rdbox-worker/*_spec.rb"
+		end
 	end
 
 end
