@@ -13,3 +13,9 @@
 [submodule "go-transproxy"]
 	path = go-transproxy
 	url = git@github.com:rdbox-intec/go-transproxy.git
+[submodule "rdboxGARIBAN"]
+	path = rdboxGARIBAN
+	url = git@github.com:rdbox-intec/rdboxGARIBAN.git
+[submodule "image-builder-x86"]
+	path = image-builder-x86
+	url = git@github.com:rdbox-intec/image-builder-x86.git
