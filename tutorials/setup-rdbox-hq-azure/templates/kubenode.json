@@ -1,0 +1,152 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "paramAdminPubKey": {
+      "type": "securestring"
+    },
+    "paramKubeNodeInstanceCount": {
+      "type": "int"
+    },
+    "paramResourcePrefix": {
+      "type": "string"
+    },
+    "paramAdminUsername": {
+      "type": "string"
+    },
+    "paramVmSizeKubeNode": {
+      "type": "string"
+    },
+    "paramOsDiskType": {
+      "type": "string"
+    },
+    "paramOsDiskSizeGBKubeNode": {
+      "type": "int"
+    }
+  },
+  "variables": {
+    "securityGroup": "[concat(parameters('paramResourcePrefix'), 'SecurityGroup')]",
+    "virtualNetworks": "[concat(parameters('paramResourcePrefix'), 'VirtualNetworks')]",
+    "subnet": "[concat(parameters('paramResourcePrefix'), 'Subnet')]",
+    "eIPKubeNode": "[concat(parameters('paramResourcePrefix'), 'EIPKubeNode')]",
+    "nICKubeNode": "[concat(parameters('paramResourcePrefix'), 'NICKubeNode')]",
+    "vmInstanceKubeNode": "[concat(parameters('paramResourcePrefix'), 'VmInstanceKubeNode')]",
+    "managedDiskKubeNode": "[concat(parameters('paramResourcePrefix'), 'ManagedDiskKubeNode')]",
+    "vNetID": "[resourceId('Microsoft.Network/virtualNetworks', variables('virtualNetworks'))]",
+    "subnetRef": "[concat(variables('vNetID'), '/subnets/', variables('subnet'))]",
+    "ubuntuOSVersion": "18.04-LTS",
+    "linuxConfiguration": {
+      "disablePasswordAuthentication": true,
+      "ssh": {
+        "publicKeys": [
+          {
+            "path": "[concat('/home/', parameters('paramAdminUsername'), '/.ssh/authorized_keys')]",
+            "keyData": "[parameters('paramAdminPubKey')]"
+          }
+        ]
+      }
+    }
+  },
+  "resources": [
+    {
+      "name": "[concat(variables('eIPKubeNode'), copyIndex())]",
+      "type": "Microsoft.Network/publicIPAddresses",
+      "apiVersion": "2019-11-01",
+      "location": "[resourceGroup().location]",
+      "copy": {
+        "name": "[concat(variables('eIPKubeNode'), 'Loop')]",
+        "count": "[parameters('paramKubeNodeInstanceCount')]"
+      },
+      "sku": {
+        "name": "Basic"
+      },
+      "properties": {
+        "publicIPAllocationMethod": "Dynamic"
+      }
+    },
+    {
+      "name": "[concat(variables('nICKubeNode'), copyIndex())]",
+      "type": "Microsoft.Network/networkInterfaces",
+      "apiVersion": "2019-11-01",
+      "location": "[resourceGroup().location]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Network/publicIPAddresses', concat(variables('eIPKubeNode'), copyIndex()))]"
+      ],
+      "copy": {
+        "name": "[concat(variables('nICKubeNode'), 'Loop')]",
+        "count": "[parameters('paramKubeNodeInstanceCount')]"
+      },
+      "properties": {
+        "networkSecurityGroup": {
+          "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('securityGroup'))]"
+        },
+        "ipConfigurations": [
+          {
+            "name": "RdboxhqKubeNodeIpconfig",
+            "properties": {
+              "privateIPAllocationMethod": "Dynamic",
+              "publicIPAddress": {
+                "id": "[resourceId('Microsoft.Network/publicIPAddresses', concat(variables('eIPKubeNode'), copyIndex()))]"
+              },
+              "subnet": {
+                "id": "[variables('subnetRef')]"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "[concat(variables('vmInstanceKubeNode'), copyIndex())]",
+      "type": "Microsoft.Compute/virtualMachines",
+      "apiVersion": "2019-07-01",
+      "location": "[resourceGroup().location]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Network/networkInterfaces', concat(variables('nICKubeNode'), copyIndex()))]"
+      ],
+      "copy": {
+        "name": "[concat(variables('vmInstanceKubeNode'), 'Loop')]",
+        "count": "[parameters('paramKubeNodeInstanceCount')]"
+      },
+      "properties": {
+        "hardwareProfile": {
+          "vmSize": "[parameters('paramVmSizeKubeNode')]"
+        },
+        "storageProfile": {
+          "osDisk": {
+            "name": "[concat(variables('managedDiskKubeNode'), copyIndex())]",
+            "createOption": "FromImage",
+            "diskSizeGB": "[parameters('paramOsDiskSizeGBKubeNode')]",
+            "managedDisk": {
+              "storageAccountType": "[parameters('paramOsDiskType')]"
+            }
+          },
+          "imageReference": {
+            "publisher": "Canonical",
+            "offer": "UbuntuServer",
+            "sku": "[variables('ubuntuOSVersion')]",
+            "version": "latest"
+          }
+        },
+        "networkProfile": {
+          "networkInterfaces": [
+            {
+              "id": "[resourceId('Microsoft.Network/networkInterfaces', concat(variables('nICKubeNode'), copyIndex()))]"
+            }
+          ]
+        },
+        "osProfile": {
+          "computerName": "[concat('k8s-node-', copyIndex())]",
+          "adminUsername": "[parameters('paramAdminUsername')]",
+          "linuxConfiguration": "[variables('linuxConfiguration')]"
+        }
+      }
+    }
+  ],
+  "outputs": {
+    "environmentOutput": {
+      "value": "[environment()]",
+      "type": "object"
+    }
+  }
+}

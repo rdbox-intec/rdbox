@@ -1,0 +1,522 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "paramYourGlobalIPAddress": {
+      "type": "string",
+      "minLength": 7,
+      "maxLength": 15,
+      "metadata": {
+        "description": "Your IP Address allowed to connect to Azure. For example, you can check it on the following (https://www.myglobalip.com/)"
+      }
+    },
+    "paramAdminPubKey": {
+      "type": "securestring",
+      "metadata": {
+        "description": "SSH Key for the Virtual Machine."
+      }
+    },
+    "paramKubeNodeInstanceCount": {
+      "type": "int",
+      "allowedValues": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "metadata": {
+        "description": "Number of Kubernetes Node servers"
+      }
+    },
+    "paramResourcePrefix": {
+      "type": "string",
+      "defaultValue": "Rdboxhq",
+      "metadata": {
+        "description": "Prefix for each resource name in the cluster"
+      }
+    },
+    "paramVPCCidrBlock": {
+      "type": "string",
+      "defaultValue": "172.16.0.0/12",
+      "minLength": 9,
+      "maxLength": 18,
+      "metadata": {
+        "description": "A address block reserved for this virtual network in CIDR notation."
+      }
+    },
+    "paramAdminUsername": {
+      "type": "string",
+      "defaultValue": "ubuntu",
+      "metadata": {
+        "description": "Username for the Virtual Machine."
+      }
+    },
+    "paramVmSizeVpnServer": {
+      "type": "string",
+      "defaultValue": "Standard_B1ms",
+      "metadata": {
+        "description": "Size of VM(https://docs.microsoft.com/en-us/azure/virtual-machines/linux/sizes)"
+      }
+    },
+    "paramVmSizeKubeMaster": {
+      "type": "string",
+      "defaultValue": "Standard_B2s",
+      "metadata": {
+        "description": "Size of VM(https://docs.microsoft.com/en-us/azure/virtual-machines/linux/sizes)"
+      }
+    },
+    "paramVmSizeKubeNode": {
+      "type": "string",
+      "defaultValue": "Standard_B2s",
+      "metadata": {
+        "description": "Size of VM(https://docs.microsoft.com/en-us/azure/virtual-machines/linux/sizes)"
+      }
+    },
+    "paramOsDiskType": {
+      "type": "string",
+      "defaultValue": "StandardSSD_LRS",
+      "allowedValues": [
+        "Standard_LRS",
+        "Premium_LRS",
+        "StandardSSD_LRS",
+        "UltraSSD_LRS"
+      ],
+      "metadata": {
+        "description": "Specifies the storage account type for the managed disk. "
+      }
+    },
+    "paramOsDiskSizeGBKubeMaster": {
+      "type": "int",
+      "defaultValue": 40,
+      "minValue": 1,
+      "maxValue": 1023,
+      "metadata": {
+        "description": "Disk Size of Kubernetes Master."
+      }
+    },
+    "paramOsDiskSizeGBKubeNode": {
+      "type": "int",
+      "defaultValue": 40,
+      "minValue": 1,
+      "maxValue": 1023,
+      "metadata": {
+        "description": "Disk Size of Kubernetes Node."
+      }
+    }
+  },
+  "variables": {
+    "securityGroup": "[concat(parameters('paramResourcePrefix'), 'SecurityGroup')]",
+    "virtualNetworks": "[concat(parameters('paramResourcePrefix'), 'VirtualNetworks')]",
+    "subnet": "[concat(parameters('paramResourcePrefix'), 'Subnet')]",
+    "eIPVpnServer": "[concat(parameters('paramResourcePrefix'), 'EIPVpnServer')]",
+    "eIPKubeMaster": "[concat(parameters('paramResourcePrefix'), 'EIPKubeMaster')]",
+    "nICVpnServer": "[concat(parameters('paramResourcePrefix'), 'NICVpnServer')]",
+    "nICKubeMaster": "[concat(parameters('paramResourcePrefix'), 'NICKubeMaster')]",
+    "vmInstanceVpnServer": "[concat(parameters('paramResourcePrefix'), 'VmInstanceVpnServer')]",
+    "vmInstanceKubeMaster": "[concat(parameters('paramResourcePrefix'), 'VmInstanceKubeMaster')]",
+    "managedDiskVpnServer": "[concat(parameters('paramResourcePrefix'), 'ManagedDiskVpnServer')]",
+    "managedDiskKubeMaster": "[concat(parameters('paramResourcePrefix'), 'ManagedDiskKubeMaster')]",
+    "templateKubeNode": "[concat(parameters('paramResourcePrefix'), 'TemplateKubeNode')]",
+    "templateKubeNodeUrl": "[uri(deployment().properties.templateLink.uri, 'templates/kubenode.json')]",
+    "yourGlobalCidrBlock": "[concat(parameters('paramYourGlobalIPAddress'), '/32')]",
+    "vNetID": "[resourceId('Microsoft.Network/virtualNetworks', variables('virtualNetworks'))]",
+    "subnetRef": "[concat(variables('vNetID'), '/subnets/', variables('subnet'))]",
+    "ubuntuOSVersion": "18.04-LTS",
+    "linuxConfiguration": {
+      "disablePasswordAuthentication": true,
+      "ssh": {
+        "publicKeys": [
+          {
+            "path": "[concat('/home/', parameters('paramAdminUsername'), '/.ssh/authorized_keys')]",
+            "keyData": "[parameters('paramAdminPubKey')]"
+          }
+        ]
+      }
+    }
+  },
+  "resources": [
+    {
+      "name": "[variables('securityGroup')]",
+      "type": "Microsoft.Network/networkSecurityGroups",
+      "apiVersion": "2019-11-01",
+      "location": "[resourceGroup().location]",
+      "tags": {
+      },
+      "properties": {
+        "securityRules": [
+          {
+            "properties": {
+              "description": "SSH",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "destinationPortRange": "22",
+              "sourceAddressPrefixes": [
+                "[variables('yourGlobalCidrBlock')]"
+              ],
+              "destinationAddressPrefix": "*",
+              "access": "Allow",
+              "direction": "Inbound",
+              "priority": 101
+            },
+            "name": "RdboxhqSecurityGroupIngress00001"
+          },
+          {
+            "properties": {
+              "description": "HTTPS",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "destinationPortRange": "443",
+              "sourceAddressPrefixes": [
+                "[variables('yourGlobalCidrBlock')]"
+              ],
+              "destinationAddressPrefix": "*",
+              "access": "Allow",
+              "direction": "Inbound",
+              "priority": 102
+            },
+            "name": "RdboxhqSecurityGroupIngress00002"
+          },
+          {
+            "properties": {
+              "description": "DASHBORD",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "destinationPortRange": "30443",
+              "sourceAddressPrefixes": [
+                "[variables('yourGlobalCidrBlock')]"
+              ],
+              "destinationAddressPrefix": "*",
+              "access": "Allow",
+              "direction": "Inbound",
+              "priority": 103
+            },
+            "name": "RdboxhqSecurityGroupIngress00003"
+          },
+          {
+            "properties": {
+              "description": "RDBOX INTERNAL TCP",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "destinationPortRange": "*",
+              "sourceAddressPrefixes": [
+                "192.168.179.0/24"
+              ],
+              "destinationAddressPrefix": "*",
+              "access": "Allow",
+              "direction": "Inbound",
+              "priority": 104
+            },
+            "name": "RdboxhqSecurityGroupIngress00004"
+          },
+          {
+            "properties": {
+              "description": "RDBOX INTERNAL UDP",
+              "protocol": "Udp",
+              "sourcePortRange": "*",
+              "destinationPortRange": "*",
+              "sourceAddressPrefixes": [
+                "192.168.179.0/24"
+              ],
+              "destinationAddressPrefix": "*",
+              "access": "Allow",
+              "direction": "Inbound",
+              "priority": 105
+            },
+            "name": "RdboxhqSecurityGroupIngress00005"
+          },
+          {
+            "properties": {
+              "description": "VPC TCP",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "destinationPortRange": "*",
+              "sourceAddressPrefixes": [
+                "[parameters('paramVPCCidrBlock')]"
+              ],
+              "destinationAddressPrefix": "*",
+              "access": "Allow",
+              "direction": "Inbound",
+              "priority": 106
+            },
+            "name": "RdboxhqSecurityGroupIngress00006"
+          },
+          {
+            "properties": {
+              "description": "VPC UDP",
+              "protocol": "Udp",
+              "sourcePortRange": "*",
+              "destinationPortRange": "*",
+              "sourceAddressPrefixes": [
+                "[parameters('paramVPCCidrBlock')]"
+              ],
+              "destinationAddressPrefix": "*",
+              "access": "Allow",
+              "direction": "Inbound",
+              "priority": 107
+            },
+            "name": "RdboxhqSecurityGroupIngress00007"
+          },
+          {
+            "properties": {
+              "description": "ICMP",
+              "protocol": "Icmp",
+              "sourcePortRange": "*",
+              "destinationPortRange": "*",
+              "sourceAddressPrefix": "*",
+              "destinationAddressPrefix": "*",
+              "access": "Allow",
+              "direction": "Inbound",
+              "priority": 108
+            },
+            "name": "RdboxhqSecurityGroupIngress00008"
+          }
+        ]
+      }
+    },
+    {
+      "name": "[variables('virtualNetworks')]",
+      "type": "Microsoft.Network/virtualNetworks",
+      "apiVersion": "2019-11-01",
+      "location": "[resourceGroup().location]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Network/networkSecurityGroups', variables('securityGroup'))]"
+      ],
+      "tags": {
+      },
+      "properties": {
+        "addressSpace": {
+          "addressPrefixes": [
+            "[parameters('paramVPCCidrBlock')]"
+          ]
+        },
+        "subnets": [
+          {
+            "properties": {
+              "addressPrefix": "[parameters('paramVPCCidrBlock')]",
+              "privateEndpointNetworkPolicies": "Enabled",
+              "privateLinkServiceNetworkPolicies": "Enabled"
+            },
+            "name": "[variables('subnet')]"
+          }
+        ]
+      }
+    },
+    {
+      "name": "[variables('eIPVpnServer')]",
+      "type": "Microsoft.Network/publicIPAddresses",
+      "apiVersion": "2019-11-01",
+      "location": "[resourceGroup().location]",
+      "sku": {
+        "name": "Basic"
+      },
+      "properties": {
+        "publicIPAllocationMethod": "Static"
+      }
+    },
+    {
+      "name": "[variables('eIPKubeMaster')]",
+      "type": "Microsoft.Network/publicIPAddresses",
+      "apiVersion": "2019-11-01",
+      "location": "[resourceGroup().location]",
+      "sku": {
+        "name": "Basic"
+      },
+      "properties": {
+        "publicIPAllocationMethod": "Static"
+      }
+    },
+    {
+      "name": "[variables('nICVpnServer')]",
+      "type": "Microsoft.Network/networkInterfaces",
+      "apiVersion": "2019-11-01",
+      "location": "[resourceGroup().location]",
+      "properties": {
+        "networkSecurityGroup": {
+          "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('securityGroup'))]"
+        },
+        "ipConfigurations": [
+          {
+            "name": "RdboxhqVpnServerIpconfig",
+            "properties": {
+              "privateIPAllocationMethod": "Dynamic",
+              "publicIPAddress": {
+                "id": "[resourceId('Microsoft.Network/publicIPAddresses', variables('eIPVpnServer'))]"
+              },
+              "subnet": {
+                "id": "[variables('subnetRef')]"
+              }
+            }
+          }
+        ]
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Network/publicIPAddresses', variables('eIPVpnServer'))]",
+        "[resourceId('Microsoft.Network/virtualNetworks', variables('virtualNetworks'))]",
+        "[resourceId('Microsoft.Network/networkSecurityGroups', variables('securityGroup'))]"
+      ]
+    },
+    {
+      "name": "[variables('nICKubeMaster')]",
+      "type": "Microsoft.Network/networkInterfaces",
+      "apiVersion": "2019-11-01",
+      "location": "[resourceGroup().location]",
+      "properties": {
+        "networkSecurityGroup": {
+          "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('securityGroup'))]"
+        },
+        "ipConfigurations": [
+          {
+            "name": "RdboxhqKubeMasterIpconfig",
+            "properties": {
+              "privateIPAllocationMethod": "Dynamic",
+              "publicIPAddress": {
+                "id": "[resourceId('Microsoft.Network/publicIPAddresses', variables('eIPKubeMaster'))]"
+              },
+              "subnet": {
+                "id": "[variables('subnetRef')]"
+              }
+            }
+          }
+        ]
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Network/publicIPAddresses', variables('eIPKubeMaster'))]",
+        "[resourceId('Microsoft.Network/virtualNetworks', variables('virtualNetworks'))]",
+        "[resourceId('Microsoft.Network/networkSecurityGroups', variables('securityGroup'))]"
+      ]
+    },
+    {
+      "name": "[variables('vmInstanceVpnServer')]",
+      "type": "Microsoft.Compute/virtualMachines",
+      "apiVersion": "2019-07-01",
+      "location": "[resourceGroup().location]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Network/networkInterfaces', variables('nICVpnServer'))]"
+      ],
+      "properties": {
+        "hardwareProfile": {
+          "vmSize": "[parameters('paramVmSizeVpnServer')]"
+        },
+        "storageProfile": {
+          "osDisk": {
+            "name": "[variables('managedDiskVpnServer')]",
+            "createOption": "FromImage",
+            "diskSizeGB": 30,
+            "managedDisk": {
+              "storageAccountType": "[parameters('paramOsDiskType')]"
+            }
+          },
+          "imageReference": {
+            "publisher": "Canonical",
+            "offer": "UbuntuServer",
+            "sku": "[variables('ubuntuOSVersion')]",
+            "version": "latest"
+          }
+        },
+        "networkProfile": {
+          "networkInterfaces": [
+            {
+              "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('nICVpnServer'))]"
+            }
+          ]
+        },
+        "osProfile": {
+          "computerName": "vpn-server",
+          "adminUsername": "[parameters('paramAdminUsername')]",
+          "linuxConfiguration": "[variables('linuxConfiguration')]"
+        }
+      }
+    },
+    {
+      "name": "[variables('vmInstanceKubeMaster')]",
+      "type": "Microsoft.Compute/virtualMachines",
+      "apiVersion": "2019-07-01",
+      "location": "[resourceGroup().location]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Network/networkInterfaces', variables('nICKubeMaster'))]"
+      ],
+      "properties": {
+        "hardwareProfile": {
+          "vmSize": "[parameters('paramVmSizeKubeMaster')]"
+        },
+        "storageProfile": {
+          "osDisk": {
+            "name": "[variables('managedDiskKubeMaster')]",
+            "createOption": "FromImage",
+            "diskSizeGB": "[parameters('paramOsDiskSizeGBKubeMaster')]",
+            "managedDisk": {
+              "storageAccountType": "[parameters('paramOsDiskType')]"
+            }
+          },
+          "imageReference": {
+            "publisher": "Canonical",
+            "offer": "UbuntuServer",
+            "sku": "[variables('ubuntuOSVersion')]",
+            "version": "latest"
+          }
+        },
+        "networkProfile": {
+          "networkInterfaces": [
+            {
+              "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('nICKubeMaster'))]"
+            }
+          ]
+        },
+        "osProfile": {
+          "computerName": "k8s-master",
+          "adminUsername": "[parameters('paramAdminUsername')]",
+          "linuxConfiguration": "[variables('linuxConfiguration')]"
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Resources/deployments",
+      "name": "[variables('templateKubeNode')]",
+      "apiVersion": "2017-05-10",
+      "dependsOn": [
+        "[resourceId('Microsoft.Network/virtualNetworks', variables('virtualNetworks'))]",
+        "[resourceId('Microsoft.Network/networkSecurityGroups', variables('securityGroup'))]"
+      ],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[variables('templateKubeNodeUrl')]"
+        },
+        "parameters": {
+          "paramAdminPubKey": {
+            "value": "[parameters('paramAdminPubKey')]"
+          },
+          "paramKubeNodeInstanceCount": {
+            "value": "[parameters('paramKubeNodeInstanceCount')]"
+          },
+          "paramResourcePrefix": {
+            "value": "[parameters('paramResourcePrefix')]"
+          },
+          "paramAdminUsername": {
+            "value": "[parameters('paramAdminUsername')]"
+          },
+          "paramVmSizeKubeNode": {
+            "value": "[parameters('paramVmSizeKubeNode')]"
+          },
+          "paramOsDiskType": {
+            "value": "[parameters('paramOsDiskType')]"
+          },
+          "paramOsDiskSizeGBKubeNode": {
+            "value": "[parameters('paramOsDiskSizeGBKubeNode')]"
+          }
+        }
+      }
+    }
+  ],
+  "outputs": {
+    "environmentOutput": {
+      "value": "[environment()]",
+      "type": "object"
+    }
+  }
+}
