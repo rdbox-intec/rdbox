@@ -22,3 +22,11 @@ vagrant plugin install vagrant-disksize
 vagrant plugin install vagrant-vbguest
 vagrant plugin install vagrant-proxyconf
 vagrant -v
+
+apt-get install -y ruby
+gem install bundler
+git clone https://github.com/vvchik/vagrant-serverspec.git
+cd vagrant-serverspec
+gem build vagrant-serverspec.gemspec
+vagrant plugin install ./`ls vagrant-serverspec-*.gem`
+cd ..

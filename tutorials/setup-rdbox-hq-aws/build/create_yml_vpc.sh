@@ -97,10 +97,10 @@ AWS_SGI_CidrIp="0.0.0.0/0"
 printf "${TEMPL_SecurityGroupIngress}\n" ${AWS_NAME_SecurityGroupIngress} ${AWS_DeletionPolicy} ${AWS_NAME_SecurityGroup} ${AWS_SGI_IpProtocol} ${AWS_SGI_FromPort} ${AWS_SGI_ToPort} ${AWS_SGI_CidrIp} ${AWS_NAME_SecurityGroupIngress}
 
 # EIP(VpnServer)
-printf "${TEMPL_EIP}\n" ${AWS_NAME_EIP_VpnServer} ${AWS_DeletionPolicy}
+printf "${TEMPL_EIP}\n" ${AWS_NAME_EIP_VpnServer} ${AWS_DeletionPolicy} ${AWS_NAME_EIP_VpnServer}
 
 # EIP(KubeMaster)
-printf "${TEMPL_EIP}\n" ${AWS_NAME_EIP_KubeMaster} ${AWS_DeletionPolicy}
+printf "${TEMPL_EIP}\n" ${AWS_NAME_EIP_KubeMaster} ${AWS_DeletionPolicy} ${AWS_NAME_EIP_KubeMaster}
 
 ##### Export #####
 printf "${TEMPL_Outputs}\n"
