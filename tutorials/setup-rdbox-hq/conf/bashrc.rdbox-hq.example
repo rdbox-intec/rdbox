@@ -23,6 +23,10 @@ elif [ "${RDBOX_HQ_BUILD_PF}" == "aws" ] ; then
     ANSIBLE_REMOTE_USER=ubuntu
     FILE_PRIVATE_KEY=${AWS_PEM_FILE}
     FILE_PUBLIC_KEY=${AWS_PUB_FILE}
+elif [ "${RDBOX_HQ_BUILD_PF}" == "azure" ] ; then
+    ANSIBLE_REMOTE_USER=ubuntu
+    FILE_PRIVATE_KEY="${HOME}/.ssh/id_rsa"
+    FILE_PUBLIC_KEY="${HOME}/.ssh/id_rsa.pub"
 else
     echo "[ERROR]"
     exit 1
