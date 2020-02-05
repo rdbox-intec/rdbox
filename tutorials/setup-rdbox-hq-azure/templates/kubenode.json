@@ -125,7 +125,7 @@
             "publisher": "Canonical",
             "offer": "UbuntuServer",
             "sku": "[variables('ubuntuOSVersion')]",
-            "version": "latest"
+            "version": "18.04.201907221"
           }
         },
         "networkProfile": {

@@ -40,9 +40,12 @@ if [ "${RDBOX_HQ_BUILD_PF}" = "vb" ] ; then
 elif [ "${RDBOX_HQ_BUILD_PF}" = "aws" ] ; then
     echo "passed."
     echo "[INFO] This is 'AWS' setup mode."
+elif [ "${RDBOX_HQ_BUILD_PF}" = "azure" ] ; then
+    echo "passed."
+    echo "[INFO] This is 'Azure' setup mode."
 else
     echo "[ERROR] You must set 'RDBOX_HQ_BUILD_PF' value."
-    echo "[ERROR] e.g. 'vb' or 'aws'"
+    echo "[ERROR] e.g. 'vb' or 'aws' or 'azure'"
     echo "[INFO] Please edit '${HOME}/.bashrc.rdbox-hq'"
     STA=1
 fi

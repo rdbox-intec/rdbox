@@ -14,7 +14,7 @@ RUN apt-get update && \
     echo "e.g. 'apt-get -y install less locate'"
 
 RUN apt-get update && \
-    apt-get -y install ca-certificates curl apt-transport-https lsb-release gnupg && \
+    apt-get -y install jq ca-certificates curl apt-transport-https lsb-release gnupg && \
     curl -sL https://packages.microsoft.com/keys/microsoft.asc | \
     gpg --dearmor | \
     tee /etc/apt/trusted.gpg.d/microsoft.asc.gpg > /dev/null && \
