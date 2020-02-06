@@ -3,10 +3,6 @@
   # apt update requires this package.
   apt: pkg=aptitude state=present update_cache=yes
 
-- name: apt-mark hold packages for 'kernel'
-  become: yes
-  shell: apt-mark linux-image-generic linux-headers-generic
-
 - name: update packages
   become: yes
   apt: update_cache=yes upgrade=yes

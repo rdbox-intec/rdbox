@@ -36,7 +36,7 @@ Auto-build Kubernetes cluster(Use Docker as a containerd.) & Secure-Scalable Phy
 
 <img src="./images/prepare_by_you_of_rdbox.png" title="../images/prepare_by_you_of_rdbox.png" width=600px>
 
-1.  Prepare RaspberryPi and AWS or PC. (Please see the [wiki](../../wiki) for details.)
+1.  Prepare RaspberryPi and AWS or Azure or PC. (Please see the [wiki](../../wiki) for details.)
 2.  Please also refer to [the latest release notes.](https://github.com/rdbox-intec/rdbox/releases)
 3.  **[If you just want to try RDBOX out, check out the Our Wiki page to give it a whirl](../../wiki). （←英語/日本語の二ヶ国語のマニュアルが用意されています。）**
 
@@ -90,7 +90,7 @@ RDBOX based on HypriotOS (Debian GNU/Linux 10)
 
 # What you do
 
--   Run the Script on your Virtual machine ([VirtualBox](https://www.virtualbox.org/) or [AWS](https://aws.amazon.com/jp/)).
+-   Run the Script on your Virtual machine ([VirtualBox](https://www.virtualbox.org/) or [AWS](https://aws.amazon.com/) or [Azure](https://azure.microsoft.com/)).
 -   Burn the SDCARD Image for your [Raspberry Pi](https://www.raspberrypi.org/).
 
 # Features
@@ -102,10 +102,9 @@ Make your job easy with **3 features**.
 -   You will get a simpler and creative development experience than [deploying with traditional roslaunch](http://wiki.ros.org/roslaunch). Furthermore, it becomes easy to control a lot of groups of robots. 
 -   Orchestrate ROS nodes on robots and conputer resources by [Kubernetes](https://kubernetes.io/).
     -   **Allow mixing of x86 and ARM architecture CPU.**
-    -   k8s master will run on AWS EC2 or VirtualBox on your PC.
+    -   k8s master will run on AWS EC2 or Azure VirtualMachine VirtualBox on your PC.
 -   Connect with the robots and others by [Mesh Wi-Fi Network](https://www.open-mesh.org/projects/open-mesh/wiki).
--   Connect with the Clouds/On-Premise by [VPN Network](https://github.com/SoftEtherVPN/SoftEtherVPN_Stable).
-
+-   Connect with the Clouds/On-Premise by [VPN Network](https://github.com/SoftEtherVPN/SoftEtherVPN_Stable).  
 ![RDBOX_SHOW.gif](./images/RDBOX_SHOW.gif "show")
 
 ## **2. Make It yourself!!**
@@ -113,8 +112,7 @@ Make your job easy with **3 features**.
 -   The RDBOX Edge devices builds with Raspberry Pi 3B/3B+/4B.
 -   There is no worry that the back port will be installed. (All source code and hardware are disclosed.)
 -   Raspberry Pi provides you edge computing and Wi-Fi network and environmental sensors and more.
--   Provide assembly procedure and original SD card image.
-
+-   Provide assembly procedure and original SD card image.  
 ![parts_of_edge.jpeg](./images/parts_of_edge.jpeg "parts")
 
 ## **3. NETWORK CONNECT**
@@ -122,8 +120,7 @@ Make your job easy with **3 features**.
 -   Easily set up a dedicated local area network for robots.
     -   Simply connect RDBOX in between the internet and your service robot. In one simple step, you can build a local area network and development environment. No knowledge of internet or networking is necessary.
 -   Many network applications, including NTP, are offered with the product. Automate your network robot management.
--   All you need is a power source. Cover the whole movable range of mobile robots with a Wi-Fi network.
-
+-   All you need is a power source. Cover the whole movable range of mobile robots with a Wi-Fi network.  
 ![RDBOX_FETURES.gif](./images/rdbox_fetures.png "fetures")
 
 # Compared with other robotics platforms.
@@ -199,6 +196,7 @@ Make your job easy with **3 features**.
 -   [ ] App Market
 -   [x] Multi-OS GUI SDWriter
 -   [ ] aws and nvidia, cooperation
+-   [x] Azure
 -   [ ] Create dedicated H/W
 -   [ ] Docker File Generator
 -   [ ] k8s. yaml file Generator
