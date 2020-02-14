@@ -13,7 +13,7 @@ Don’t be surprised, there IT infrastructure is **built automatically** and **m
 [(DETAIL: Effect on you)](#Effect-on-you)  
 And that is got Effect with only **Run the scripts** and **Burn the SDCARD.**  
 [(DETAIL: What you do)](#What-you-do)
-<img src="./images/you_can_easily_make_by_rdbox.png" title="./images/you_can_easily_make_by_rdbox.png" width=720px></img>
+<img src="./images/you_can_easily_make_by_rdbox.png" title="./images/you_can_easily_make_by_rdbox.png" align="center" width=720px></img>
 
 Of course, protect the app at all layers of the OSI reference model.
 <img src="./images/L1-L7.png" title="./images/L1-L7.png" width=720px></img>
