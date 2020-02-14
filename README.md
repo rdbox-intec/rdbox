@@ -1,4 +1,4 @@
-<img src="./images/logo-untr.png" align="right" width=125px>
+<img src="./images/logo-untr.png" align="right" width=125px></img>
 
 # RDBOX (A Robotics Developers BOX)
 
@@ -10,9 +10,9 @@ RDBOX is a IT infrastructure for ROS robots. These is very smart like your ROS r
 ![Bintray](https://img.shields.io/bintray/v/rdbox/deb/rdbox-middleware)
 
 Don’t be surprised, there IT infrastructure is **built automatically** and **maintained automatically**.  
-[(DETAIL: Effect on you)](#Effect-on-you)  
+[(DETAIL: Effect on you)](#Effect-on-you)    
 And that is got Effect with only **Run the scripts** and **Burn the SDCARD.**  
-[(DETAIL: What you do)](#What-you-do)
+[(DETAIL: What you do)](#What-you-do)    
 <img src="./images/you_can_easily_make_by_rdbox.png" title="./images/you_can_easily_make_by_rdbox.png" align="center" width=720px></img>
 
 Of course, protect the app at all layers of the OSI reference model.
