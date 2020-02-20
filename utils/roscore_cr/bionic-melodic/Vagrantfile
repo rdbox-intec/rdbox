@@ -1,0 +1,49 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+ENV['VAGRANT_DEFAULT_PROVIDER'] = 'virtualbox'
+
+Vagrant.configure(2) do |config|
+  config.vm.box = "ubuntu/bionic64"
+
+  config.vm.network "public_network"
+
+  config.vm.synced_folder "../", "/home/vagrant/roscore_cr", owner: "vagrant", group: "vagrant"
+
+  config.vm.provider "virtualbox" do |vb|
+    # Customize the amount of memory on the VM:
+    vb.memory = "2048"
+    vb.cpus = 2
+  end
+
+  config.vm.provision "shell", inline: <<-SHELL
+    sudo apt-get update
+    sudo apt-get install -y \
+      apt-transport-https \
+      ca-certificates \
+      curl \
+      software-properties-common \
+      aufs-tools \
+      cgroupfs-mount \
+      libltdl7 \
+      pigz
+    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+    sudo add-apt-repository \
+      "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
+      $(lsb_release -cs) \
+      edge"
+    sudo apt-get update
+    wget https://download.docker.com/linux/ubuntu/dists/xenial/pool/stable/amd64/docker-ce_17.09.1~ce-0~ubuntu_amd64.deb
+    sudo dpkg -i docker-ce_17.09.1~ce-0~ubuntu_amd64.deb
+    echo '{
+  "experimental": true
+}' | sudo tee /etc/docker/daemon.json
+    sudo groupadd docker
+    sudo gpasswd -a $USER docker
+    sudo systemctl daemon-reload
+    sudo systemctl enable docker
+    sudo systemctl restart docker
+    sudo apt-get install -y \
+      criu
+  SHELL
+
+end

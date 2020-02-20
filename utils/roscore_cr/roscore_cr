@@ -1,0 +1,39 @@
+#!/bin/bash
+
+interval=10
+
+echo ${ROS_DISTRO:?}
+
+docker stop roscore
+docker rm roscore
+docker run --name=roscore --net=host -d ros:${ROS_DISTRO}-ros-core roscore $@
+echo `date +"%Y-%m-%d %H:%M:%S.%3N %z"` 'roscore is start.'
+
+function last () {
+    status=$?
+    echo `date +"%Y-%m-%d %H:%M:%S.%3N %z"` 'roscore is finish.'
+    echo `date +"%Y-%m-%d %H:%M:%S.%3N %z"` "status: $status"
+    docker checkpoint rm roscore checkpoint
+    docker stop roscore
+    docker rm roscore
+    echo `date +"%Y-%m-%d %H:%M:%S.%3N %z"` 'OK.'
+    exit $status
+}
+
+trap 'last' {1,2,3,15}
+
+while true
+do
+    isAlive=`docker ps | grep roscore | wc -l`
+    if [ $isAlive = 1 ]; then
+        echo `date +"%Y-%m-%d %H:%M:%S.%3N %z"` "roscore is running."
+        docker checkpoint rm roscore checkpoint
+        docker checkpoint create --leave-running roscore checkpoint
+        echo `date +"%Y-%m-%d %H:%M:%S.%3N %z"` "create checkpoint."
+    else
+        echo `date +"%Y-%m-%d %H:%M:%S.%3N %z"` "roscore is dead, restarting..."
+        docker start --checkpoint checkpoint roscore
+        echo `date +"%Y-%m-%d %H:%M:%S.%3N %z"` "restore checkpoint."
+    fi
+    sleep $interval
+done

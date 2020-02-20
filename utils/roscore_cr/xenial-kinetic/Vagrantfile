@@ -1,0 +1,54 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+ENV['VAGRANT_DEFAULT_PROVIDER'] = 'virtualbox'
+
+Vagrant.configure(2) do |config|
+  config.vm.box = "ubuntu/xenial64"
+
+  config.vm.network "public_network"
+
+  config.vm.synced_folder "../", "/home/vagrant/roscore_cr", owner: "vagrant", group: "vagrant"
+
+  config.vm.provider "virtualbox" do |vb|
+    # Customize the amount of memory on the VM:
+    vb.memory = "2048"
+    vb.cpus = 2
+  end
+
+  config.vm.provision "shell", inline: <<-SHELL
+    sudo apt-get update
+    sudo apt-get install -y linux-image-extra-4.13.0-43-generic
+    sudo apt-get install -y \
+      apt-transport-https \
+      ca-certificates \
+      curl \
+      software-properties-common
+    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+    sudo add-apt-repository \
+      "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
+      $(lsb_release -cs) \
+      stable"
+    sudo apt-get update
+    sudo apt-get install -y docker-ce=17.09.1~ce-0~ubuntu
+    echo '{
+  "experimental": true
+}' | sudo tee /etc/docker/daemon.json
+    sudo groupadd docker
+    sudo gpasswd -a $USER docker
+    sudo systemctl daemon-reload
+    sudo systemctl enable docker
+    sudo systemctl restart docker
+    sudo apt-get install -y \
+      libc6 \
+      libnet1 \
+      libnl-3-200 \
+      libprotobuf-c1 \
+      python \
+      python-ipaddr \
+      python-protobuf \
+      iproute2
+    wget http://lug.mtu.edu/ubuntu/pool/universe/c/criu/criu_3.6-2_amd64.deb
+    sudo dpkg -i criu_3.6-2_amd64.deb
+  SHELL
+
+end
