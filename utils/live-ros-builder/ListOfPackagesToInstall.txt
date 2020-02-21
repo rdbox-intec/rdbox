@@ -1,0 +1,7 @@
+clamav-daemon
+terminator
+apt-transport-https
+curl
+vim
+nano
+less
