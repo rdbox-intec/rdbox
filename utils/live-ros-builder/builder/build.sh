@@ -28,7 +28,7 @@ cp -rf ${BUILD_RESULT_PATH}/ListOfPackagesToInstall.txt ${BUILD_PATH}/live-ubunt
 mount --bind /dev ${BUILD_PATH}/live-ubuntu/chroot/dev
 mount --bind /run ${BUILD_PATH}/live-ubuntu/chroot/run
 
-chroot ${BUILD_PATH}/live-ubuntu/chroot /bin/bash < /builder/chroot-script.sh
+ROS_TARGET=$1 chroot ${BUILD_PATH}/live-ubuntu/chroot /bin/bash < /builder/chroot-script.sh
 
 umount ${BUILD_PATH}/live-ubuntu/chroot/dev
 umount ${BUILD_PATH}/live-ubuntu/chroot/run

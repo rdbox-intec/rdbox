@@ -10,7 +10,7 @@ And does not pollute your working environment. (Using docker and chroot)
 
 ## Get started
 1. Requirement
-   - Linux
+   - Linux(Tested on Ubuntu 18.04.)
    - Docker
    - Join the operator to the docker group so that you can execute the docker command without using sudo.
 
@@ -21,10 +21,24 @@ And does not pollute your working environment. (Using docker and chroot)
    ```
 
 2. Create ISO
+   - RTI Connext requires license agreement (installed with ROS2)
+      - Please check in advance. [RTI Software License Agreement \| Data Distribution Service \(DDS\) Community RTI Connext Users](https://community.rti.com/content/page/rti-software-license-agreement)
+
    - ROS1 (Melodic Morenia)
    ```bash
    $ make iso-ros1
    ```
+
+   - ROS2 (Dashing Diademata)
+   ```bash
+   $ make iso-ros2
+   ```
+
+   - ROS1 & ROS2
+   ```bash
+   $ make iso-all
+   ```
+
 
 3. Make a bootable USB image  
    It is simple and easy, using `dd`.  
