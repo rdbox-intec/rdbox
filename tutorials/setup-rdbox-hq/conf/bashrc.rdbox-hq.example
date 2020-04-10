@@ -4,6 +4,7 @@
 #RDBOX_HQ_BUILD_PF="vb"   # "virtual-box"
 #RDBOX_HQ_BUILD_PF="aws"
 #RDBOX_HQ_BUILD_PF="azure"
+#RDBOX_HQ_BUILD_PF="gcp"
 #RDBOX_HQ_BUILD_PF="example" # "example"
 
 #
@@ -24,6 +25,10 @@ elif [ "${RDBOX_HQ_BUILD_PF}" == "aws" ] ; then
     FILE_PRIVATE_KEY=${AWS_PEM_FILE}
     FILE_PUBLIC_KEY=${AWS_PUB_FILE}
 elif [ "${RDBOX_HQ_BUILD_PF}" == "azure" ] ; then
+    ANSIBLE_REMOTE_USER=ubuntu
+    FILE_PRIVATE_KEY="${HOME}/.ssh/id_rsa"
+    FILE_PUBLIC_KEY="${HOME}/.ssh/id_rsa.pub"
+elif [ "${RDBOX_HQ_BUILD_PF}" == "gcp" ] ; then
     ANSIBLE_REMOTE_USER=ubuntu
     FILE_PRIVATE_KEY="${HOME}/.ssh/id_rsa"
     FILE_PUBLIC_KEY="${HOME}/.ssh/id_rsa.pub"

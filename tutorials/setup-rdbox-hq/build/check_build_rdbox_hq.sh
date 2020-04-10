@@ -43,9 +43,12 @@ elif [ "${RDBOX_HQ_BUILD_PF}" = "aws" ] ; then
 elif [ "${RDBOX_HQ_BUILD_PF}" = "azure" ] ; then
     echo "passed."
     echo "[INFO] This is 'Azure' setup mode."
+elif [ "${RDBOX_HQ_BUILD_PF}" = "gcp" ] ; then
+    echo "passed."
+    echo "[INFO] This is 'Google Cloud Platform' setup mode."
 else
     echo "[ERROR] You must set 'RDBOX_HQ_BUILD_PF' value."
-    echo "[ERROR] e.g. 'vb' or 'aws' or 'azure'"
+    echo "[ERROR] e.g. 'vb' or 'aws' or 'azure' or 'gcp'"
     echo "[INFO] Please edit '${HOME}/.bashrc.rdbox-hq'"
     STA=1
 fi

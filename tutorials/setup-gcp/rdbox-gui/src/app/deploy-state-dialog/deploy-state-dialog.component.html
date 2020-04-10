@@ -1,0 +1,32 @@
+<h1 mat-dialog-title>{{title}} {{percent}}%</h1>
+<div mat-dialog-content>
+  <mat-progress-bar mode="determinate" [value]="percent"></mat-progress-bar>
+  <div class="message">
+    <mat-form-field appearance="outline">
+      <textarea matInput
+                placeholder="Done resources list."
+                id="tarea-done"
+                [value]='doneMessage'
+                [matTextareaAutosize]="true"
+                [matAutosizeMaxRows]=4
+                [matAutosizeMinRows]=4
+                readonly>
+      </textarea>
+    </mat-form-field >
+    <mat-form-field appearance="outline">
+      <textarea matInput
+                placeholder="Error messages list."
+                id="tarea-err"
+                [value]='errMessage'
+                [matTextareaAutosize]="true"
+                [matAutosizeMaxRows]=4
+                [matAutosizeMinRows]=4
+                readonly>
+      </textarea>
+    </mat-form-field >
+  </div>
+</div>
+<div mat-dialog-actions align="end">
+    <button *ngIf="isSuccess" mat-button (click)="onClickDone()">Success</button>
+    <button *ngIf="isError" mat-button (click)="onClickBack()">Modify</button>
+</div>

@@ -1,6 +1,8 @@
 ---
 - name: VpnServer
   hosts: VpnServer
+  environment:
+    SUDO_USER: "{{ SUDO_USER }}"
   roles:
     - role: check_vpn
     - role: common

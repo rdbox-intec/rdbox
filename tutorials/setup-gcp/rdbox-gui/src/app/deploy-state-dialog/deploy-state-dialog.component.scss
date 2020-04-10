@@ -1,0 +1,19 @@
+.mat-dialog-actions {
+  // ...
+  &[align='end'] {
+    justify-content: flex-end;
+  }
+
+  &[align='center'] {
+    justify-content: center;
+  }
+}
+
+.mat-form-field {
+  width: 100%;
+}
+
+.message {
+  margin-top: 30px;
+  overflow: hidden;
+}

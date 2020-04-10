@@ -1,0 +1,76 @@
+info:
+  title: RDBOX Template
+  author: Tatsuya Fukuta
+  description: Bootstrap RDBOX for GCP.
+  version: 1.0
+
+imports:
+- path: network-template.jinja
+
+required:
+- project
+- region
+- zone
+- yourGlobalIPAddress
+- kubeNodeInstanceCount
+- resourcesPrefix
+- vpcCidrBlock
+- vmSizeVpnServer
+- vmSizeKubeMaster
+- vmSizeKubeNode
+- osDiskType
+- osDiskSizeGBKubeMaster
+- osDiskSizeGBKubeNode
+
+properties:
+  project:
+    type: string
+    description: Your Project ID. (Project ID that have already been created.)
+
+  region:
+    type: string
+    description: e.g. asia-northeast1, us-east1, europe-west2 etc..
+
+  zone:
+    type: string
+    description: e.g. asia-northeast1-a, us-east1-a,  europe-west2-b
+
+  yourGlobalIPAddress:
+    type: string
+    description: Your IP Address allowed to connect to Azure. For example, you can check it on the following (https://www.myglobalip.com/)
+
+  kubeNodeInstanceCount:
+    type: integer
+    description: "Number of Kubernetes Node servers"
+
+  resourcesPrefix:
+    type: string
+    description: Prefix for each resource name in the cluster
+
+  vpcCidrBlock:
+    type: string
+    description: A address block reserved for this virtual network in CIDR notation.
+
+  vmSizeVpnServer:
+    type: string
+    description: Size of VM(https://cloud.google.com/compute/docs/machine-types#general_purpose)
+
+  vmSizeKubeMaster:
+    type: string
+    description: Size of VM(https://cloud.google.com/compute/docs/machine-types#general_purpose)
+
+  vmSizeKubeNode:
+    type: string
+    description: Size of VM(https://cloud.google.com/compute/docs/machine-types#general_purpose)
+
+  osDiskType:
+    type: string
+    description: Specifies the storage account type for the managed disk. (e.g. pd-standard, pd-ssd, etc..)
+
+  osDiskSizeGBKubeMaster:
+    type: integer
+    description: Disk Size(GB) of Kubernetes Master.
+
+  osDiskSizeGBKubeNode:
+    type: integer
+    description: Disk Size(GB) of Kubernetes Node.

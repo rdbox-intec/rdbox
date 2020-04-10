@@ -1,3 +1,8 @@
+- name: start vpnclient
+  become: yes
+  shell: systemctl stop vpnserver.service
+  ignore_errors: yes
+
 - name: count vpnserver process
   shell: "ps -ef | grep -v grep | grep vpnserver | wc -l"
   register: val_count_vpnserver_running
@@ -5,6 +10,11 @@
 - name: check vpnserver
   fail: msg="[WARNING] Already vpnserver is running(N={{val_count_vpnserver_running.stdout}})"
   when: val_count_vpnserver_running.stdout != "0"
+
+- name: start vpnclient
+  become: yes
+  shell: systemctl stop vpnclient.service
+  ignore_errors: yes
 
 - name: count vpnclient process
   shell: "ps -ef | grep -v grep | grep vpnclient | wc -l "

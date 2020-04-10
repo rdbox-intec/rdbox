@@ -1,0 +1,167 @@
+{%- macro GenerateResourcesName(resourcesName='') -%}
+    {{ properties["resourcesPrefix"] + "-" + resourcesName }}
+{%- endmacro %}
+
+{%- macro GenerateCidr(ip='', cidr='') -%}
+    {{ ip + "/" + cidr }}
+{%- endmacro %}
+
+resources:
+- name: {{ GenerateResourcesName('virtual-private-cloud') }}
+  type: compute.v1.network
+  properties:
+    routingConfig:
+      routingMode: REGIONAL
+    autoCreateSubnetworks: false
+
+- name: {{ GenerateResourcesName('subnet') }}
+  type: compute.v1.subnetwork
+  properties:
+    ipCidrRange: {{ properties["vpcCidrBlock"] }}
+    network: $(ref.{{ GenerateResourcesName('virtual-private-cloud') }}.selfLink)
+    region: {{ properties["region"] }}
+
+- name: {{ GenerateResourcesName('firewall00001') }}
+  type: compute.v1.firewall
+  properties:
+    network: $(ref.{{ GenerateResourcesName('virtual-private-cloud') }}.selfLink)
+    sourceRanges: [ {{ GenerateCidr(properties['yourGlobalIPAddress'] ,'32') }} ]
+    allowed:
+    - IPProtocol: TCP
+      ports: ['22']
+    - IPProtocol: TCP
+      ports: ['443']
+    - IPProtocol: TCP
+      ports: ['30443']
+
+- name: {{ GenerateResourcesName('firewall00002') }}
+  type: compute.v1.firewall
+  properties:
+    network: $(ref.{{ GenerateResourcesName('virtual-private-cloud') }}.selfLink)
+    sourceRanges: [ {{ properties['vpcCidrBlock'] }} ]
+    allowed:
+    - IPProtocol: TCP
+      ports: ["0-65535"]
+    - IPProtocol: UDP
+      ports: ["0-65535"]
+
+- name: {{ GenerateResourcesName('firewall00003') }}
+  type: compute.v1.firewall
+  properties:
+    network: $(ref.{{ GenerateResourcesName('virtual-private-cloud') }}.selfLink)
+    sourceRanges: ["192.168.179.0/24"]
+    allowed:
+    - IPProtocol: TCP
+      ports: ["0-65535"]
+    - IPProtocol: UDP
+      ports: ["0-65535"]
+
+- name: {{ GenerateResourcesName('firewall00004') }}
+  type: compute.v1.firewall
+  properties:
+    network: $(ref.{{ GenerateResourcesName('virtual-private-cloud') }}.selfLink)
+    sourceRanges: ["0.0.0.0/0"]
+    allowed:
+    - IPProtocol: ICMP
+
+- name: {{ GenerateResourcesName('static-eip-vpnserver') }}
+  type: compute.v1.address
+  properties:
+    name: {{ GenerateResourcesName('static-eip-vpnserver') }}
+    region: {{ properties["region"] }}
+
+- name: {{ GenerateResourcesName('static-eip-k8smaster') }}
+  type: compute.v1.address
+  properties:
+    name: {{ GenerateResourcesName('static-eip-k8smaster') }}
+    region: {{ properties["region"] }}
+
+- name: {{ GenerateResourcesName('instance-vpn-server') }}
+  type: compute.v1.instance
+  properties:
+    zone: {{ properties["zone"] }}
+    machineType: https://www.googleapis.com/compute/v1/projects/{{ properties["project"] }}/zones/{{ properties["zone"] }}/machineTypes/{{ properties["vmSizeVpnServer"] }}
+    disks:
+    - deviceName: boot
+      type: PERSISTENT
+      boot: true
+      autoDelete: true
+      initializeParams:
+        sourceImage: https://www.googleapis.com/compute/v1/projects/ubuntu-os-cloud/global/images/family/ubuntu-1804-lts
+        diskType: https://www.googleapis.com/compute/v1/projects/{{ properties["project"] }}/zones/{{ properties["zone"] }}/diskTypes/{{ properties["osDiskType"] }}
+    networkInterfaces:
+    - network: $(ref.{{ GenerateResourcesName('virtual-private-cloud') }}.selfLink)
+      subnetwork: $(ref.{{ GenerateResourcesName('subnet') }}.selfLink)
+      accessConfigs:
+      - name: External NAT
+        type: ONE_TO_ONE_NAT
+        natIP: $(ref.{{ GenerateResourcesName('static-eip-vpnserver') }}.address)
+    labels:
+      server_type: vpnserver
+      dm_name: {{ properties["resourcesPrefix"] }}
+      zone: {{ properties["zone"] }}
+
+- name: {{ GenerateResourcesName('instance-k8s-master') }}
+  type: compute.v1.instance
+  properties:
+    zone: {{ properties["zone"] }}
+    machineType: https://www.googleapis.com/compute/v1/projects/{{ properties["project"] }}/zones/{{ properties["zone"] }}/machineTypes/{{ properties["vmSizeKubeMaster"] }}
+    disks:
+    - deviceName: boot
+      type: PERSISTENT
+      boot: true
+      autoDelete: true
+      diskSizeGb: {{ properties["osDiskSizeGBKubeMaster"] }}
+      initializeParams:
+        sourceImage: https://www.googleapis.com/compute/v1/projects/ubuntu-os-cloud/global/images/family/ubuntu-1804-lts
+        diskType: https://www.googleapis.com/compute/v1/projects/{{ properties["project"] }}/zones/{{ properties["zone"] }}/diskTypes/{{ properties["osDiskType"] }}
+        diskSizeGb: {{ properties["osDiskSizeGBKubeMaster"] }}
+    networkInterfaces:
+    - network: $(ref.{{ GenerateResourcesName('virtual-private-cloud') }}.selfLink)
+      subnetwork: $(ref.{{ GenerateResourcesName('subnet') }}.selfLink)
+      accessConfigs:
+      - name: External NAT
+        type: ONE_TO_ONE_NAT
+        natIP: $(ref.{{ GenerateResourcesName('static-eip-k8smaster') }}.address)
+    labels:
+      server_type: kubemaster
+      dm_name: {{ properties["resourcesPrefix"] }}
+      zone: {{ properties["zone"] }}
+
+{% for n in range(properties['kubeNodeInstanceCount']) %}
+- name: {{ GenerateResourcesName('instance-k8s-node') }}{{ n }}
+  type: compute.v1.instance
+  properties:
+    zone: {{ properties["zone"] }}
+    machineType: https://www.googleapis.com/compute/v1/projects/{{ properties["project"] }}/zones/{{ properties["zone"] }}/machineTypes/{{ properties["vmSizeKubeNode"] }}
+    disks:
+    - deviceName: boot
+      type: PERSISTENT
+      boot: true
+      autoDelete: true
+      diskSizeGb: {{ properties["osDiskSizeGBKubeNode"] }}
+      initializeParams:
+        sourceImage: https://www.googleapis.com/compute/v1/projects/ubuntu-os-cloud/global/images/family/ubuntu-1804-lts
+        diskType: https://www.googleapis.com/compute/v1/projects/{{ properties["project"] }}/zones/{{ properties["zone"] }}/diskTypes/{{ properties["osDiskType"] }}
+        diskSizeGb: {{ properties["osDiskSizeGBKubeNode"] }}
+    networkInterfaces:
+    - network: $(ref.{{ GenerateResourcesName('virtual-private-cloud') }}.selfLink)
+      subnetwork: $(ref.{{ GenerateResourcesName('subnet') }}.selfLink)
+      accessConfigs:
+      - name: External NAT
+        type: ONE_TO_ONE_NAT
+    labels:
+      server_type: kubenode
+      dm_name: {{ properties["resourcesPrefix"] }}
+      zone: {{ properties["zone"] }}
+{% endfor %}
+
+outputs:
+- name: externalIpVpnBridge
+  value: $(ref.{{ GenerateResourcesName('static-eip-vpnserver') }}.address)
+- name: externalIpK8sMaster
+  value: $(ref.{{ GenerateResourcesName('static-eip-k8smaster') }}.address)
+{% for n in range(properties['kubeNodeInstanceCount']) %}
+- name: externalIpK8sNode{{ n }}
+  value: $(ref.{{ GenerateResourcesName('instance-k8s-node') }}{{ n }}.networkInterfaces[0].accessConfigs[0].natIP)
+{% endfor %}

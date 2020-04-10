@@ -2,6 +2,8 @@
 - name: KubeNode
   hosts: KubeNode
   serial: 1
+  environment:
+    SUDO_USER: "{{ SUDO_USER }}"
   roles:
     - role: check_vpn
     - role: common

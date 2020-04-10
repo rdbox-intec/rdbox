@@ -1,0 +1,33 @@
+---
+- hosts: all
+  tasks:
+  - name: make directory(0700)
+    become: yes
+    file:
+      path: "/home/ubuntu/{{ item }}"
+      state: directory
+      mode: 0700
+      owner: ubuntu
+      group: ubuntu
+    with_items:
+      - .ssh
+
+  - name: copy key files
+    become: yes
+    copy:
+      src: "{{ item }}"
+      dest: "/home/ubuntu/.ssh"
+      mode: 0600
+      owner: ubuntu
+      group: ubuntu
+    with_items:
+      - "{{ FILE_PRIVATE_KEY }}"
+      - "{{ FILE_PUBLIC_KEY }}"
+
+  - name: chown authorized_keys
+    become: yes
+    file:
+      path: "/home/ubuntu/.ssh/authorized_keys"
+      mode: 0600
+      owner: ubuntu
+      group: ubuntu

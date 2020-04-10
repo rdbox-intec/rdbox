@@ -1,0 +1,308 @@
+<mat-toolbar color="primary">
+  <span>Custom Bootstrap for RDBOX-HQ</span>
+</mat-toolbar>
+
+<div *ngIf="isCompleteDMCreate; else editBlock" class="mat-app-background basic-container">
+  <header>
+    <h1>Complete!!</h1>
+    <h2>The bootstrapping process has been completed.</h2>
+  </header>
+
+  <mat-card class="sub-card">
+    <mat-card-header>
+      <mat-card-title>Review the deployment results.</mat-card-title>
+      <mat-card-subtitle>You can check it from the GCP console.</mat-card-subtitle>
+      <mat-card-subtitle>There is no problem with the following warning.</mat-card-subtitle>
+      <mat-card-subtitle>* Disk size: 'xxx GB' is larger than image size: '10 GB'. </mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-actions class="bootstrap-form">
+      <a target="_blank" rel="noopener" [href]="previewURL" class="bootstrap-form">
+        <button mat-stroked-button>
+          Review
+        </button>
+      </a>
+    </mat-card-actions>
+  </mat-card>
+
+  <mat-card class="sub-card">
+    <mat-card-header>
+      <mat-card-title>Let's get to the next step.</mat-card-title>
+      <mat-card-subtitle>Set up your VPN and Kubernetes in RDBOX-HQ step1.</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-actions class="bootstrap-form">
+      <button mat-stroked-button onclick="window.open('https://github.com/rdbox-intec/rdbox/wiki/tutorials-en#rdbox-hq-step1', '_blank')">
+        Go to Our Wiki
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</div>
+
+<ng-template #editBlock>
+<div class="mat-app-background basic-container">
+  <form [formGroup]="bootstrapCustomForm" (ngSubmit)="onSubmit()" autocomplete="off" class="bootstrap-form">
+    <mat-card class="sub-card">
+      <mat-card-content>
+        <mat-form-field class="bootstrap-full-width">
+          <mat-label>Deployment Name</mat-label>
+          <input matInput placeholder="e.g. rdbox" type="text" formControlName="resourcesPrefix" required appAutofocus>
+          <mat-hint>Give a unique name with alphanumeric and hyphenated characters.</mat-hint>
+          <mat-error *ngIf="bootstrapCustomForm.controls.resourcesPrefix.errors?.required">
+            Deployment Name is <strong>required</strong>
+          </mat-error>
+          <mat-error *ngIf="bootstrapCustomForm.controls.resourcesPrefix.errors?.pattern">
+            Deployment Name <strong>invalid format</strong>
+          </mat-error>
+        </mat-form-field>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="sub-card">
+      <mat-card-content>
+        <div>
+          <mat-form-field class="bootstrap-half-width">
+            <mat-label>Project ID</mat-label>
+            <mat-select formControlName="project" (ngModelChange)="onChangeProject($event)" required>
+              <mat-option *ngFor="let prj of projectArray | keyvalue" [value]="prj.key">
+                {{prj.key}} (name={{prj.value}})
+              </mat-option>
+            </mat-select>
+            <mat-hint>Create it in advance.
+              <a href="https://console.cloud.google.com/projectcreate" target="_blank" tabindex="500">(Create New Project)</a>
+            </mat-hint>
+            <mat-error *ngIf="bootstrapCustomForm.controls.project.errors?.required">
+              Project ID is <strong>required</strong><a href="https://console.cloud.google.com/projectcreate" target="_blank">(Create New Project)</a>
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div>
+          <mat-form-field class="bootstrap-half-width">
+            <mat-label>Region ID</mat-label>
+            <mat-select formControlName="region" (ngModelChange)="onChangeRegion($event)" required>
+              <mat-option *ngFor="let regionZone of regionZoneArray | keyvalue" [value]="regionZone.key">
+                {{regionZone.key}}
+              </mat-option>
+            </mat-select>
+            <mat-hint>e.g. asia-northeast1, us-east1, europe-west2 etc..</mat-hint>
+            <mat-error *ngIf="bootstrapCustomForm.controls.region.errors?.required">
+              Region ID is <strong>required</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div>
+          <mat-form-field class="bootstrap-half-width">
+            <mat-label>Zone ID</mat-label>
+            <mat-select formControlName="zone" (ngModelChange)="onChangeZone($event)" required>
+              <mat-option *ngFor="let zone of zoneArray" [value]="zone">
+                {{zone}}
+              </mat-option>
+            </mat-select>
+            <mat-hint>e.g. asia-northeast1-a, us-east1-a,  europe-west2-b etc..</mat-hint>
+            <mat-error *ngIf="bootstrapCustomForm.controls.zone.errors?.required">
+              Zone ID is <strong>required</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="sub-card">
+      <mat-card-content>
+        <mat-form-field class="bootstrap-full-width">
+          <mat-label>Your Global IP Address</mat-label>
+          <input matInput placeholder="xxx.xxx.xxx.xxx" type="text" autocomplete="doNotAutoComplete" formControlName="yourGlobalIPAddress" required>
+          <mat-hint>Your IP Address allowed to connect to GCP. For example, you can check it on the following
+            <a href="https://www.myglobalip.com/" target="_blank">https://www.myglobalip.com/</a>
+          </mat-hint>
+          <mat-error *ngIf="bootstrapCustomForm.controls.yourGlobalIPAddress.errors?.required">
+            Your Global IP Address is <strong>required</strong>
+            (You can get with <a href="https://www.myglobalip.com/" target="_blank">https://www.myglobalip.com/</a>)
+          </mat-error>
+          <mat-error *ngIf="bootstrapCustomForm.controls.yourGlobalIPAddress.errors?.pattern">
+            IP Address <strong>invalid format</strong>
+            (You can get with<a href="https://www.myglobalip.com/" target="_blank">https://www.myglobalip.com/</a>)
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="bootstrap-full-width">
+          <mat-label>Admin Public Key</mat-label>
+          <textarea matInput
+                    placeholder="ssh-rsa ..."
+                    type="text"
+                    autocomplete="doNotAutoComplete"
+                    formControlName="adminPubKey"
+                    [style.fontSize]="fontSize"
+                    cdkTextareaAutosize
+                    #autosize="cdkTextareaAutosize"
+                    cdkAutosizeMinRows="5"
+                    cdkAutosizeMaxRows="5"
+                    required>
+          </textarea>
+          <mat-hint>Specify the public key string of the client that allows login to the administrative user (ubuntu).</mat-hint>
+          <mat-error *ngIf="bootstrapCustomForm.controls.adminPubKey.errors?.required">
+            Admin Public Key is <strong>required</strong>
+          </mat-error>
+          <mat-error *ngIf="bootstrapCustomForm.controls.adminPubKey.errors?.pattern">
+            Admin Public Key <strong>invalid format</strong>
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="bootstrap-full-width">
+          <mat-label>Admin Secret Key</mat-label>
+          <textarea matInput
+                    placeholder="-----BEGIN RSA PRIVATE KEY-----"
+                    type="text"
+                    autocomplete="doNotAutoComplete"
+                    formControlName="adminSecretKey"
+                    [style.fontSize]="fontSize"
+                    cdkTextareaAutosize
+                    #autosize="cdkTextareaAutosize"
+                    cdkAutosizeMinRows="27"
+                    cdkAutosizeMaxRows="27"
+                    required>
+          </textarea>
+          <mat-hint>Specify the secret key string of the client that allows login to the administrative user (ubuntu).</mat-hint>
+          <mat-error *ngIf="bootstrapCustomForm.controls.adminSecretKey.errors?.required">
+            Admin Secret Key is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+
+        <div>
+          <mat-form-field class="bootstrap-half-width">
+            <mat-label>VPC CIDR Block(Address)</mat-label>
+            <input matInput placeholder="xxx.xxx.xxx.xxx" type="text" formControlName="vpcCidrBlockAddress" required>
+            <mat-hint>Network segment to which K8s(Master and Node) and VPNServer belong.</mat-hint>
+            <mat-error *ngIf="bootstrapCustomForm.controls.vpcCidrBlockAddress.errors?.required">
+              Address is <strong>required</strong>
+            </mat-error>
+          </mat-form-field>
+
+          <span>/</span>
+
+          <mat-form-field class="bootstrap-quoter-width">
+            <mat-label>VPC CIDR Block(Subnet)</mat-label>
+            <input matInput placeholder="1-32" type="number" formControlName="vpcCidrBlockSubnet" required>
+            <mat-hint>Prefix Size (1-32)</mat-hint>
+            <mat-error *ngIf="bootstrapCustomForm.controls.vpcCidrBlockSubnet.errors?.required">
+              Subnet is <strong>required</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <mat-form-field class="bootstrap-half-width">
+          <mat-label>OS Disk Type (It is common for VMs in a cluster.)</mat-label>
+          <mat-select formControlName="osDiskType" required>
+            <mat-option value='pd-standard'>HDD</mat-option>
+            <mat-option value='pd-ssd'>SSD</mat-option>
+          </mat-select>
+          <mat-hint>In order to use the SSD, you will need to upgrade your account.</mat-hint>
+          <mat-error *ngIf="bootstrapCustomForm.controls.osDiskType.errors?.required">
+            OS Disk Type is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="sub-card">
+      <mat-card-content>
+        <mat-form-field class="bootstrap-full-width">
+          <mat-label>VPNServer machine type</mat-label>
+          <mat-select formControlName="vmSizeVpnServer" required>
+            <mat-option *ngFor="let machineType of machineTypeArray | keyvalue" [value]="machineType.key">
+              {{machineType.key}} ({{machineType.value}})
+            </mat-option>
+          </mat-select>
+          <mat-hint>Machine Name of VM <a href="https://cloud.google.com/compute/docs/machine-types#general_purpose" target="_blank">(for more information)</a></mat-hint>
+          <mat-error *ngIf="bootstrapCustomForm.controls.vmSizeVpnServer.errors?.required">
+            Machine Name is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="sub-card">
+      <mat-card-content>
+        <mat-form-field class="bootstrap-full-width">
+          <mat-label>Kubernetes(Master) machine type</mat-label>
+          <mat-select formControlName="vmSizeKubeMaster" required>
+            <mat-option *ngFor="let machineType of machineTypeArray | keyvalue" [value]="machineType.key">
+              {{machineType.key}} ({{machineType.value}})
+            </mat-option>
+          </mat-select>
+          <mat-hint>Machine Name of VM <a href="https://cloud.google.com/compute/docs/machine-types#general_purpose" target="_blank">(for more information)</a></mat-hint>
+          <mat-error *ngIf="bootstrapCustomForm.controls.vmSizeKubeMaster.errors?.required">
+            Machine Name is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+
+        <div>
+          <mat-form-field class="bootstrap-half-width">
+            <mat-label>Disk Size(GB) of Kubernetes Master</mat-label>
+            <input matInput placeholder="1-1023" type="number" formControlName="osDiskSizeGBKubeMaster" required>
+            <mat-hint>1-1023GB (only positive integers)</mat-hint>
+            <mat-error *ngIf="bootstrapCustomForm.controls.osDiskSizeGBKubeMaster.errors?.required">
+              Disk Size(GB) is <strong>required</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="sub-card">
+      <mat-card-content>
+        <mat-form-field class="bootstrap-half-width">
+          <mat-label>Number of Nodes in Kubernetes</mat-label>
+          <mat-select formControlName="kubeNodeInstanceCount" required>
+            <mat-option [value]=1>1</mat-option>
+            <mat-option [value]=2>2</mat-option>
+            <mat-option [value]=3>3</mat-option>
+            <mat-option [value]=4>4</mat-option>
+            <mat-option [value]=5>5</mat-option>
+            <mat-option [value]=6>6</mat-option>
+            <mat-option [value]=7>7</mat-option>
+            <mat-option [value]=8>8</mat-option>
+            <mat-option [value]=9>9</mat-option>
+          </mat-select>
+          <mat-hint>A node is a worker machine in Kubernetes.</mat-hint>
+          <mat-error *ngIf="bootstrapCustomForm.controls.kubeNodeInstanceCount.errors?.required">
+            Number of Nodes in Kubernetes is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="bootstrap-full-width">
+          <mat-label>Kubernetes(Node) machine type</mat-label>
+          <mat-select formControlName="vmSizeKubeNode" required>
+            <mat-option *ngFor="let machineType of machineTypeArray | keyvalue" [value]="machineType.key">
+              {{machineType.key}} ({{machineType.value}})
+            </mat-option>
+          </mat-select>
+          <mat-hint>Machine Name of VM <a href="https://cloud.google.com/compute/docs/machine-types#general_purpose" target="_blank">(for more information)</a></mat-hint>
+          <mat-error *ngIf="bootstrapCustomForm.controls.vmSizeKubeNode.errors?.required">
+            Machine Name is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+
+
+        <div>
+          <mat-form-field class="bootstrap-half-width">
+            <mat-label>Disk Size(GB) of Kubernetes Node.</mat-label>
+            <input matInput placeholder="1-1023" type="number" formControlName="osDiskSizeGBKubeNode" required>
+            <mat-hint>1-1023GB (only positive integers)</mat-hint>
+            <mat-error *ngIf="bootstrapCustomForm.controls.osDiskSizeGBKubeNode.errors?.required">
+              SuDisk Size(GB) is <strong>required</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+      </mat-card-content>
+    </mat-card>
+
+    <button type="submit"
+            mat-raised-button color="primary"
+            [disabled]="bootstrapCustomForm.invalid || isDisableSubmit"
+            class="submit-button">Submit
+    </button>
+  </form>
+</div>
+<ng-template #elseBlock>
