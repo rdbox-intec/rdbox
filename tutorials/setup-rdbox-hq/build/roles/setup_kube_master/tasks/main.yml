@@ -5,6 +5,7 @@
   with_items:
     - init_kube_proxy_patches.sh
     - init_kube_flannel_patches.sh
+    - init_kube_flannel_patches.py
     - format_kube-proxy-yml.sh
     - setup_kubeadam_init.sh
     - clear_kube_proxy.sh
@@ -12,12 +13,7 @@
     - setup_kube_flannel.sh
     - kube-proxy-amd64.yml.patch.sh
     - kube-proxy-arm.yml.patch.sh
-    - flannel-config.yml.patch
-    - kube-flannel-amd64-edge.yml.patch
-    - kube-flannel-amd64-hq.yml.patch
-    - kube-flannel-arm.yml.patch
-    - kube-flannel-arm-master.yml.patch
-    - kube-flannel-rbac.yml.patch
+    - kube-proxy-arm64.yml.patch.sh
 
 - name: setup Kubernetes master(kubeadm init)
   become: yes

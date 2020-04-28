@@ -8,6 +8,7 @@ fi
 
 #
 grep -v \
+-e time: \
 -e creationTimestamp: \
 -e generation: \
 -e resourceVersion: \
@@ -22,6 +23,7 @@ grep -v \
 -e numberReady: \
 -e observedGeneration: \
 -e updatedNumberScheduled: \
+-e numberUnavailable: \
 ${FILE_IN}
 
 #

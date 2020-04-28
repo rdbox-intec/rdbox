@@ -1,32 +1,21 @@
 require 'spec_helper'
 
 #
-lst_file_vpn = [ "vpnserver",
-                 "vpnbridge",
-                 "vpnclient",
-                 "vpncmd",
-]
-lst_file_vpn.each do |file_vpn|
-  describe file("/usr/local/#{file_vpn}/#{file_vpn}") do
-    it { should be_file }
-    it { should be_mode '755' }
-    it { should be_owned_by('root') }
-    it { should be_grouped_into('root') }
-  end
-end
+describe package("softether-vpnserver") do
+  it { should be_installed }
+end      
 
 #
-lst_file_service = [ "vpnserver",
-                     "vpnbridge",
-                     "vpnclient",
-]
-lst_file_service.each do |file_service|
-  describe file("/etc/systemd/system/#{file_service}.service") do
-    it { should be_file }
-    it { should be_mode '644' }
-    it { should be_owned_by('root') }
-    it { should be_grouped_into('root') }
-  end
-end
+describe package("softether-vpnclient") do
+  it { should be_installed }
+end      
 
 #
+describe package("softether-vpncmd") do
+  it { should be_installed }
+end      
+
+#
+describe package("softether-vpnbridge") do
+  it { should be_installed }
+end      

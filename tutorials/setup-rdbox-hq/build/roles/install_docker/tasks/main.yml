@@ -25,10 +25,8 @@
 - name: install packages for 'Docker'
   become: yes
   apt:
-    name: "{{ item }}"
-    state: present
     force: yes
-  with_items:
+    pkg:
     - "docker-ce={{ lookup('env', 'DOCKER_VERSION') }}"
 
 - name: apt-mark hold packages for 'Docker'

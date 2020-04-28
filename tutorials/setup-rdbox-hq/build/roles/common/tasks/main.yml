@@ -10,9 +10,8 @@
 - name: install packages
   become: yes
   apt:
-    name: "{{ packages }}"
-  vars:
-    packages:
+    force: yes
+    pkg:
     - dnsutils
     - traceroute
     - iputils-ping

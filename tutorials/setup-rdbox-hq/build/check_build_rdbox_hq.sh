@@ -87,22 +87,6 @@ fi
 echo ''
 
 #
-echo "[INFO] reading... 'setenv_build_softether.sh'"
-source setenv_build_softether.sh
-
-#
-echo "Checking... SoftEther-bin : ${FILE_SOFTETHER_BIN_TAR_GZ}"
-if [ ! -e "${HOME}/git/${FILE_SOFTETHER_BIN_TAR_GZ}" ] ; then
-    echo "[ERROR] Cannot found file. :: ${FILE_SOFTETHER_BIN_TAR_GZ}"
-    echo "[INFO] Please execute build_softethervpn.sh first."
-    STA=1
-else
-    echo "passed."
-fi
-echo ''
-
-
-#
 if [ "${STA}" != "0" ] ; then
     exit $STA
 fi

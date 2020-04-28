@@ -1,19 +1,28 @@
-- name: unarchive 'softethervpn'
-  become: yes
-  unarchive:
-    src: "{{ lookup('env', 'HOME') }}/git/{{ lookup('env', 'FILE_SOFTETHER_BIN_TAR_GZ') }}"
-    dest: /usr/local/
-    owner: root
-    group: root
+- name: install gpg key for 'rdbox'
+  get_url:
+    url: https://bintray.com/user/downloadSubjectPublicKey?username=rdbox
+    dest: "/home/${SUDO_USER}/rdbox/tmp/rdbox-public.key.asc"
 
-- name: copy vpn*.service
+- name: install gpg key for 'rdbox'
   become: yes
-  copy:
-    src: "../files/{{ item }}"
-    dest: /etc/systemd/system/
-    owner: root
-    group: root
-  with_items:
-    - vpnserver.service
-    - vpnbridge.service
-    - vpnclient.service
+  shell: "apt-key add /home/${SUDO_USER}/rdbox/tmp/rdbox-public.key.asc"
+
+- name: add apt repository for 'rdbox'
+  become: yes
+  apt_repository:
+    repo: "deb https://dl.bintray.com/rdbox/ubu bionic main"
+    state: present
+
+- name: update packages
+  become: yes
+  apt: update_cache=yes
+
+- name: install packages softether
+  become: yes
+  apt:
+    force: yes
+    pkg:
+    - softether-vpnbridge
+    - softether-vpnclient
+    - softether-vpncmd
+    - softether-vpnserver

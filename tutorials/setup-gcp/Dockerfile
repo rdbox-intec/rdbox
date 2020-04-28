@@ -4,6 +4,8 @@ ENV LANG C.UTF-8
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
+        avahi-daemon \
+        avahi-utils \
         curl \
         gnupg2 \
         lsb-release \

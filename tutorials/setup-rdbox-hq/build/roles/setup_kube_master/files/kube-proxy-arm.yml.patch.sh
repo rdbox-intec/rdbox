@@ -5,16 +5,16 @@ source ${HOME}/.bashrc.rdbox-hq
 cat << EoPatch
 --- kube-proxy.yml.orig 2019-01-08 01:48:16.336980589 +0000
 +++ kube-proxy-arm.yml  2019-01-08 01:52:14.696980589 +0000
-@@ -3,7 +3,7 @@ kind: DaemonSet
- metadata:
-   labels:
-     k8s-app: kube-proxy
+@@ -112,7 +112,7 @@ metadata:
+     fieldsV1:
+     manager: kube-controller-manager
+     operation: Update
 -  name: kube-proxy
 +  name: kube-proxy-arm
    namespace: kube-system
  spec:
    selector:
-@@ -27,7 +27,7 @@ spec:
+@@ -137,7 +137,7 @@ spec:
              fieldRef:
                apiVersion: v1
                fieldPath: spec.nodeName
@@ -23,11 +23,10 @@ cat << EoPatch
          imagePullPolicy: IfNotPresent
          name: kube-proxy
          resources: {}
-@@ -46,6 +46,8 @@ spec:
-           readOnly: true
-       dnsPolicy: ClusterFirst
+@@ -157,6 +157,7 @@ spec:
        hostNetwork: true
-+      nodeSelector:
+       nodeSelector:
+         kubernetes.io/os: linux
 +        beta.kubernetes.io/arch: arm
        priorityClassName: system-node-critical
        restartPolicy: Always

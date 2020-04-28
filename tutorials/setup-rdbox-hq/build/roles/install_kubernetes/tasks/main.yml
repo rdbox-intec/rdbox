@@ -13,12 +13,12 @@
   with_items:
     - setup_kube_noswap.sh
 
-- name: install pgp key for 'Kubernetes'
+- name: install gpg key for 'Kubernetes'
   get_url:
     url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
     dest: "{{ ansible_user_dir }}/rdbox/tmp/apt-key.gpg"
 
-- name: install pgp key for 'Kubernetes'
+- name: install gpg key for 'Kubernetes'
   become: yes
   shell: "apt-key add /home/${SUDO_USER}/rdbox/tmp/apt-key.gpg"
 
@@ -46,9 +46,8 @@
 - name: uninstall some packages(apt) for 'Kubernetes@ubuntu-18.04 on AWS'
   become: yes
   apt:
-    name: "{{ item }}"
-    state: absent
-  with_items:
+    force: yes
+    pkg:
     - "cnitool"
     - "cnitool-plugins"
   ignore_errors: true

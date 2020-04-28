@@ -7,11 +7,11 @@
 
 - name: start vpnclient
   become: yes
-  shell: systemctl start vpnclient.service
+  shell: systemctl start softether-vpnclient.service
 
 - name: set auto start vpnclient
   become: yes
-  shell: systemctl enable vpnclient.service
+  shell: systemctl enable softether-vpnclient.service
 
 - name: init vpnclient
   become: yes

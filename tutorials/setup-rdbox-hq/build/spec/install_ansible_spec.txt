@@ -1,6 +1,6 @@
 
 * install ansible spec
-sudo apt install ruby-dev
+sudo apt install ruby-dev build-essential
 sudo gem install ansible_spec
 
 * setup ansible spec

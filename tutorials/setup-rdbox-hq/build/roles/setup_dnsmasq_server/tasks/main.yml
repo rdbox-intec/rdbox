@@ -34,10 +34,8 @@
 - name: install packages for 'dnsmasq'
   become: yes
   apt:
-    name: "{{ item }}"
-    state: present
     force: yes
-  with_items:
+    pkg:
     - dnsmasq
     - ipcalc
 

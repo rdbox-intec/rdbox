@@ -9,11 +9,11 @@
 
 - name: start vpnserver
   become: yes
-  shell: systemctl start vpnserver.service
+  shell: systemctl start softether-vpnserver.service
 
 - name: set auto start vpnserver
   become: yes
-  shell: systemctl enable vpnserver.service
+  shell: systemctl enable softether-vpnserver.service
 
 - name: clean vpnserver
   become: yes

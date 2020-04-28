@@ -56,7 +56,7 @@ lst_pod = [ "kube-apiserver",
             "kube-scheduler",
             "kube-controller-manager",
             "kube-proxy-amd64",
-            "kube-flannel-amd64-ds-hq",
+            "kube-flannel-ds-amd64-hq-other",
             "coredns",
 ]
 lst_pod.each do |pod|

@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 #
-describe service('vpnserver') do
+describe service('softether-vpnserver') do
   it { should be_enabled }
   it { should be_running }
 end

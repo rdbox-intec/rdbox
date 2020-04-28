@@ -1,6 +1,6 @@
 - name: start vpnclient
   become: yes
-  shell: systemctl stop vpnserver.service
+  shell: systemctl stop softether-vpnserver.service
   ignore_errors: yes
 
 - name: count vpnserver process
@@ -13,7 +13,7 @@
 
 - name: start vpnclient
   become: yes
-  shell: systemctl stop vpnclient.service
+  shell: systemctl stop softether-vpnclient.service
   ignore_errors: yes
 
 - name: count vpnclient process

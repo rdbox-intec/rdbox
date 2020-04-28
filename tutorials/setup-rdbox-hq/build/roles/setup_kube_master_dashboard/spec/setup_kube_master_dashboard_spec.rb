@@ -26,7 +26,7 @@ end
 lst_pod = [ "kubernetes-dashboard",
 ]
 lst_pod.each do |pod|
-  describe command("kubectl get pods --namespace kube-system --no-headers=true | grep -c #{pod}") do
+  describe command("kubectl get pods --namespace kubernetes-dashboard --no-headers=true | grep -c #{pod}") do
     its(:exit_status) { should eq 0 }
     its(:stdout) { should match('^1$') }
   end
