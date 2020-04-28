@@ -18,3 +18,7 @@
 	path = image-builder-x86
 	url = git@github.com:rdbox-intec/image-builder-x86.git
 	branch = master
+[submodule "go-transproxy"]
+	path = go-transproxy
+	url = git@github.com:rdbox-intec/go-transproxy.git
+	branch = master
