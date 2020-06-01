@@ -10,6 +10,7 @@ cat << EOS_RDBOX > ${FILE_CLOUD_INIT_RDBOX}
 network:
     ethernets:
         vpn_rdbox:
+            mtu: 1280
             addresses:
             - ${VPN_RDBOX_ADDRESS}/${VPN_RDBOX_NETMASK}
     version: 2

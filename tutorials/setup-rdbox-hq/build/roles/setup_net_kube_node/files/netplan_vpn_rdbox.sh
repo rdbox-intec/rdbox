@@ -15,6 +15,7 @@ cat << EOS_RDBOX > ${FILE_CLOUD_INIT_RDBOX}
 network:
     ethernets:
         vpn_rdbox:
+            mtu: 1280
             dhcp4: yes
             dhcp4-overrides:
                 use-routes: false
