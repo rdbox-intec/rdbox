@@ -1,0 +1,10 @@
+- name: update packages
+  become: yes
+  apt: update_cache=yes upgrade=yes
+
+- name: install packages softether
+  become: yes
+  apt:
+    force: yes
+    pkg:
+    - bind9

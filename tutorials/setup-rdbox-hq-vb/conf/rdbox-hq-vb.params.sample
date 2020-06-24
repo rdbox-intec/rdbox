@@ -43,7 +43,7 @@ VAGRANT_INSTALL_VERSION=2.2.4
 #PUBLIC_BRIDGE_NIC=enp0s25
 
 # RDBOX private network
-RDBOX_NETWORK=192.168.179.0/24
+RDBOX_NETWORK=192.168.0.0/22
 
 # VirtualBox private network
 PRIVATE_NETWORK=172.31.0.0/24
@@ -52,7 +52,7 @@ PRIVATE_NETWORK=172.31.0.0/24
 DEFAULT_NETWORK=172.31.255.0/24
 
 # RDBOX Master IP address
-EDGE_RDBOX_IP=192.168.179.1
+EDGE_RDBOX_IP=192.168.1.179
 
 #--------------------------------------------------------
 # Information of VPN server VM
@@ -80,7 +80,7 @@ VPN_HOSTNAME=rdbox-k8s-vpn
 VPN_PRIVATE_IP=172.31.0.1
 
 # RDBOX private IP address
-VPN_RDBOX_IP=192.168.179.3
+VPN_RDBOX_IP=192.168.0.1
 
 #--------------------------------------------------------
 # Information for Kubernetes Master VM
@@ -108,7 +108,7 @@ MASTER_HOSTNAME=rdbox-k8s-master
 MASTER_PRIVATE_IP=172.31.0.2
 
 # RDBOX private IP address
-MASTER_RDBOX_IP=192.168.179.2
+MASTER_RDBOX_IP=192.168.0.9
 
 #--------------------------------------------------------
 # Information for Kubernetes Worker VM

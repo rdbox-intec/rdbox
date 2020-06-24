@@ -86,18 +86,37 @@ class KubeFlannelDaemonSet(object):
         )
 
     def _process_role(self):
-        if self.role == 'rdbox':
-            self._process_role_rdbox()
+        if self.role == 'master':
+            self._process_role_master()
+        elif self.role == 'slave':
+            self._process_role_slave()
         elif self.role == 'other':
-            self._process_role_other()
+            if self.location == 'edge':
+                self._process_role_other()
 
-    def _process_role_rdbox(self):
+    def _process_role_master(self):
         self.ds.get('spec').get('template').get('spec').get('affinity').get('nodeAffinity').get('requiredDuringSchedulingIgnoredDuringExecution').get('nodeSelectorTerms')[0].get('matchExpressions').append(
             {
                 'key': 'node.rdbox.com/edge',
                 'operator': 'In',
                 'values': [
-                    'master',
+                    'master'
+                ]
+            }
+        )
+        containers = self.ds.get('spec').get('template').get('spec').get('containers')
+        index_kube_flannel = 0
+        for i, v in enumerate(containers):
+            if v.get('name') == 'kube-flannel':
+                index_kube_flannel = i
+        containers[index_kube_flannel].get('args').append('--iface=vpn_rdbox')
+
+    def _process_role_slave(self):
+        self.ds.get('spec').get('template').get('spec').get('affinity').get('nodeAffinity').get('requiredDuringSchedulingIgnoredDuringExecution').get('nodeSelectorTerms')[0].get('matchExpressions').append(
+            {
+                'key': 'node.rdbox.com/edge',
+                'operator': 'In',
+                'values': [
                     'slave'
                 ]
             }
@@ -164,10 +183,12 @@ class OriginalApplyFile(object):
         for k, v in group.items():
             if k == 'main_damon_set':
                 for i, v in enumerate(v):
-                    ds_er = KubeFlannelDaemonSet(v, 'edge', 'rdbox')
+                    ds_em = KubeFlannelDaemonSet(v, 'edge', 'master')
+                    ds_es = KubeFlannelDaemonSet(v, 'edge', 'slave')
                     ds_eo = KubeFlannelDaemonSet(v, 'edge', 'other')
                     ds_ho = KubeFlannelDaemonSet(v, 'hq', 'other')
-                    ds_er.write(dir_path)
+                    ds_em.write(dir_path)
+                    ds_es.write(dir_path)
                     ds_eo.write(dir_path)
                     ds_ho.write(dir_path)
             elif k == 'rbac':
@@ -201,7 +222,7 @@ class OriginalApplyFile(object):
 
 if __name__ == '__main__':
     args = sys.argv
-    if 2 <= len(args):
+    if len(args) >= 2:
         dir_path = os.path.abspath(os.path.normpath(args[1]))
         if os.path.exists(dir_path):
             oap = OriginalApplyFile()
