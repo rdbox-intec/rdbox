@@ -6,6 +6,7 @@
   roles:
     - role: check_vpn
     - role: common
+    - role: install_bind
     - role: install_softethervpn
     - role: setup_net_vpnserver
     - role: setup_vpnserver

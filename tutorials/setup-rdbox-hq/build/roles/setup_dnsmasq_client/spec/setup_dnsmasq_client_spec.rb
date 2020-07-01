@@ -3,7 +3,7 @@ require 'spec_helper'
 #
 RDBOX_NET_ADRS_RDBOX_MASTER=`../bin/get_hq_variable.sh RDBOX_NET_ADRS_RDBOX_MASTER`.chomp
 RDBOX_NET_NAME_RDBOX_MASTER=`../bin/get_hq_variable.sh RDBOX_NET_NAME_RDBOX_MASTER`.chomp
-describe command("host -4 #{RDBOX_NET_NAME_RDBOX_MASTER} | awk '{print $4}'") do
+describe command("host -4 #{RDBOX_NET_NAME_RDBOX_MASTER}.hq.rdbox.lan | awk '{print $4}'") do
   its(:exit_status) { should eq 0 }
   its(:stdout) { should match("^#{RDBOX_NET_ADRS_RDBOX_MASTER}$") }
 end
