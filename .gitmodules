@@ -13,7 +13,7 @@
 [submodule "rdboxGARIBAN"]
 	path = rdboxGARIBAN
 	url = git@github.com:rdbox-intec/rdboxGARIBAN.git
-	branch = master
+	branch = rdbox-master
 [submodule "image-builder-x86"]
 	path = image-builder-x86
 	url = git@github.com:rdbox-intec/image-builder-x86.git
