@@ -56,7 +56,7 @@ fi
 #
 #OPTS_BECOME_PASS="--ask-become-pass"
 export ANSIBLE_HOST_KEY_CHECKING=False
-OPTS_EXTRA_VARS="VPN_SERVER_ADDRESS=${VPN_SERVER_ADDRESS} ansible_ssh_port=${SERVER_SSH_PORT} RDBOX_HQ_BUILD_PF=${RDBOX_HQ_BUILD_PF} FILE_PRIVATE_KEY=${FILE_PRIVATE_KEY} FILE_PUBLIC_KEY=${FILE_PUBLIC_KEY} SUDO_USER=${ANSIBLE_REMOTE_USER}"
+OPTS_EXTRA_VARS="SERVER_ADDRESS_PUBLIC=${SERVER_ADDRESS_PUBLIC} VPN_SERVER_ADDRESS=${VPN_SERVER_ADDRESS} ansible_ssh_port=${SERVER_SSH_PORT} RDBOX_HQ_BUILD_PF=${RDBOX_HQ_BUILD_PF} FILE_PRIVATE_KEY=${FILE_PRIVATE_KEY} FILE_PUBLIC_KEY=${FILE_PUBLIC_KEY} SUDO_USER=${ANSIBLE_REMOTE_USER}"
 ansible-playbook ${VERBOSE} --timeout 120 -i inventory.${SERVER_TYPE} ${OPTS_BECOME_PASS} -u "${ANSIBLE_REMOTE_USER}" --private-key=${FILE_PRIVATE_KEY} --extra-vars "${OPTS_EXTRA_VARS}" ${SERVER_TYPE}.yml
 STA_ANSIBLE=$?
 
@@ -73,6 +73,14 @@ if [ "${STA_ANSIBLE}" = "0" ] ; then
     echo ""
     echo "[INFO] Kubernetes dashboard access token ( file://${FILE_KUBE_DASHBOARD_TOKEN} )"
     cat ${FILE_KUBE_DASHBOARD_TOKEN}
+    echo ""
+
+    FILE_KUBE_DASHBOARD_CRT="${DIR_KUBE_MASTER_DASHBOARD}/certs/dashboard.crt"
+    echo ""
+    echo "[INFO] Kubernetes dashboard access token ( file://${FILE_KUBE_DASHBOARD_CRT} )"
+    echo "[INFO] Some browsers require you to import this certificate."
+    echo "[INFO] (Double-click on the icon in the GUI.)"
+    cat ${FILE_KUBE_DASHBOARD_CRT}
     echo ""
 fi
 

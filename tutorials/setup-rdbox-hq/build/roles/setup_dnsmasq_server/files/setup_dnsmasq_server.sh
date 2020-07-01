@@ -30,8 +30,9 @@ fi
 KUBE_NETWORK_ADDRESS=$(ipcalc -n "${KUBE_POD_NETWORK_CIDR}" | grep 'Address' | awk '{print $2}')
 LST_NET_DEV=$(netstat -nr | grep -v -e 'Destination' -e 'docker0' -e 'cni' -e "${KUBE_NETWORK_ADDRESS}" -e 'vpn_rdbox' | grep -e '0.0.0.0' -e "${priv_net_adrs}" | awk '{if ($8!="") {print $8}}' | sort | uniq)
 
-#
+# Ex. 192.168.0.1
 IP_VPNSERVER_THREE=$(cut -d'.' -f3 <<<"${RDBOX_NET_ADRS_VPNSERVER}")
+# Ex. 192.168.1.179
 IP_RDBMASTER_THREE=$(cut -d'.' -f3 <<<"${RDBOX_NET_ADRS_RDBOX_MASTER}")
 IP_RDBMASTER_FOUR=$(cut -d'.' -f4 <<<"${RDBOX_NET_ADRS_RDBOX_MASTER}")
 NETWORK_PREFIX=$(ipcalc "${RDBOX_NET_ADRS_VPNSERVER}" "${RDBOX_NET_SUBNETMASK}" -b | grep Network: | cut -d"/" -f 2)
@@ -44,7 +45,7 @@ domain=hq.rdbox.lan
 expand-hosts
 interface=vpn_rdbox
 dhcp-leasefile=/var/lib/dnsmasq.leases
-dhcp-range=192.168.${IP_RDBMASTER_THREE}.4,192.168.${IP_RDBMASTER_THREE}.254,${RDBOX_NET_SUBNETMASK},12h
+dhcp-range=192.168.${IP_RDBMASTER_THREE}.4,192.168.${IP_RDBMASTER_THREE}.254,${RDBOX_NET_SUBNETMASK},infinite
 dhcp-host=${RDBOX_NET_NAME_KUBE_MASTER},${RDBOX_NET_ADRS_KUBE_MASTER},infinite
 dhcp-host=${RDBOX_NET_NAME_RDBOX_MASTER},${RDBOX_NET_ADRS_RDBOX_MASTER},infinite
 dhcp-option=option:domain-search,00.rdbox.lan,hq.rdbox.lan
@@ -127,7 +128,7 @@ zone "00.rdbox.lan" IN {
         forward only;
         forwarders { ${RDBOX_NET_ADRS_RDBOX_MASTER} port ${RDBOX_NET_DNS_AUTHORITATIVE_PORT}; };
 };
-zone "${IP_RDBMASTER_THREE}.168.192.in-addr.arpa" {
+zone "${IP_RDBMASTER_FOUR}.168.192.in-addr.arpa" {
         type forward;
         forward only;
         forwarders { ${RDBOX_NET_ADRS_RDBOX_MASTER} port ${RDBOX_NET_DNS_AUTHORITATIVE_PORT}; };

@@ -7,6 +7,8 @@ ADDRESS_DNSMASQ=$1
 
 #
 cat <<EOF > /usr/local/bin/rdbox-nameserver.sh
+#!/bin/bash
+sleep 15
 /sbin/dhclient vpn_rdbox
 EOF
 chmod +x /usr/local/bin/rdbox-nameserver.sh

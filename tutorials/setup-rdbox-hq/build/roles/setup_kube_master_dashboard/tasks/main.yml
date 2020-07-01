@@ -24,7 +24,7 @@
   shell: "bash ${HOME}/rdbox/tmp/init_kube_dashboard_patches.sh | tee ${HOME}/rdbox/tmp/init_kube_dashboard_patches.log"
 
 - name: create certs for kubernetes dashboard
-  shell: "bash ${HOME}/rdbox/tmp/init_kube_dashboard_certs.sh | tee ${HOME}/rdbox/tmp/init_kube_dashboard_certs.log"
+  shell: "bash ${HOME}/rdbox/tmp/init_kube_dashboard_certs.sh {{ SERVER_ADDRESS_PUBLIC }}  {{ RDBOX_HQ_BUILD_PF }} | tee ${HOME}/rdbox/tmp/init_kube_dashboard_certs.log"
 
 - name: setup Kubernetes master dashboard (install dashboard)
   become: yes
@@ -45,5 +45,6 @@
   with_items:
     - admin.secret
     - admin.token
+    - certs/dashboard.crt
 
 #
