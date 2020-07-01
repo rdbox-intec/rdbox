@@ -1,11 +1,12 @@
+#!/bin/bash
+# shellcheck disable=SC2034
 
 # BUILD PF(PLATFORM) [CHANGES REQUIRED]
 # Please uncomment a line.
-#RDBOX_HQ_BUILD_PF="vb"   # "virtual-box"
+#RDBOX_HQ_BUILD_PF="vb"            # "virtual-box"
 #RDBOX_HQ_BUILD_PF="aws"
 #RDBOX_HQ_BUILD_PF="azure"
 #RDBOX_HQ_BUILD_PF="gcp"
-#RDBOX_HQ_BUILD_PF="example" # "example"
 
 #
 if [ "${RDBOX_HQ_BUILD_PF}" == "vb" ] ; then
@@ -14,9 +15,11 @@ if [ "${RDBOX_HQ_BUILD_PF}" == "vb" ] ; then
     FILE_PUBLIC_KEY="${HOME}/.ssh/id_rsa.pub"
 elif [ "${RDBOX_HQ_BUILD_PF}" == "aws" ] ; then
     if [ -e "${HOME}/.bashrc.rdbox-hq-aws" ] ; then
-        source ${HOME}/.bashrc.rdbox-hq-aws
+        # shellcheck source=../../setup-rdbox-hq-aws/conf/bashrc.rdbox-hq-aws.example
+        source "${HOME}"/.bashrc.rdbox-hq-aws
     elif [ -e "/home/${SUDO_USER}/.bashrc.rdbox-hq-aws" ] ; then
-        source /home/${SUDO_USER}/.bashrc.rdbox-hq-aws
+        # shellcheck source=../../setup-rdbox-hq-aws/conf/bashrc.rdbox-hq-aws.example
+        source /home/"${SUDO_USER}"/.bashrc.rdbox-hq-aws
     else
         echo "[ERROR] Can not found .bashrc.rdbox-hq-aws"
         exit 1
@@ -106,12 +109,14 @@ KUBE_DASHBOARD_CERT_EMAIL=""
 KUBE_DASHBOARD_TOKEN_TTL=18000
 
 ## VpnServer/Kubernetes master IP address [DO NOT CHANGE]
-RDBOX_NET_ADRS_RDBOX_MASTER="192.168.179.1"
-RDBOX_NET_NAME_RDBOX_MASTER="rdbox-master-00"
-RDBOX_NET_ADRS_KUBE_MASTER="192.168.179.2"
+RDBOX_NET_ADRS_VPNSERVER="192.168.0.1"
+RDBOX_NET_NAME_VPNSERVER="rdbox-vpnserver-01"
+RDBOX_NET_ADRS_KUBE_MASTER="192.168.0.9"
 RDBOX_NET_NAME_KUBE_MASTER="rdbox-k8s-master"
-RDBOX_NET_ADRS_VPNSERVER="192.168.179.3"
-RDBOX_NET_SUBNETMASK="255.255.255.0"
+RDBOX_NET_ADRS_RDBOX_MASTER="192.168.1.179"
+RDBOX_NET_NAME_RDBOX_MASTER="rdbox-master-00"
+RDBOX_NET_SUBNETMASK="255.255.252.0"
+RDBOX_NET_DNS_AUTHORITATIVE_PORT="5353"
 
 # directories for RDBOX-HQ
 DIR_RDBOX=${HOME}/rdbox

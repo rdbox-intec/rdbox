@@ -1,6 +1,7 @@
 #!/bin/bash
 
-source /home/${SUDO_USER}/.bashrc.rdbox-hq
+# shellcheck source=../../../../conf/bashrc.rdbox-hq.example
+source /home/"${SUDO_USER}"/.bashrc.rdbox-hq
 
 #
 priv_net_adrs=$1
@@ -19,30 +20,38 @@ echo "[INFO] Get nameserver(s)"
 FILE_RESOLV_CONF="/etc/resolv.conf"
 if [ -e "${FILE_RESOLV_CONF}.rdbox.bak" ] ; then 
     echo "[INFO] Found ${FILE_RESOLV_CONF}.rdbox.bak"
-    DEFAULT_NameServer=`awk '{if ($1 == "nameserver") {print $1 " " $2}}' ${FILE_RESOLV_CONF}.rdbox.bak`
+    DEFAULT_NameServer=$(awk '{if ($1 == "nameserver") {print $1 " " $2}}' ${FILE_RESOLV_CONF}.rdbox.bak)
 else
     echo "[WARNING] Can not found ${FILE_RESOLV_CONF}.rdbox.bak, then use ${FILE_RESOLV_CONF}"
-    DEFAULT_NameServer=`awk '{if ($1 == "nameserver") {print $1 " " $2}}' ${FILE_RESOLV_CONF}`
+    DEFAULT_NameServer=$(awk '{if ($1 == "nameserver") {print $1 " " $2}}' ${FILE_RESOLV_CONF})
 fi
 
 #
-KUBE_NETWORK_ADDRESS=`ipcalc -n "${KUBE_POD_NETWORK_CIDR}" | grep 'Address' | awk '{print $2}'`
-LST_NET_DEV=`netstat -nr | grep -v -e 'Destination' -e 'docker0' -e 'cni' -e "${KUBE_NETWORK_ADDRESS}" -e 'vpn_rdbox' | grep -e '0.0.0.0' -e '${priv_net_adrs}' | awk '{if ($8!="") {print $8}}' | sort | uniq`
+KUBE_NETWORK_ADDRESS=$(ipcalc -n "${KUBE_POD_NETWORK_CIDR}" | grep 'Address' | awk '{print $2}')
+LST_NET_DEV=$(netstat -nr | grep -v -e 'Destination' -e 'docker0' -e 'cni' -e "${KUBE_NETWORK_ADDRESS}" -e 'vpn_rdbox' | grep -e '0.0.0.0' -e "${priv_net_adrs}" | awk '{if ($8!="") {print $8}}' | sort | uniq)
 
-#
+# Ex. 192.168.0.1
+IP_VPNSERVER_THREE=$(cut -d'.' -f3 <<<"${RDBOX_NET_ADRS_VPNSERVER}")
+# Ex. 192.168.1.179
+IP_RDBMASTER_THREE=$(cut -d'.' -f3 <<<"${RDBOX_NET_ADRS_RDBOX_MASTER}")
+IP_RDBMASTER_FOUR=$(cut -d'.' -f4 <<<"${RDBOX_NET_ADRS_RDBOX_MASTER}")
+NETWORK_PREFIX=$(ipcalc "${RDBOX_NET_ADRS_VPNSERVER}" "${RDBOX_NET_SUBNETMASK}" -b | grep Network: | cut -d"/" -f 2)
+
 cat <<EoCONF > /etc/dnsmasq.conf
-#domain-needed
-#bogus-priv
 strict-order
 resolv-file=/etc/resolv.dnsmasq.conf
-server=//192.168.179.1
-server=/rdbox.lan/192.168.179.1
-server=/179.168.192.in-addr.arpa/192.168.179.1
-local=/rdbox.lan/
-domain=rdbox.lan
+local=/hq.rdbox.lan/
+domain=hq.rdbox.lan
 expand-hosts
 interface=vpn_rdbox
-no-dhcp-interface=vpn_rdbox
+dhcp-leasefile=/var/lib/dnsmasq.leases
+dhcp-range=192.168.${IP_RDBMASTER_THREE}.4,192.168.${IP_RDBMASTER_THREE}.254,${RDBOX_NET_SUBNETMASK},infinite
+dhcp-host=${RDBOX_NET_NAME_KUBE_MASTER},${RDBOX_NET_ADRS_KUBE_MASTER},infinite
+dhcp-host=${RDBOX_NET_NAME_RDBOX_MASTER},${RDBOX_NET_ADRS_RDBOX_MASTER},infinite
+dhcp-option=option:domain-search,00.rdbox.lan,hq.rdbox.lan
+dhcp-option=option:classless-static-route,192.168.${IP_RDBMASTER_FOUR}.0/24,${RDBOX_NET_ADRS_RDBOX_MASTER}
+dhcp-option=option:dns-server,${RDBOX_NET_ADRS_VPNSERVER}
+port=${RDBOX_NET_DNS_AUTHORITATIVE_PORT}
 EoCONF
 
 for net_dev in ${LST_NET_DEV} ; do
@@ -94,16 +103,76 @@ Restart = no
 WantedBy = multi-user.target
 EOF
 
+cat <<EOF > /etc/bind/named.conf.options
+options {
+        directory "/var/cache/bind";
+
+        listen-on port 53 { 127.0.0.1; 192.168.${IP_VPNSERVER_THREE}.0/${NETWORK_PREFIX}; };
+        listen-on-v6 { none; };
+
+        forward only;
+        forwarders  { ${RDBOX_NET_ADRS_VPNSERVER} port ${RDBOX_NET_DNS_AUTHORITATIVE_PORT}; };
+
+        dnssec-validation no;
+        auth-nxdomain no;
+        version none;
+};
+
+zone "rdbox.lan" IN {
+        type forward;
+        forward only;
+        forwarders { ${RDBOX_NET_ADRS_RDBOX_MASTER} port ${RDBOX_NET_DNS_AUTHORITATIVE_PORT}; };
+};
+zone "00.rdbox.lan" IN {
+        type forward;
+        forward only;
+        forwarders { ${RDBOX_NET_ADRS_RDBOX_MASTER} port ${RDBOX_NET_DNS_AUTHORITATIVE_PORT}; };
+};
+zone "${IP_RDBMASTER_FOUR}.168.192.in-addr.arpa" {
+        type forward;
+        forward only;
+        forwarders { ${RDBOX_NET_ADRS_RDBOX_MASTER} port ${RDBOX_NET_DNS_AUTHORITATIVE_PORT}; };
+};
+
+zone "hq.rdbox.lan" IN {
+        type forward;
+        forward only;
+        forwarders { ${RDBOX_NET_ADRS_VPNSERVER} port ${RDBOX_NET_DNS_AUTHORITATIVE_PORT}; };
+};
+zone "0.168.192.in-addr.arpa" {
+        type forward;
+        forward only;
+        forwarders { ${RDBOX_NET_ADRS_VPNSERVER} port ${RDBOX_NET_DNS_AUTHORITATIVE_PORT}; };
+};
+zone "1.168.192.in-addr.arpa" {
+        type forward;
+        forward only;
+        forwarders { ${RDBOX_NET_ADRS_VPNSERVER} port ${RDBOX_NET_DNS_AUTHORITATIVE_PORT}; };
+};
+zone "2.168.192.in-addr.arpa" {
+        type forward;
+        forward only;
+        forwarders { ${RDBOX_NET_ADRS_VPNSERVER} port ${RDBOX_NET_DNS_AUTHORITATIVE_PORT}; };
+};
+zone "3.168.192.in-addr.arpa" {
+        type forward;
+        forward only;
+        forwarders { ${RDBOX_NET_ADRS_VPNSERVER} port ${RDBOX_NET_DNS_AUTHORITATIVE_PORT}; };
+};
+EOF
+
 #
 systemctl enable systemd-networkd
 systemctl enable systemd-networkd-wait-online
 systemctl enable rdbox-nameserver.service
 systemctl enable rdbox-wait-vpnclient.service
+systemctl enable bind9
 
 #
 systemctl restart systemd-networkd
 systemctl restart systemd-networkd-wait-online
 systemctl restart rdbox-nameserver.service
 systemctl restart rdbox-wait-vpnclient.service
+systemctl restart bind9
 
 #

@@ -7,7 +7,9 @@ ADDRESS_DNSMASQ=$1
 
 #
 cat <<EOF > /usr/local/bin/rdbox-nameserver.sh
-echo "nameserver ${ADDRESS_DNSMASQ}" > /etc/resolv.conf
+#!/bin/bash
+sleep 15
+/sbin/dhclient vpn_rdbox
 EOF
 chmod +x /usr/local/bin/rdbox-nameserver.sh
 /usr/local/bin/rdbox-nameserver.sh
@@ -16,11 +18,11 @@ chmod +x /usr/local/bin/rdbox-nameserver.sh
 cat <<EOF > /lib/systemd/system/rdbox-nameserver.service
 [Unit]
 Description=modify current network
-After=network-online.target
+After=softether-vpnclient.service
 
 [Service]
 Type=oneshot
-ExecStart=/bin/sh /usr/local/bin/rdbox-nameserver.sh
+ExecStart=/bin/bash /usr/local/bin/rdbox-nameserver.sh
 RemainAfterExit=yes
 
 [Install]

@@ -20,7 +20,7 @@ AWS_PUB_FILE="${DIR_AWS}/${AWS_KEY_NAME}.pub"
 ## Ubuntu Server 16.04 LTS (HVM), SSD Volume Type
 ## AWS_EC2_IMAGE_ID="ami-06d9ad3f86032262d"
 ## Ubuntu Server 18.04 LTS (HVM), SSD Volume Type
-AWS_EC2_IMAGE_ID="ami-09c81ecf1c2b2ef70"
+AWS_EC2_IMAGE_ID="ami-0cfa3caed4b487e77"
 ## Instance type
 AWS_EC2_INSTANCE_TYPE_MICRO="t2.micro"
 AWS_EC2_INSTANCE_TYPE_SMALL="t2.small"
@@ -52,7 +52,7 @@ AWS_SecurityGroupAllowGlobal="172.16.100.200/32"
 
 ## AWS SecurityGroup
 AWS_SecurityGroupAllowPrivate="10.0.0.1/24,192.168.1.1/24"
-RDBOX_NET_CIDR="192.168.179.0/24"
+RDBOX_NET_CIDR="192.168.0.0/22"
 
 # EC2::Instance(VpnServer)
 AWS_EC2_IMAGE_ID_VpnServer=${AWS_EC2_IMAGE_ID}

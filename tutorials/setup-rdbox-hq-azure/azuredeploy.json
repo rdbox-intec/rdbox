@@ -42,7 +42,7 @@
     },
     "paramVPCCidrBlock": {
       "type": "string",
-      "defaultValue": "172.16.0.0/12",
+      "defaultValue": "172.16.0.0/16",
       "minLength": 9,
       "maxLength": 18,
       "metadata": {

@@ -69,7 +69,7 @@
 - name: install packages for 'Kubernetes'
   become: yes
   apt:
-    force: yes
+    force: True
     pkg:
     - "kubeadm={{ lookup('env', 'KUBEADM_VERSION') }}"
     - "kubelet={{ lookup('env', 'KUBELET_VERSION') }}"
