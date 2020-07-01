@@ -29,10 +29,16 @@ VAGRANT_INSTALL_VERSION=2.2.4
 
 # [Change] HTTP proxy server URL
 # - When not using HTTP proxy server, make it a comment.
+#   specify the address of the proxy server of your organization starting with http.
+#   Exapmle)
+#     http_proxy=http://user:pass@yourproxyserver.com:8080
 #HTTP_PROXY=http://192.168.100.60:3128/
 
 # [Change] HTTPS proxy server URL
 # - When not using HTTPS proxy server, make it a comment.
+#   specify the address of the proxy server of your organization starting with http.
+#   Exapmle)
+#     http_proxy=http://user:pass@yourproxyserver.com:8080
 #HTTPS_PROXY=http://192.168.100.60:3128/
 
 # [Confirmation] Interface name of the public network to be bridged
