@@ -1,6 +1,7 @@
 #!/bin/bash
 
-source ${HOME}/.bashrc.rdbox-hq
+# shellcheck source=../conf/bashrc.rdbox-hq.example
+source "${HOME}"/.bashrc.rdbox-hq
 
 source check_build_rdbox_hq.sh
 
