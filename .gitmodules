@@ -22,3 +22,7 @@
 	path = go-transproxy
 	url = git@github.com:rdbox-intec/go-transproxy.git
 	branch = master
+[submodule "rdbox_app_market"]
+	path = rdbox_app_market
+	url = git@github.com:rdbox-intec/rdbox_app_market.git
+	branch = master

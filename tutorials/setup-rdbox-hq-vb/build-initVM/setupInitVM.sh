@@ -13,15 +13,15 @@ if [ $# -ge 1 ] ; then
 	VM_NAME_OPT=$1
 fi
 
-if ! [ -z "$HTTP_PROXY" ] ; then
+if [ -n "$HTTP_PROXY" ] ; then
 	export http_proxy=$HTTP_PROXY
 fi
 
-if ! [ -z "$HTTPS_PROXY" ] ; then
+if [ -n "$HTTPS_PROXY" ] ; then
 	export https_proxy=$HTTPS_PROXY
 fi
 
-if ! [ -z "$PUBLIC_BRIDGE_NIC" ] ; then
+if [ -n "$PUBLIC_BRIDGE_NIC" ] ; then
 	export PUBLIC_BRIDGE_NIC
 fi
 
