@@ -8,9 +8,11 @@ do
     case $OPT in
         v) MODE_VERBOSE="on"
           ;;
+        *) echo "Invalid arguments"
+          exit 1 ;;
     esac
 done
-shift $(($OPTIND - 1))
+shift $((OPTIND - 1))
 
 # init
 STA=0
@@ -18,9 +20,10 @@ STA=0
 #
 function mask_value () {
     if [ "${MODE_VERBOSE}" != "" ] ; then
-        echo $1
+        echo "$1"
     else
-        echo $1 | sed -e 's#.#*#g'
+        # shellcheck disable=SC2001
+        echo "$1" | sed -e 's#.#*#g'
     fi
 }
 
@@ -31,7 +34,9 @@ if [ ! -e "${HOME}/.bashrc.rdbox-hq" ] ; then
     exit $STA
 fi
 echo "[INFO] reading... '${HOME}/.bashrc.rdbox-hq'"
-source ${HOME}/.bashrc.rdbox-hq
+
+# shellcheck source=../conf/bashrc.rdbox-hq.example
+source "${HOME}"/.bashrc.rdbox-hq
 
 echo "Checking... 'RDBOX_HQ_BUILD_PF'=${RDBOX_HQ_BUILD_PF}"
 if [ "${RDBOX_HQ_BUILD_PF}" = "vb" ] ; then
@@ -55,7 +60,7 @@ fi
 echo ''
 
 #
-DISP_VAL=`mask_value ${VPN_HUB_PASS}`
+DISP_VAL=$(mask_value "${VPN_HUB_PASS}")
 echo "Checking... 'VPN_HUB_PASS'=${DISP_VAL}"
 if [ "${VPN_HUB_PASS}" = "" ] ; then
     echo "[ERROR] You must set 'VPN_HUB_PASS' value."
@@ -71,7 +76,7 @@ fi
 echo ''
 
 #
-DISP_VAL=`mask_value ${VPN_USER_PASS}`
+DISP_VAL=$(mask_value "${VPN_USER_PASS}")
 echo "Checking... 'VPN_USER_PASS'=${DISP_VAL}"
 if [ "${VPN_USER_PASS}" = "" ] ; then
     echo "[ERROR] You must set 'VPN_USER_PASS' value."

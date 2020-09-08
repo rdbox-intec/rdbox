@@ -1,12 +1,10 @@
 #!/bin/bash
 
-#
 FILE_IN=-
 if [ "$1" != "" ] ; then
     FILE_IN=$1
 fi
 
-#
 grep -v \
 -e time: \
 -e creationTimestamp: \
@@ -24,6 +22,4 @@ grep -v \
 -e observedGeneration: \
 -e updatedNumberScheduled: \
 -e numberUnavailable: \
-${FILE_IN}
-
-#
+"${FILE_IN}"

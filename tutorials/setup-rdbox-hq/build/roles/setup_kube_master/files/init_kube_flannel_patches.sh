@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# shellcheck source=./../../../../conf/bashrc.rdbox-hq.example
 source "${HOME}"/.bashrc.rdbox-hq
 
 mkdir -p "${HOME}"/rdbox/tmp/flannel

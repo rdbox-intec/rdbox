@@ -46,13 +46,13 @@ SERVER_TYPE_KUBENODE='KubeNode'
 # VERSION
 ## Docker version
 ### sudo apt-cache madison docker-ce
-export DOCKER_VERSION="5:19.03.8~3-0~ubuntu-bionic"
+export DOCKER_VERSION="5:19.03.12~3-0~ubuntu-bionic"
 ## Kubernetes version
-export KUBERNETES_VERSION="1.18.2"
-export KUBEADM_VERSION="1.18.2-00"
-export KUBELET_VERSION="1.18.2-00"
-export KUBECTL_VERSION="1.18.2-00"
-export KUBECNI_VERSION="0.7.5-00"
+export KUBERNETES_VERSION="1.18.8"
+export KUBEADM_VERSION="1.18.8-00"
+export KUBELET_VERSION="1.18.8-00"
+export KUBECTL_VERSION="1.18.8-00"
+export KUBECNI_VERSION="0.8.6-00"
 ## SoftetherVPN
 export SOFTETHER_VERSION="4.29-9680-rtm+rdbox-0"
 

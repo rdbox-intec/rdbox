@@ -1,4 +1,7 @@
 #!/bin/bash
+
+set -x
+
 project=$1
 deployment=$2
 count=0

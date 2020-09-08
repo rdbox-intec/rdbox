@@ -49,6 +49,8 @@ class KubeFlannelDaemonSet(object):
         for i, v in enumerate(matchExpressions):
             if v.get('key') == 'beta.kubernetes.io/arch':
                 arch = v.get('values')[0]
+            elif v.get('key') == 'kubernetes.io/arch':
+                arch = v.get('values')[0]
         return arch
 
     def _process_location(self):
@@ -157,7 +159,7 @@ class KubeFlannelDaemonSet(object):
 class OriginalApplyFile(object):
 
     BASE_URL = 'https://raw.githubusercontent.com/coreos/flannel'
-    SUFFIX_URL = '/Documentation/kube-flannel.yml'
+    SUFFIX_URL = 'Documentation/kube-flannel.yml'
     original_data = []
 
     def __init__(self):
@@ -176,6 +178,7 @@ class OriginalApplyFile(object):
     def assemble_url(self):
         version = LatestVersion()
         url = self.BASE_URL + '/' + version.toString() + '/' + self.SUFFIX_URL
+        print('Base manifest from -> ' + url)
         return url
 
     def transition_to_rdbox(self, dir_path):
