@@ -85,28 +85,6 @@ VPN_RETRY_INTERVAL=5
 # Kubernetes
 ## Kubernetes POD network(CIDR)
 KUBE_POD_NETWORK_CIDR="10.244.0.0/16"
-## Kubernetes Dashboard port
-KUBE_DASHBOARD_PORT=30443
-## Kubernetes Dashboard Certificate : lifetime
-KUBE_DASHBOARD_CERT_DAYS=3650
-## Kubernetes Dashboard Certificate : RSA key size
-KUBE_DASHBOARD_CERT_BITS=2048
-## Kubernetes Dashboard Certificate : Country Name
-KUBE_DASHBOARD_CERT_COUNTRY="JP"
-## Kubernetes Dashboard Certificate : State or Province Name
-KUBE_DASHBOARD_CERT_STATE="Tokyo"
-## Kubernetes Dashboard Certificate : Locality Name
-KUBE_DASHBOARD_CERT_LOCALITY="RDBOX-city"
-## Kubernetes Dashboard Certificate : Organization Name
-KUBE_DASHBOARD_CERT_ORGANIZATION="RDBOX-org"
-## Kubernetes Dashboard Certificate : Organizational Unit Name
-KUBE_DASHBOARD_CERT_ORGANIZATION_UNIT="RDBOX-unit"
-## Kubernetes Dashboard Certificate : Common Name
-KUBE_DASHBOARD_COMMON_NAME="RDBOX-Kubernetes.local"
-## Kubernetes Dashboard Certificate : Email Address
-KUBE_DASHBOARD_CERT_EMAIL=""
-# token TTL [sec]
-KUBE_DASHBOARD_TOKEN_TTL=18000
 
 ## VpnServer/Kubernetes master IP address [DO NOT CHANGE]
 RDBOX_NET_ADRS_VPNSERVER="192.168.0.1"

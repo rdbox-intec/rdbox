@@ -13,7 +13,7 @@ source check_build_rdbox_hq.sh
 VPN_SERVER_ADDRESS=$1
 
 #
-echo "[INFO] START :  $(date +%Y-%m-%dT%H:%M:%S)"
+echo "[INFO] START build for Kubernetes Master. :  $(date +%Y-%m-%dT%H:%M:%S)"
 
 #
 pushd . > /dev/null
@@ -64,4 +64,6 @@ if [ "${STA_ANSIBLE}" = "0" ] ; then
 fi
 
 #
-echo "[INFO] DONE :  $(date +%Y-%m-%dT%H:%M:%S)"
+echo "[INFO] DONE build for Kubernetes Master. :  $(date +%Y-%m-%dT%H:%M:%S)"
+
+exit $STA_ANSIBLE

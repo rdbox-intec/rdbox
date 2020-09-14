@@ -7,17 +7,37 @@ ESC=$(printf '\033')
 
 echo ""
 echo ""
-echo "[INFO] START All Tests. :  $(date +%Y-%m-%dT%H:%M:%S)"
+echo "[INFO] START All Build. :  $(date +%Y-%m-%dT%H:%M:%S)"
 echo "##########################################"
 echo ""
 echo ""
 
-bash ./spec_vpnserver.sh
+bash ./build_vpnserver.sh
 ret_vpn=$?
-bash ./spec_kube_master.sh
+if [ ${ret_vpn} -gt 0 ]; then
+    printf "${ESC}[1;31m%s${ESC}[m\n" '[ERROR] Errors were detected while building the VPN server...'
+    exit 11
+fi
+echo "Waiting to be processed...(Max 60s)"
+sleep 60
+
+bash ./build_kube_master.sh
 ret_master=$?
-bash ./spec_kube_node.sh
+if [ ${ret_master} -gt 0 ]; then
+    printf "${ESC}[1;31m%s${ESC}[m\n" '[ERROR] Errors were detected while building the Kube Master....'
+    exit 12
+fi
+echo "Waiting to be processed...(Max 60s)"
+sleep 60
+
+bash ./build_kube_node.sh
 ret_node=$?
+if [ ${ret_node} -gt 0 ]; then
+    printf "${ESC}[1;31m%s${ESC}[m\n" '[ERROR] Errors were detected while building the Kube Node....'
+    exit 13
+fi
+echo "Waiting to be processed...(Max 60s)"
+sleep 30
 
 ret=0
 if [ ${ret_vpn} = 0 ] && [ ${ret_master} = 0 ] && [ ${ret_node} = 0 ]; then
@@ -29,7 +49,7 @@ if [ ${ret_vpn} = 0 ] && [ ${ret_master} = 0 ] && [ ${ret_node} = 0 ]; then
     echo ""
     echo "##########################################"
     # Blue
-    printf "${ESC}[1;36m%s${ESC}[m\n" '[INFO] Passed All Tests.'
+    printf "${ESC}[1;36m%s${ESC}[m\n" '[INFO] Build completed.'
     echo ""
     echo "[INFO]------------------------"
     echo "VPN Server Address:"
@@ -39,12 +59,13 @@ if [ ${ret_vpn} = 0 ] && [ ${ret_master} = 0 ] && [ ${ret_node} = 0 ]; then
     echo "[INFO]------------------------"
     echo ""
     # Yellow
-    printf "${ESC}[1;32m%s${ESC}[m\n" '[WARN] Finally, you should make sure that the STATUS of each Kubernetes node is set to Ready.'
-    printf "${ESC}[1;32m%s${ESC}[m\n" '[WARN] The result of obtaining the node information is as follows.'
-    bash ./print_kubectl_get_node.sh 2>/dev/null
-    ret=$?
+    printf "${ESC}[1;32m%s${ESC}[m\n" '[WARN] You will need to run a test command to make sure it is built correctly.'
+    echo "    \`\`\`"
+    echo "    $ bash spec_all.sh"
+    echo "    \`\`\`"
     echo ""
     echo "[INFO] DONE :  $(date +%Y-%m-%dT%H:%M:%S)"
+    ret=0
 else
     echo "##########################################"
     # Red

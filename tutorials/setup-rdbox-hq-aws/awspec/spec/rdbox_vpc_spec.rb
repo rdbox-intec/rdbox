@@ -55,7 +55,7 @@ describe security_group(ENV['RDBOX_HQ_PREF_NAME'] + "SecurityGroup") do
   #
   ENV['AWS_SecurityGroupAllowGlobal'].split(",").each do |adrs|
     ["tcp"].each do |protocol|
-      [22, 443, 30443].each do |port|
+      [22, 443].each do |port|
         its(:inbound) { should be_opened(port).protocol(protocol).for(adrs) }
       end
     end
@@ -64,7 +64,7 @@ describe security_group(ENV['RDBOX_HQ_PREF_NAME'] + "SecurityGroup") do
   #
   ENV['AWS_SecurityGroupAllowPrivate'].split(",").each do |adrs|
     ["tcp"].each do |protocol|
-      [22, 443, 30443].each do |port|
+      [22, 443].each do |port|
         its(:inbound) { should be_opened(port).protocol(protocol).for(adrs) }
       end
     end

@@ -10,7 +10,7 @@ source "${HOME}"/.bashrc.rdbox-hq
 source check_build_rdbox_hq.sh
 
 #
-echo "[INFO] START :  $(date +%Y-%m-%dT%H:%M:%S)"
+echo "[INFO] START build for VPNServer. :  $(date +%Y-%m-%dT%H:%M:%S)"
 
 #
 pushd . > /dev/null
@@ -61,4 +61,6 @@ if [ "${STA_ANSIBLE}" = "0" ] ; then
 fi
 
 #
-echo "[INFO] DONE :  $(date +%Y-%m-%dT%H:%M:%S)"
+echo "[INFO] DONE build for VPNServer. :  $(date +%Y-%m-%dT%H:%M:%S)"
+
+exit $STA_ANSIBLE

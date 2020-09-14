@@ -61,7 +61,7 @@ for SG_ALLOW in `echo ${AWS_SecurityGroupAllowPrivate} ${AWS_SecurityGroupAllowG
     AWS_SGI_CidrIp="${SG_ALLOW}"
     for SG_ALLOW_Protocol in "tcp" ; do
         AWS_SGI_IpProtocol=${SG_ALLOW_Protocol}
-        for SG_ALLOW_PORT in 22 443 30443 ; do
+        for SG_ALLOW_PORT in 22 443 ; do
             #
             SEQ_NO=${SEQ_NO_POOL[0]} ; SEQ_NO_POOL=("${SEQ_NO_POOL[@]:1}")
             AWS_NAME_SecurityGroupIngress=`printf "${FMT_NAME_SecurityGroupIngress}" ${SEQ_NO}`

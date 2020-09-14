@@ -183,22 +183,6 @@
           },
           {
             "properties": {
-              "description": "DASHBORD",
-              "protocol": "Tcp",
-              "sourcePortRange": "*",
-              "destinationPortRange": "30443",
-              "sourceAddressPrefixes": [
-                "[variables('yourGlobalCidrBlock')]"
-              ],
-              "destinationAddressPrefix": "*",
-              "access": "Allow",
-              "direction": "Inbound",
-              "priority": 103
-            },
-            "name": "RdboxhqSecurityGroupIngress00003"
-          },
-          {
-            "properties": {
               "description": "RDBOX INTERNAL TCP",
               "protocol": "Tcp",
               "sourcePortRange": "*",

@@ -31,8 +31,6 @@ resources:
       ports: ['22']
     - IPProtocol: TCP
       ports: ['443']
-    - IPProtocol: TCP
-      ports: ['30443']
 
 - name: {{ GenerateResourcesName('firewall00002') }}
   type: compute.v1.firewall
