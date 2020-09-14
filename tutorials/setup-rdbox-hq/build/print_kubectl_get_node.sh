@@ -25,7 +25,7 @@ else
 fi
 
 #
-CMD_kubectl='sudo kubectl top node'
+CMD_kubectl='sudo kubectl get node -o wide'
 CMD="ssh -t -i ${FILE_PRIVATE_KEY} -l ${SSH_USER} ${SERVER_ADDRESS_PUBLIC} $CMD_kubectl"
-echo "[INFO] Exec : ${CMD}"
+echo "       Exec : ${CMD}"
 ${CMD}

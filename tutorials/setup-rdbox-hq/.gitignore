@@ -1,9 +1,5 @@
-build/.ansiblespec
-build/.rspec
-build/Rakefile
 build/inventory.KubeMaster
 build/inventory.KubeNode
 build/inventory.VpnServer
 build/roles/setup_kube_node/files/config
 build/roles/setup_kube_node/files/kube_join.sh
-build/spec/spec_helper.rb

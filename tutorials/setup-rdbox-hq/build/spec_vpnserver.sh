@@ -6,24 +6,22 @@ source "${HOME}"/.bashrc.rdbox-hq
 source check_build_rdbox_hq.sh
 
 #
-source setenv_build_softether.sh
-
-#
-echo "[INFO] START : " `date +%Y-%m-%dT%H:%M:%S`
+echo "[INFO] START tests for VPNServer. :  $(date +%Y-%m-%dT%H:%M:%S)"
 
 #
 pushd . > /dev/null
-cd ../bin/${RDBOX_HQ_BUILD_PF}
+cd ../bin/"${RDBOX_HQ_BUILD_PF}" || exit
 SERVER_TYPE=${SERVER_TYPE_VPNSERVER}
-SERVER_SSH_PORT=`./getServerSshPort.sh "${SERVER_TYPE}"`
-SERVER_ADDRESS_BUILD=`./getServerAddressBuild.sh "${SERVER_TYPE}"`
-SERVER_ADDRESS_PUBLIC=`./getServerAddressPublic.sh "${SERVER_TYPE}"`
-popd > /dev/null
+SERVER_SSH_PORT=$(./getServerSshPort.sh "${SERVER_TYPE}")
+SERVER_ADDRESS_BUILD=$(./getServerAddressBuild.sh "${SERVER_TYPE}")
+SERVER_ADDRESS_PUBLIC=$(./getServerAddressPublic.sh "${SERVER_TYPE}")
+export SERVER_ADDRESS_PUBLIC
+popd > /dev/null || exit
 
 #
 FILE_inventory="inventory.${SERVER_TYPE}"
-echo "[${SERVER_TYPE}]" > ${FILE_inventory}
-echo "${SERVER_ADDRESS_BUILD} ansible_connection=ssh ansible_ssh_port=${SERVER_SSH_PORT} ansible_ssh_user=${ANSIBLE_REMOTE_USER} ansible_ssh_private_key_file=${FILE_PRIVATE_KEY}" >> ${FILE_inventory}
+echo "[${SERVER_TYPE}]" > "${FILE_inventory}"
+echo "${SERVER_ADDRESS_BUILD} ansible_connection=ssh ansible_port=${SERVER_SSH_PORT} ansible_user=${ANSIBLE_REMOTE_USER} ansible_ssh_private_key_file=${FILE_PRIVATE_KEY}" >> "${FILE_inventory}"
 
 #
 cat <<EoAnsiblespec > .ansiblespec
@@ -42,8 +40,9 @@ fi
 
 #
 rake all
+ret=$?
 
 #
-echo "[INFO] DONE : " `date +%Y-%m-%dT%H:%M:%S`
+echo "[INFO] DONE tests for VPNServer. :  $(date +%Y-%m-%dT%H:%M:%S)"
 
-#
+exit $ret

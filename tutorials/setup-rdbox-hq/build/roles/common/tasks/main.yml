@@ -17,6 +17,7 @@
     - iputils-ping
     - ipcalc
     - vim
+    - nfs-common
 
 - name: make directory(0700)
   file:

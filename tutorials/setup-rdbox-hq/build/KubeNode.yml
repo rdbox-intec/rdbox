@@ -1,7 +1,7 @@
 ---
 - name: KubeNode
   hosts: KubeNode
-  serial: 1
+  serial: 10
   environment:
     SUDO_USER: "{{ SUDO_USER }}"
   roles:

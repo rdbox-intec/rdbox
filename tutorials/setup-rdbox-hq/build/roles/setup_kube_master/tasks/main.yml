@@ -4,6 +4,7 @@
     dest: "{{ ansible_user_dir }}/rdbox/tmp/"
   with_items:
     - init_kube_proxy_patches.sh
+    - init_kube_proxy_patches.py
     - init_kube_flannel_patches.sh
     - init_kube_flannel_patches.py
     - format_kube-proxy-yml.sh
@@ -11,9 +12,6 @@
     - clear_kube_proxy.sh
     - setup_kube_proxy.sh
     - setup_kube_flannel.sh
-    - kube-proxy-amd64.yml.patch.sh
-    - kube-proxy-arm.yml.patch.sh
-    - kube-proxy-arm64.yml.patch.sh
 
 - name: setup Kubernetes master(kubeadm init)
   become: yes
@@ -21,7 +19,11 @@
 
 - name: waiting kubernetes master(init)
   become: yes
-  wait_for: host=localhost port=6443 state=started delay=30
+  wait_for:
+    host: localhost
+    port: 6443
+    state: started
+    delay: 30
 
 - name: create patch files for kube-proxy
   shell: "bash ${HOME}/rdbox/tmp/init_kube_proxy_patches.sh | tee ${HOME}/rdbox/tmp/init_kube_proxy_patches.log"
@@ -40,7 +42,11 @@
 
 - name: waiting kubernetes master(kube-proxy)
   become: yes
-  wait_for: host=localhost port=6443 state=started delay=30
+  wait_for:
+    host: localhost
+    port: 6443
+    state: started
+    delay: 30
 
 - name: setup Kubernetes master(kube-flannel)
   become: yes

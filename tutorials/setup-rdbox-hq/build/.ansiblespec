@@ -1,0 +1,4 @@
+---
+-
+  playbook: KubeNode.yml
+  inventory: inventory.KubeNode

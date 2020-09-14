@@ -13,6 +13,4 @@
     - role: setup_vpnclient
     - role: setup_dnsmasq_client
     - role: setup_kube_master
-    - role: setup_kube_master_dashboard
-    - role: setup_metrics_server
     - role: reboot
