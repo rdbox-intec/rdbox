@@ -11,7 +11,7 @@ if [ -z "$VM_NAME_OPT" ] ; then
 	exit
 fi
 
-list_vm_name=`VBoxManage list vms | cut -d ' ' -f 1 | sed -e 's/\"//g'`
+list_vm_name=$(VBoxManage list vms | cut -d ' ' -f 1 | sed -e 's/\"//g')
 
 for vm_name in ${list_vm_name}; do
 	if expr "$vm_name" : ".*<inaccessible>.*" > /dev/null; then
@@ -27,4 +27,4 @@ if [ $STATUS = 0 ] ; then
 	exit
 fi
 
-VBoxManage controlvm $VM_NAME_OPT poweroff
+VBoxManage controlvm "$VM_NAME_OPT" poweroff

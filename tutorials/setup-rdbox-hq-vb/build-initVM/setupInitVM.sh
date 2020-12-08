@@ -13,10 +13,11 @@ if [ $# -ge 1 ] ; then
 	VM_NAME_OPT=$1
 fi
 
+# shellcheck disable=SC2153
 if [ -n "$HTTP_PROXY" ] ; then
 	export http_proxy=$HTTP_PROXY
 fi
-
+# shellcheck disable=SC2153
 if [ -n "$HTTPS_PROXY" ] ; then
 	export https_proxy=$HTTPS_PROXY
 fi

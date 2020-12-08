@@ -8,6 +8,6 @@ RDBOX_CONFIG=../conf/rdbox-hq-vb.params
 
 perl ../bin/createVagrantfile.pl -i ../conf/Vagrantfile.in.init -p $RDBOX_CONFIG
 
-CREATETIME=`date +"%Y%m%d-%H%M%S"`
+CREATETIME=$(date +"%Y%m%d-%H%M%S")
 VMFILENAME="Vagrantfile.$CREATETIME"
-cp -pf Vagrantfile $VMFILENAME
+cp -pf Vagrantfile "$VMFILENAME"

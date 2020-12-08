@@ -49,7 +49,8 @@ VAGRANT_INSTALL_VERSION=2.2.4
 #PUBLIC_BRIDGE_NIC=enp0s25
 
 # RDBOX private network
-RDBOX_NETWORK=192.168.0.0/22
+# The IP address of "PUBLIC_BRIDGE_NIC
+RDBOX_NETWORK=172.16.0.0/24
 
 # VirtualBox private network
 PRIVATE_NETWORK=172.31.0.0/24
@@ -58,7 +59,7 @@ PRIVATE_NETWORK=172.31.0.0/24
 DEFAULT_NETWORK=172.31.255.0/24
 
 # RDBOX Master IP address
-EDGE_RDBOX_IP=192.168.1.179
+EDGE_RDBOX_IP=192.168.179.1
 
 #--------------------------------------------------------
 # Information of VPN server VM

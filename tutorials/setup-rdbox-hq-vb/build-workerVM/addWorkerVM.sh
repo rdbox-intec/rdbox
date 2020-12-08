@@ -5,32 +5,33 @@ RDBOX_CONFIG=../conf/rdbox-hq-vb.params
 #
 #--- DO NOT MODIFY UNDER THIS LINE ---
 #
-
+# shellcheck source=../conf/rdbox-hq-vb.params
 . $RDBOX_CONFIG
 
-if ! [ -z "$HTTP_PROXY" ] ; then
+# shellcheck disable=SC2153
+if [ -n "$HTTP_PROXY" ] ; then
 	export http_proxy=$HTTP_PROXY
 fi
-
-if ! [ -z "$HTTPS_PROXY" ] ; then
+# shellcheck disable=SC2153
+if [ -n "$HTTPS_PROXY" ] ; then
 	export https_proxy=$HTTPS_PROXY
 fi
 
-VAGRANT_DISKSIZE=`vagrant plugin list|grep vagrant-disksize|awk '{if ($1 == "vagrant-disksize") {print "1"}}'`
+VAGRANT_DISKSIZE=$(vagrant plugin list|grep vagrant-disksize|awk '{if ($1 == "vagrant-disksize") {print "1"}}')
 if [ -z "$VAGRANT_DISKSIZE" ]; then
 	echo "vagrant-disksize plugin is not installed, so installing it..."
 	vagrant plugin install vagrant-disksize
 	echo "done."
 fi
 
-VAGRANT_VBGUEST=`vagrant plugin list|grep vagrant-vbguest|awk '{if ($1 == "vagrant-vbguest") {print "1"}}'`
+VAGRANT_VBGUEST=$(vagrant plugin list|grep vagrant-vbguest|awk '{if ($1 == "vagrant-vbguest") {print "1"}}')
 if [ -z "$VAGRANT_VBGUEST" ]; then
 	echo "vagrant-vbguest plugin is not installed, so installing it..."
 	vagrant plugin install vagrant-vbguest
 	echo "done."
 fi
 
-VAGRANT_PROXYCONF=`vagrant plugin list|grep vagrant-proxyconf|awk '{if ($1 == "vagrant-proxyconf") {print "1"}}'`
+VAGRANT_PROXYCONF=$(vagrant plugin list|grep vagrant-proxyconf|awk '{if ($1 == "vagrant-proxyconf") {print "1"}}')
 if [ -z "$VAGRANT_PROXYCONF" ]; then
 	echo "vagrant-proxyconf plugin is not installed, so installing it..."
 	vagrant plugin install vagrant-proxyconf
@@ -43,8 +44,8 @@ ID_PUB=$HOME/.ssh/id_rsa.pub
 RDBOX_USER_KEY_FOR_COPY=id_rsa.common
 RDBOX_USER_PUBKEY_FOR_COPY=id_rsa.pub.common
 
-if [ -f $ID_PUB ]; then
-	cp -pf $ID_PUB .
+if [ -f "$ID_PUB" ]; then
+	cp -pf "$ID_PUB" .
 else
 	echo "$ID_PUB not found and stopped."
 	exit 0
@@ -60,8 +61,8 @@ if [ -z "$RDBOX_USER_KEY" ] ; then
 	exit 0
 fi
 
-if [ -f $RDBOX_USER_KEY ]; then
-	cp -pf $RDBOX_USER_KEY $RDBOX_USER_KEY_FOR_COPY
+if [ -f "$RDBOX_USER_KEY" ]; then
+	cp -pf "$RDBOX_USER_KEY" $RDBOX_USER_KEY_FOR_COPY
 else
 	echo "$RDBOX_USER_KEY not found and stopped."
 	exit 0
@@ -72,8 +73,8 @@ if [ -z "$RDBOX_USER_PUBKEY" ] ; then
 	exit 0
 fi
 
-if [ -f $RDBOX_USER_PUBKEY ]; then
-	cp -pf $RDBOX_USER_PUBKEY $RDBOX_USER_PUBKEY_FOR_COPY
+if [ -f "$RDBOX_USER_PUBKEY" ]; then
+	cp -pf "$RDBOX_USER_PUBKEY" $RDBOX_USER_PUBKEY_FOR_COPY
 else
 	echo "$RDBOX_USER_PUBKEY not found and stopped."
 	exit 0

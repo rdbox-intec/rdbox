@@ -9,4 +9,4 @@ if [ -z "$VM_NAME_OPT" ] ; then
 	exit
 fi
 
-vagrant provision $VM_NAME_OPT --provision-with serverspec
+vagrant provision "$VM_NAME_OPT" --provision-with serverspec
