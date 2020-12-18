@@ -16,3 +16,5 @@ sudo apt install -y python \
 
 # For Ansible Spec
 sudo gem install ansible_spec
+sudo gem install ed25519
+sudo gem install bcrypt_pbkdf

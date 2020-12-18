@@ -33,7 +33,7 @@ SERVER_TYPE=${SERVER_TYPE_KUBENODE}
 pushd . > /dev/null
 cd ../bin/"${RDBOX_HQ_BUILD_PF}" || exit
 if [ "${VPN_SERVER_ADDRESS}" = "" ] ; then
-    VPN_SERVER_ADDRESS=$(./getServerAddressPrivateVpnserver.sh)
+    VPN_SERVER_ADDRESS=$(bash ./getServerAddressPrivateVpnserver.sh)
 fi
 echo "[INFO] USE VPN_SERVER_ADDRESS=${VPN_SERVER_ADDRESS}"
 if [ "${KUBE_MASTER_ADDRESS}" = "" ] ; then
@@ -41,7 +41,7 @@ if [ "${KUBE_MASTER_ADDRESS}" = "" ] ; then
 fi
 echo "[INFO] USE KUBE_MASTER_ADDRESS=${KUBE_MASTER_ADDRESS}"
 KUBE_MASTER_ADDRESS_BUILD=$(bash ./getServerAddressBuild.sh "${SERVER_TYPE_KUBEMASTER}")
-LIST_kube_node=$(./getKubeNodeList.sh)
+LIST_kube_node=$(bash ./getKubeNodeList.sh)
 popd > /dev/null || exit
 
 #
@@ -69,8 +69,8 @@ do
     #
     pushd . > /dev/null
     cd ../bin/"${RDBOX_HQ_BUILD_PF}" || exit
-    SERVER_SSH_PORT=$(./getServerSshPort.sh "${SERVER_TYPE}" "${kube_node}")
-    SERVER_ADDRESS=$(./getServerAddressBuild.sh "${SERVER_TYPE}" "${kube_node}")
+    SERVER_SSH_PORT=$(bash ./getServerSshPort.sh "${SERVER_TYPE}" "${kube_node}")
+    SERVER_ADDRESS=$(bash ./getServerAddressBuild.sh "${SERVER_TYPE}" "${kube_node}")
     popd > /dev/null || exit
 
     #
@@ -85,7 +85,7 @@ do
         else
             ssh-keygen -R "${SERVER_ADDRESS}" > /dev/null 2>&1
         fi
-        echo "${SERVER_ADDRESS} ansible_port=${SERVER_SSH_PORT}" >> inventory."${SERVER_TYPE}"
+        echo "${kube_node} ansible_host=${SERVER_ADDRESS} ansible_port=${SERVER_SSH_PORT}" >> inventory."${SERVER_TYPE}"
     else
         echo "[WARNIG] ${kube_node} :: Cannot found ssh-port@${SERVER_ADDRESS}"
         continue

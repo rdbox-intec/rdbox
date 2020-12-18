@@ -33,14 +33,14 @@ for vm_name in ${list_vm_name}; do
 	ssh-keygen -R "[localhost]:$VM_PORT" > /dev/null 2>&1
 	ssh -p "$VM_PORT" -l vagrant -oStrictHostKeyChecking=no localhost 'ls' > /dev/null 2>&1
 
-	NIC=$(ssh -p "$VM_PORT" -l vagrant localhost "netstat -nr|grep -e '^$HOST_NETWORK'|awk '{print \\$8}'"| head -n 1 2> /dev/null)
+	NIC=$(ssh -p "$VM_PORT" -l vagrant localhost "netstat -nr|grep -e '^$HOST_NETWORK'|awk '{print \$8}'"| head -n 1 2> /dev/null)
   if [ -z "$NIC" ]; then
     NIC=$(ssh -p "$VM_PORT" -l vagrant localhost "netstat -nr|grep -e '^$HOST_NETWORK'|awk '{print \$8}'"| head -n 1 2> /dev/null)
   fi
 	NIC=$(echo "$NIC" | sed -e "s/[\r\n]\+//g")
 
 	if [ -n "$NIC" ] ; then
-		VM_IP=$(ssh -p "$VM_PORT" -l vagrant localhost "ifconfig $NIC|egrep -e '^\s+inet\s+'|awk '{print \\$2}'" 2> /dev/null)
+		VM_IP=$(ssh -p "$VM_PORT" -l vagrant localhost "ifconfig $NIC|egrep -e '^\s+inet\s+'|awk '{print \$2}'" 2> /dev/null)
     if [ -z "$NIC" ]; then
       VM_IP=$(ssh -p "$VM_PORT" -l vagrant localhost "ifconfig $NIC|egrep -e '^\s+inet\s+'|awk '{print \$2}'" 2> /dev/null)
     fi

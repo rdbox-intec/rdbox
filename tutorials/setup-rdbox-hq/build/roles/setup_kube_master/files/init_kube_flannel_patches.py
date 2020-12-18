@@ -17,10 +17,14 @@ class LatestVersion(object):
         self.execute_request()
 
     def execute_request(self):
-        req = urllib.request.Request(self.URL)
-        with urllib.request.urlopen(req) as res:
-            body = json.loads(res.read())
-            self.version = body[0].get('name', 'v0.12.0')
+        self.version = os.getenv('FLANNEL_VERSION', None)
+        if self.version is None:
+            req = urllib.request.Request(self.URL)
+            with urllib.request.urlopen(req) as res:
+                body = json.loads(res.read())
+                self.version = body[0].get('name', 'v0.12.0')
+        else:
+            self.version = 'v' + self.version
 
     def toString(self):
         return self.version

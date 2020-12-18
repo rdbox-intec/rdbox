@@ -53,6 +53,7 @@ export KUBEADM_VERSION="1.18.8-00"
 export KUBELET_VERSION="1.18.8-00"
 export KUBECTL_VERSION="1.18.8-00"
 export KUBECNI_VERSION="0.8.6-00"
+export FLANNEL_VERSION="0.12.0"
 ## SoftetherVPN
 export SOFTETHER_VERSION="4.29-9680-rtm+rdbox-0"
 

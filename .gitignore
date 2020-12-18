@@ -4,3 +4,6 @@ __pycache__/
 *$py.class
 *.so
 .venv
+.vagrant
+vagrant-serverspec
+vagrant_*_x86_64.deb
