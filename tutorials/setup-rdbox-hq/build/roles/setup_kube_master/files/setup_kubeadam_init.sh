@@ -9,6 +9,7 @@ kubeadm init --pod-network-cidr="${KUBE_POD_NETWORK_CIDR}" --apiserver-advertise
 
 ## add label
 kubectl --kubeconfig /etc/kubernetes/admin.conf label node "$(hostname)" node.rdbox.com/location=hq
+kubectl --kubeconfig /etc/kubernetes/admin.conf label node "$(hostname)" node.rdbox.com/location-detail=hq
 
 ## remove symlink and create real-file for ${SUDO_USER}
 rm -rf /home/"${SUDO_USER}"/.kube/config
