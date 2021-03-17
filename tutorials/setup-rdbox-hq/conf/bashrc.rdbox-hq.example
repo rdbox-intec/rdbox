@@ -46,7 +46,7 @@ SERVER_TYPE_KUBENODE='KubeNode'
 # VERSION
 ## Docker version
 ### sudo apt-cache madison docker-ce
-export DOCKER_VERSION="5:19.03.12~3-0~ubuntu-bionic"
+export DOCKER_VERSION="5:19.03.15~3-0~ubuntu-bionic"
 ## Kubernetes version
 export KUBERNETES_VERSION="1.18.8"
 export KUBEADM_VERSION="1.18.8-00"
